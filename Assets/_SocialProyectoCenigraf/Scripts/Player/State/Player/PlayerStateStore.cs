@@ -45,6 +45,11 @@ namespace SocialProyectoCenigraf.Player.State
             Dispatch(PlayerAction.SetColliderOffset(offset));
         }
 
+        public void SetRole(PlayerRole role)
+        {
+            Dispatch(PlayerAction.SetRole(role));
+        }
+
         private static bool StatesAreEqual(
             PlayerStateData first,
             PlayerStateData second)
@@ -52,7 +57,8 @@ namespace SocialProyectoCenigraf.Player.State
             return first.Position == second.Position &&
                    first.YSortEnabled == second.YSortEnabled &&
                    first.ColliderSize == second.ColliderSize &&
-                   first.ColliderOffset == second.ColliderOffset;
+                   first.ColliderOffset == second.ColliderOffset &&
+                   first.Role == second.Role;
         }
     }
 }

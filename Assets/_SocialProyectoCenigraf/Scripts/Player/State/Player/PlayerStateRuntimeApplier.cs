@@ -29,7 +29,8 @@ namespace SocialProyectoCenigraf.Player.State
                 body.position,
                 worldYSort.SortingEnabled,
                 bodyCollider.size,
-                bodyCollider.offset));
+                bodyCollider.offset,
+                store.State.Role));
 
             ApplyState(store.State);
         }
