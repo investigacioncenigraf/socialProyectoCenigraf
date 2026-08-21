@@ -7,9 +7,20 @@ namespace SocialProyectoCenigraf.Player.State
         SetPosition,
         Translate,
         ReconcilePosition,
+        SetRole,
         SetYSortEnabled,
         SetColliderSize,
         SetColliderOffset
+    }
+
+    public readonly struct PlayerRolePayload
+    {
+        public string RoleId { get; }
+
+        public PlayerRolePayload(string roleId)
+        {
+            RoleId = roleId ?? string.Empty;
+        }
     }
 
     public readonly struct PlayerBoolPayload
@@ -37,15 +48,25 @@ namespace SocialProyectoCenigraf.Player.State
         public PlayerActionType Type { get; }
         public PlayerPositionPayload PositionPayload { get; }
         public PlayerBoolPayload BoolPayload { get; }
+        public PlayerRolePayload RolePayload { get; }
 
         private PlayerAction(
             PlayerActionType type,
             PlayerPositionPayload positionPayload = default,
-            PlayerBoolPayload boolPayload = default)
+            PlayerBoolPayload boolPayload = default,
+            PlayerRolePayload rolePayload = default)
         {
             Type = type;
             PositionPayload = positionPayload;
             BoolPayload = boolPayload;
+            RolePayload = rolePayload;
+        }
+
+        public static PlayerAction SetRole(string roleId)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetRole,
+                rolePayload: new PlayerRolePayload(roleId));
         }
 
         public static PlayerAction SetPosition(Vector2 position)

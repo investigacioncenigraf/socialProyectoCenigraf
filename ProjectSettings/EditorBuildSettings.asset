@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/_SocialProyectoCenigraf/Scenes/InitialDemoScene.unity
     guid: e1313e3174b3547c0b58a1c200d752e9
   - enabled: 1
-    path: Assets/_SocialProyectoCenigraf/Scenes/MenuAdmin.unity
-    guid: d0644d848f0e34c50a4e4f61f7e0bc62
-  - enabled: 1
     path: Assets/_SocialProyectoCenigraf/Scenes/SceneDemo.unity
     guid: a0ca2c361a66f4669a1be00e5f8f1511
   m_configObjects:

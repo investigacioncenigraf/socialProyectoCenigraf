@@ -1,4 +1,5 @@
 using SocialProyectoCenigraf.World.Rendering;
+using SocialProyectoCenigraf.Session.State;
 using UnityEngine;
 
 namespace SocialProyectoCenigraf.Player.State
@@ -29,7 +30,8 @@ namespace SocialProyectoCenigraf.Player.State
                 body.position,
                 worldYSort.SortingEnabled,
                 bodyCollider.size,
-                bodyCollider.offset));
+                bodyCollider.offset,
+                GameSessionStore.Instance.State.SelectedRoleId));
 
             ApplyState(store.State);
         }

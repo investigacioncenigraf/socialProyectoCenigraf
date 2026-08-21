@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 5b13b59d6e80941f1a0925ba85c0659a
+guid: 97e27918198a04191a30bd964a33b7ab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3841142167213526443
-    second: welcome-learn-more-svgrepo-com 1_0
+      213: 4341170342183909009
+    second: Icon_Docente_0
+  - first:
+      213: 534057111818036493
+    second: Icon_Docente_1
+  - first:
+      213: 6410363144180932322
+    second: Icon_Docente_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,9 +52,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -126,13 +132,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: welcome-learn-more-svgrepo-com 1_0
+      name: Icon_Docente_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 9
-        width: 100
-        height: 82
+        x: 14
+        y: 3
+        width: 35
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +147,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bad4988237a7e4530800000000000000
-      internalID: 3841142167213526443
+      spriteID: 196355bfc6fee3c30800000000000000
+      internalID: 4341170342183909009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icon_Docente_1
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 34
+        width: 58
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d056fa71d1a596700800000000000000
+      internalID: 534057111818036493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icon_Docente_2
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 3
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ee192ae05f26f850800000000000000
+      internalID: 6410363144180932322
       vertices: []
       indices: 
       edges: []
@@ -151,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +211,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      welcome-learn-more-svgrepo-com 1_0: 3841142167213526443
+      Icon_Docente_0: 4341170342183909009
+      Icon_Docente_1: 534057111818036493
+      Icon_Docente_2: 6410363144180932322
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

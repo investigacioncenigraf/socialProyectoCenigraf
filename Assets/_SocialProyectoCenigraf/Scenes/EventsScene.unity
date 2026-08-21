@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1801000002}
   - component: {fileID: 1801000003}
   m_Layer: 5
-  m_Name: UI_MenuAdmin
+  m_Name: UI_Events
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,16 +255,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ddaa1623024bd2b96014aa051645e8, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.UI.NavigationMenuScreen
-  title: Menú Administrativo
-  subtitle:
-  options:
-  - label: Eventos
-    visualStyle: {fileID: 11400000, guid: 75b18e32b0d54d21a5da3e5090f51701, type: 2}
-    destinationSceneName: EventsScene
-  - label: Ir al juego
-    visualStyle: {fileID: 11400000, guid: 9c1d4f43c1e64e32b6eb4f61a1062802, type: 2}
-    destinationSceneName: SceneDemo
-  footer: 'Entorno de desarrollo · Fase de Implementación de Estados'
+  title: Módulo de Eventos
+  subtitle: Esta sección se encuentra en desarrollo
+  options: []
+  footer: Presiona B para volver
   backgroundColor: {r: 0.18, g: 0.17, b: 0.25, a: 1}
   dimOpacity: 0.34
 --- !u!1660057539 &9223372036854775807
