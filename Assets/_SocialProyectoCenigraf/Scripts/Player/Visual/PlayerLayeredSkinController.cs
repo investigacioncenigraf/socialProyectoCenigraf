@@ -56,7 +56,7 @@ namespace SocialProyectoCenigraf.Player.Visual
             if (isMoving != wasMoving)
             {
                 wasMoving = isMoving;
-                animationFrame = 0;
+                animationFrame = GetStartingFrame(state);
                 frameElapsedMilliseconds = 0f;
                 ApplySprites(state, isMoving);
             }
@@ -102,11 +102,16 @@ namespace SocialProyectoCenigraf.Player.Visual
             if (resolveSkin)
             {
                 ResolveActiveSkin(state.SkinId);
-                animationFrame = 0;
+                animationFrame = GetStartingFrame(state);
                 frameElapsedMilliseconds = 0f;
             }
 
             ApplySprites(state, movementController.MoveInput.sqrMagnitude > 0.0001f);
+        }
+
+        private static int GetStartingFrame(PlayerStateData state)
+        {
+            return state.FramesPerAnimation > 1 ? 1 : 0;
         }
 
         private void ResolveActiveSkin(string skinId)
