@@ -8,6 +8,10 @@ namespace SocialProyectoCenigraf.Player.State
         Translate,
         ReconcilePosition,
         SetRole,
+        SetSkin,
+        SetFacingFromMovement,
+        SetAnimationSettings,
+        SetForceFrontAnimationOnHorizontalMovement,
         SetYSortEnabled,
         SetColliderSize,
         SetColliderOffset
@@ -20,6 +24,40 @@ namespace SocialProyectoCenigraf.Player.State
         public PlayerRolePayload(string roleId)
         {
             RoleId = roleId ?? string.Empty;
+        }
+    }
+
+    public readonly struct PlayerSkinPayload
+    {
+        public string SkinId { get; }
+
+        public PlayerSkinPayload(string skinId)
+        {
+            SkinId = skinId ?? string.Empty;
+        }
+    }
+
+    public readonly struct PlayerMovementDirectionPayload
+    {
+        public Vector2 Value { get; }
+
+        public PlayerMovementDirectionPayload(Vector2 value)
+        {
+            Value = value;
+        }
+    }
+
+    public readonly struct PlayerAnimationSettingsPayload
+    {
+        public int FrameDurationMilliseconds { get; }
+        public int FramesPerAnimation { get; }
+
+        public PlayerAnimationSettingsPayload(
+            int frameDurationMilliseconds,
+            int framesPerAnimation)
+        {
+            FrameDurationMilliseconds = frameDurationMilliseconds;
+            FramesPerAnimation = framesPerAnimation;
         }
     }
 
@@ -49,17 +87,26 @@ namespace SocialProyectoCenigraf.Player.State
         public PlayerPositionPayload PositionPayload { get; }
         public PlayerBoolPayload BoolPayload { get; }
         public PlayerRolePayload RolePayload { get; }
+        public PlayerSkinPayload SkinPayload { get; }
+        public PlayerMovementDirectionPayload MovementDirectionPayload { get; }
+        public PlayerAnimationSettingsPayload AnimationSettingsPayload { get; }
 
         private PlayerAction(
             PlayerActionType type,
             PlayerPositionPayload positionPayload = default,
             PlayerBoolPayload boolPayload = default,
-            PlayerRolePayload rolePayload = default)
+            PlayerRolePayload rolePayload = default,
+            PlayerSkinPayload skinPayload = default,
+            PlayerMovementDirectionPayload movementDirectionPayload = default,
+            PlayerAnimationSettingsPayload animationSettingsPayload = default)
         {
             Type = type;
             PositionPayload = positionPayload;
             BoolPayload = boolPayload;
             RolePayload = rolePayload;
+            SkinPayload = skinPayload;
+            MovementDirectionPayload = movementDirectionPayload;
+            AnimationSettingsPayload = animationSettingsPayload;
         }
 
         public static PlayerAction SetRole(string roleId)
@@ -67,6 +114,40 @@ namespace SocialProyectoCenigraf.Player.State
             return new PlayerAction(
                 PlayerActionType.SetRole,
                 rolePayload: new PlayerRolePayload(roleId));
+        }
+
+        public static PlayerAction SetSkin(string skinId)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetSkin,
+                skinPayload: new PlayerSkinPayload(skinId));
+        }
+
+        public static PlayerAction SetFacingFromMovement(Vector2 movementDirection)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetFacingFromMovement,
+                movementDirectionPayload: new PlayerMovementDirectionPayload(
+                    movementDirection));
+        }
+
+        public static PlayerAction SetAnimationSettings(
+            int frameDurationMilliseconds,
+            int framesPerAnimation)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetAnimationSettings,
+                animationSettingsPayload: new PlayerAnimationSettingsPayload(
+                    frameDurationMilliseconds,
+                    framesPerAnimation));
+        }
+
+        public static PlayerAction SetForceFrontAnimationOnHorizontalMovement(
+            bool enabled)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetForceFrontAnimationOnHorizontalMovement,
+                boolPayload: new PlayerBoolPayload(enabled));
         }
 
         public static PlayerAction SetPosition(Vector2 position)

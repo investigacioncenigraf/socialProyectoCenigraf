@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace SocialProyectoCenigraf.World.Rendering
 {
@@ -7,6 +8,7 @@ namespace SocialProyectoCenigraf.World.Rendering
     {
         [Header("References")]
         [SerializeField] private Transform sortPoint;
+        [SerializeField] private SortingGroup targetSortingGroup;
         [SerializeField] private Renderer targetRenderer;
 
         [Header("Sorting")]
@@ -28,11 +30,12 @@ namespace SocialProyectoCenigraf.World.Rendering
         {
             FindReferences();
 
-            if (sortPoint == null || targetRenderer == null)
+            if (sortPoint == null || !HasSortingTarget)
             {
                 Debug.LogError(
                     $"{nameof(WorldYSort)} on '{name}' requires a child named " +
-                    "'SortPoint' and a Renderer on this object or its children.",
+                    "'SortPoint' and a SortingGroup or Renderer on this object " +
+                    "or its children.",
                     this);
                 enabled = false;
                 return;
@@ -55,7 +58,7 @@ namespace SocialProyectoCenigraf.World.Rendering
                 Mathf.RoundToInt(-sortPoint.position.y * ordersPerUnit) +
                 orderOffset;
 
-            targetRenderer.sortingOrder = CurrentSortingOrder;
+            SetTargetSortingOrder(CurrentSortingOrder);
         }
 
         public void SetSortingEnabled(bool value)
@@ -66,7 +69,7 @@ namespace SocialProyectoCenigraf.World.Rendering
 
         private void ApplyCurrentMode()
         {
-            if (sortPoint == null || targetRenderer == null)
+            if (sortPoint == null || !HasSortingTarget)
             {
                 return;
             }
@@ -78,7 +81,24 @@ namespace SocialProyectoCenigraf.World.Rendering
             }
 
             CurrentSortingOrder = disabledSortingOrder;
-            targetRenderer.sortingOrder = disabledSortingOrder;
+            SetTargetSortingOrder(disabledSortingOrder);
+        }
+
+        private bool HasSortingTarget =>
+            targetSortingGroup != null || targetRenderer != null;
+
+        private void SetTargetSortingOrder(int sortingOrder)
+        {
+            if (targetSortingGroup != null)
+            {
+                targetSortingGroup.sortingOrder = sortingOrder;
+                return;
+            }
+
+            if (targetRenderer != null)
+            {
+                targetRenderer.sortingOrder = sortingOrder;
+            }
         }
 
         private void FindReferences()
@@ -91,6 +111,11 @@ namespace SocialProyectoCenigraf.World.Rendering
             if (targetRenderer == null)
             {
                 targetRenderer = GetComponent<Renderer>();
+            }
+
+            if (targetSortingGroup == null)
+            {
+                targetSortingGroup = GetComponentInChildren<SortingGroup>(true);
             }
 
             if (targetRenderer == null)
@@ -106,7 +131,7 @@ namespace SocialProyectoCenigraf.World.Rendering
 
             if (!Application.isPlaying &&
                 sortPoint != null &&
-                targetRenderer != null)
+                HasSortingTarget)
             {
                 ApplyCurrentMode();
             }
