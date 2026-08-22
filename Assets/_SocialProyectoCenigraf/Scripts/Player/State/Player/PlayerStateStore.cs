@@ -35,6 +35,11 @@ namespace SocialProyectoCenigraf.Player.State
             Dispatch(PlayerAction.SetYSortEnabled(enabled));
         }
 
+        public void SetRole(string roleId)
+        {
+            Dispatch(PlayerAction.SetRole(roleId));
+        }
+
         public void SetColliderSize(Vector2 size)
         {
             Dispatch(PlayerAction.SetColliderSize(size));
@@ -45,20 +50,15 @@ namespace SocialProyectoCenigraf.Player.State
             Dispatch(PlayerAction.SetColliderOffset(offset));
         }
 
-        public void SetRole(PlayerRole role)
-        {
-            Dispatch(PlayerAction.SetRole(role));
-        }
-
         private static bool StatesAreEqual(
             PlayerStateData first,
             PlayerStateData second)
         {
             return first.Position == second.Position &&
+                   first.RoleId == second.RoleId &&
                    first.YSortEnabled == second.YSortEnabled &&
                    first.ColliderSize == second.ColliderSize &&
-                   first.ColliderOffset == second.ColliderOffset &&
-                   first.Role == second.Role;
+                   first.ColliderOffset == second.ColliderOffset;
         }
     }
 }

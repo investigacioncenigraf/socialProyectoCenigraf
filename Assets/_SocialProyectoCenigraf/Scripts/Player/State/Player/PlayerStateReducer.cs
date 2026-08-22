@@ -19,6 +19,9 @@ namespace SocialProyectoCenigraf.Player.State
                     return currentState.WithPosition(
                         currentState.Position + action.PositionPayload.Value);
 
+                case PlayerActionType.SetRole:
+                    return currentState.WithRole(action.RolePayload.RoleId);
+
                 case PlayerActionType.SetYSortEnabled:
                     return currentState.WithYSortEnabled(action.BoolPayload.Value);
 
@@ -31,18 +34,6 @@ namespace SocialProyectoCenigraf.Player.State
 
                 case PlayerActionType.SetColliderOffset:
                     return currentState.WithColliderOffset(action.PositionPayload.Value);
-
-                case PlayerActionType.SetRole:
-                    PlayerRole requestedRole = action.RolePayload.Value;
-                    if (!Enum.IsDefined(typeof(PlayerRole), requestedRole))
-                    {
-                        throw new ArgumentOutOfRangeException(
-                            nameof(action),
-                            requestedRole,
-                            "Unknown player role.");
-                    }
-
-                    return currentState.WithRole(requestedRole);
 
                 default:
                     throw new ArgumentOutOfRangeException(
