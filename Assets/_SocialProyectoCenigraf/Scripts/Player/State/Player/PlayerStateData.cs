@@ -9,6 +9,7 @@ namespace SocialProyectoCenigraf.Player.State
         public const int DefaultAnimationFrameDurationMilliseconds = 300;
         public const int DefaultFramesPerAnimation = 4;
         public const string DefaultSkinId = "Demo";
+        public const string DefaultRoleId = "visitor";
         public const bool DefaultForceFrontAnimationOnHorizontalMovement = true;
 
         [SerializeField] private Vector2 position;
@@ -23,7 +24,9 @@ namespace SocialProyectoCenigraf.Player.State
         [SerializeField] private Vector2 colliderOffset;
 
         public Vector2 Position => position;
-        public string RoleId => roleId ?? string.Empty;
+        public string RoleId => string.IsNullOrWhiteSpace(roleId)
+            ? DefaultRoleId
+            : roleId;
         public string SkinId => string.IsNullOrWhiteSpace(skinId)
             ? DefaultSkinId
             : skinId;
@@ -41,7 +44,7 @@ namespace SocialProyectoCenigraf.Player.State
             bool ySortEnabled,
             Vector2 colliderSize,
             Vector2 colliderOffset,
-            string roleId = "",
+            string roleId = DefaultRoleId,
             string skinId = DefaultSkinId,
             PlayerFacingDirection facingDirection = PlayerFacingDirection.DownRight,
             int animationFrameDurationMilliseconds = DefaultAnimationFrameDurationMilliseconds,
@@ -50,7 +53,9 @@ namespace SocialProyectoCenigraf.Player.State
                 DefaultForceFrontAnimationOnHorizontalMovement)
         {
             this.position = position;
-            this.roleId = roleId ?? string.Empty;
+            this.roleId = string.IsNullOrWhiteSpace(roleId)
+                ? DefaultRoleId
+                : roleId.Trim();
             this.skinId = string.IsNullOrWhiteSpace(skinId)
                 ? DefaultSkinId
                 : skinId;

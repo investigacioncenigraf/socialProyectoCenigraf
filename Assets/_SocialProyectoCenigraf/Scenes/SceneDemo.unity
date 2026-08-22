@@ -9244,10 +9244,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Player.State.PlayerStateStore
   state:
     position: {x: 0, y: 0}
-    roleId: 
+    roleId: visitor
     skinId: Demo
     facingDirection: 0
-    animationFrameDurationMilliseconds: 180
+    animationFrameDurationMilliseconds: 170
     framesPerAnimation: 4
     forceFrontAnimationOnHorizontalMovement: 1
     ySortEnabled: 1
