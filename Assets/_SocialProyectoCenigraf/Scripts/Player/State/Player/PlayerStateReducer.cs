@@ -22,6 +22,40 @@ namespace SocialProyectoCenigraf.Player.State
                 case PlayerActionType.SetRole:
                     return currentState.WithRole(action.RolePayload.RoleId);
 
+                case PlayerActionType.SetSkin:
+                    string requestedSkinId = action.SkinPayload.SkinId;
+                    string validSkinId = string.IsNullOrWhiteSpace(requestedSkinId)
+                        ? PlayerStateData.DefaultSkinId
+                        : requestedSkinId.Trim();
+                    return currentState.WithSkin(validSkinId);
+
+                case PlayerActionType.SetFacingFromMovement:
+                    PlayerFacingDirection nextFacingDirection =
+                        PlayerFacingDirectionResolver.Resolve(
+                            currentState.FacingDirection,
+                            action.MovementDirectionPayload.Value);
+                    return currentState.WithFacingDirection(nextFacingDirection);
+
+                case PlayerActionType.SetAnimationSettings:
+                    PlayerAnimationSettingsPayload requestedAnimationSettings =
+                        action.AnimationSettingsPayload;
+
+                    int validFrameDurationMilliseconds = Mathf.Max(
+                        1,
+                        requestedAnimationSettings.FrameDurationMilliseconds);
+                    int validFramesPerAnimation = Mathf.Max(
+                        1,
+                        requestedAnimationSettings.FramesPerAnimation);
+
+                    return currentState.WithAnimationSettings(
+                        validFrameDurationMilliseconds,
+                        validFramesPerAnimation);
+
+                case PlayerActionType.SetForceFrontAnimationOnHorizontalMovement:
+                    return currentState
+                        .WithForceFrontAnimationOnHorizontalMovement(
+                            action.BoolPayload.Value);
+
                 case PlayerActionType.SetYSortEnabled:
                     return currentState.WithYSortEnabled(action.BoolPayload.Value);
 

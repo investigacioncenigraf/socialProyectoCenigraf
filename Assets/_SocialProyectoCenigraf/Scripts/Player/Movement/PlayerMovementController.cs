@@ -17,6 +17,7 @@ namespace SocialProyectoCenigraf.Player.Movement
         [SerializeField, Min(0.001f)] private float skinWidth = 0.02f;
 
         private const float ReconcileTolerance = 0.0001f;
+        private const float DirectionThreshold = 0.0001f;
         private const int MaximumCastHits = 16;
 
         private readonly RaycastHit2D[] castHits = new RaycastHit2D[MaximumCastHits];
@@ -65,6 +66,23 @@ namespace SocialProyectoCenigraf.Player.Movement
         private void FixedUpdate()
         {
             ReconcilePreviousPhysicalMove();
+
+            if (moveInput.sqrMagnitude > Mathf.Epsilon)
+            {
+                Vector2 facingDirection = moveInput;
+
+                if (store.State.ForceFrontAnimationOnHorizontalMovement &&
+                    Mathf.Abs(moveInput.x) > DirectionThreshold &&
+                    Mathf.Abs(moveInput.y) <= DirectionThreshold)
+                {
+                    // A negative Y component selects the Front animation while
+                    // preserving the real horizontal movement direction.
+                    facingDirection.y = -1f;
+                }
+
+                store.Dispatch(
+                    PlayerAction.SetFacingFromMovement(facingDirection));
+            }
 
             Vector2 requestedDisplacement = moveInput * (moveSpeed * Time.fixedDeltaTime);
             if (requestedDisplacement.sqrMagnitude <= Mathf.Epsilon)

@@ -1,55 +1,55 @@
 fileFormatVersion: 2
-guid: 3b96d4011b3574463a007756286b8464
+guid: ea871ea32945b4dd4944a62df5be238f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2680602839326530354
-    second: Demo_ShadowAnimation_0
+      213: -2872632761347143041
+    second: Demo_BodyAnimation_0
   - first:
-      213: -1056871565392526862
-    second: Demo_ShadowAnimation_1
+      213: 5440272975077421067
+    second: Demo_BodyAnimation_1
   - first:
-      213: -581994399228841006
-    second: Demo_ShadowAnimation_2
+      213: 111600258778475523
+    second: Demo_BodyAnimation_2
   - first:
-      213: 7695494855222727532
-    second: Demo_ShadowAnimation_3
+      213: -1022572726281865480
+    second: Demo_BodyAnimation_3
   - first:
-      213: 2492897207670648904
-    second: Demo_ShadowAnimation_4
+      213: -428944007286898523
+    second: Demo_BodyAnimation_4
   - first:
-      213: -2298776672658101233
-    second: Demo_ShadowAnimation_5
+      213: -137405447317466858
+    second: Demo_BodyAnimation_5
   - first:
-      213: 38173564686319335
-    second: Demo_ShadowAnimation_6
+      213: 5465558129737178591
+    second: Demo_BodyAnimation_6
   - first:
-      213: 3515543408813012039
-    second: Demo_ShadowAnimation_7
+      213: -8945517891277122860
+    second: Demo_BodyAnimation_7
   - first:
-      213: 8423159327517890866
-    second: Demo_ShadowAnimation_8
+      213: -8924434129733201840
+    second: Demo_BodyAnimation_8
   - first:
-      213: -8678022135091121853
-    second: Demo_ShadowAnimation_9
+      213: 2232576887052249776
+    second: Demo_BodyAnimation_9
   - first:
-      213: 4637988891877698520
-    second: Demo_ShadowAnimation_10
+      213: 8865225057126003452
+    second: Demo_BodyAnimation_10
   - first:
-      213: -1642000784385194014
-    second: Demo_ShadowAnimation_11
+      213: -7990684079339078810
+    second: Demo_BodyAnimation_11
   - first:
-      213: -8595412226360614583
-    second: Demo_ShadowAnimation_12
+      213: -5116084087328756610
+    second: Demo_BodyAnimation_12
   - first:
-      213: -6275473619861052983
-    second: Demo_ShadowAnimation_13
+      213: 8932553506129846501
+    second: Demo_BodyAnimation_13
   - first:
-      213: 3305971473703783498
-    second: Demo_ShadowAnimation_14
+      213: 5125092113450081316
+    second: Demo_BodyAnimation_14
   - first:
-      213: -2838941186213234320
-    second: Demo_ShadowAnimation_15
+      213: 4083782036042916037
+    second: Demo_BodyAnimation_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -171,7 +171,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_0
+      name: Demo_BodyAnimation_0
       rect:
         serializedVersion: 2
         x: 0
@@ -186,14 +186,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 23b16f5741a633520800000000000000
-      internalID: 2680602839326530354
+      spriteID: f7a01c139bb5228d0800000000000000
+      internalID: -2872632761347143041
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_1
+      name: Demo_BodyAnimation_1
       rect:
         serializedVersion: 2
         x: 128
@@ -208,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f1419b29ec3551f0800000000000000
-      internalID: -1056871565392526862
+      spriteID: b00b5a0727bbf7b40800000000000000
+      internalID: 5440272975077421067
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_2
+      name: Demo_BodyAnimation_2
       rect:
         serializedVersion: 2
         x: 256
@@ -230,14 +230,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2d3b2bc6d275ce7f0800000000000000
-      internalID: -581994399228841006
+      spriteID: 30c255518db7c8100800000000000000
+      internalID: 111600258778475523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_3
+      name: Demo_BodyAnimation_3
       rect:
         serializedVersion: 2
         x: 384
@@ -252,14 +252,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c6395606cc3ebca60800000000000000
-      internalID: 7695494855222727532
+      spriteID: 8f677f4f5871fc1f0800000000000000
+      internalID: -1022572726281865480
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_4
+      name: Demo_BodyAnimation_4
       rect:
         serializedVersion: 2
         x: 0
@@ -274,14 +274,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 840b5cc6dcc889220800000000000000
-      internalID: 2492897207670648904
+      spriteID: 5a0c121b2b51c0af0800000000000000
+      internalID: -428944007286898523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_5
+      name: Demo_BodyAnimation_5
       rect:
         serializedVersion: 2
         x: 128
@@ -296,14 +296,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0c6240bbca1910e0800000000000000
-      internalID: -2298776672658101233
+      spriteID: 61150724976d71ef0800000000000000
+      internalID: -137405447317466858
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_6
+      name: Demo_BodyAnimation_6
       rect:
         serializedVersion: 2
         x: 256
@@ -318,14 +318,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7ee30f2a7ae978000800000000000000
-      internalID: 38173564686319335
+      spriteID: fdd9b36492099db40800000000000000
+      internalID: 5465558129737178591
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_7
+      name: Demo_BodyAnimation_7
       rect:
         serializedVersion: 2
         x: 384
@@ -340,14 +340,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 744f3caaa18b9c030800000000000000
-      internalID: 3515543408813012039
+      spriteID: 4d2968e8fd22bd380800000000000000
+      internalID: -8945517891277122860
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_8
+      name: Demo_BodyAnimation_8
       rect:
         serializedVersion: 2
         x: 0
@@ -362,14 +362,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 239d833d7c215e470800000000000000
-      internalID: 8423159327517890866
+      spriteID: 05051e3517a062480800000000000000
+      internalID: -8924434129733201840
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_9
+      name: Demo_BodyAnimation_9
       rect:
         serializedVersion: 2
         x: 128
@@ -384,14 +384,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 341bae4a8d8719780800000000000000
-      internalID: -8678022135091121853
+      spriteID: 0ba2f7e99d4bbfe10800000000000000
+      internalID: 2232576887052249776
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_10
+      name: Demo_BodyAnimation_10
       rect:
         serializedVersion: 2
         x: 256
@@ -406,14 +406,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8dbe394f2527d5040800000000000000
-      internalID: 4637988891877698520
+      spriteID: cf233ef283b970b70800000000000000
+      internalID: 8865225057126003452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_11
+      name: Demo_BodyAnimation_11
       rect:
         serializedVersion: 2
         x: 384
@@ -428,14 +428,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2e7cecd7cf07639e0800000000000000
-      internalID: -1642000784385194014
+      spriteID: 66bff929a236b1190800000000000000
+      internalID: -7990684079339078810
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_12
+      name: Demo_BodyAnimation_12
       rect:
         serializedVersion: 2
         x: 0
@@ -450,14 +450,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 941e9bdde16f6b880800000000000000
-      internalID: -8595412226360614583
+      spriteID: e7cadb5f0a40009b0800000000000000
+      internalID: -5116084087328756610
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_13
+      name: Demo_BodyAnimation_13
       rect:
         serializedVersion: 2
         x: 128
@@ -472,14 +472,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c1e8daddf909e8a0800000000000000
-      internalID: -6275473619861052983
+      spriteID: 5e02a0e461ec6fb70800000000000000
+      internalID: 8932553506129846501
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_14
+      name: Demo_BodyAnimation_14
       rect:
         serializedVersion: 2
         x: 256
@@ -494,14 +494,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a4c40bf1a8b21ed20800000000000000
-      internalID: 3305971473703783498
+      spriteID: 42c195f8f1cff1740800000000000000
+      internalID: 5125092113450081316
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Demo_ShadowAnimation_15
+      name: Demo_BodyAnimation_15
       rect:
         serializedVersion: 2
         x: 384
@@ -516,8 +516,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 079b881580e0a98d0800000000000000
-      internalID: -2838941186213234320
+      spriteID: 5c0a57eff128ca830800000000000000
+      internalID: 4083782036042916037
       vertices: []
       indices: 
       edges: []
@@ -526,7 +526,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b42504c1fbaa140309b273b5b9ac2a15
+    spriteID: 206aa7a3183ad46d28b99d49b69e3461
     internalID: 0
     vertices: []
     indices: 
@@ -538,22 +538,22 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":128.0,"y":128.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Demo_ShadowAnimation_0: 2680602839326530354
-      Demo_ShadowAnimation_1: -1056871565392526862
-      Demo_ShadowAnimation_10: 4637988891877698520
-      Demo_ShadowAnimation_11: -1642000784385194014
-      Demo_ShadowAnimation_12: -8595412226360614583
-      Demo_ShadowAnimation_13: -6275473619861052983
-      Demo_ShadowAnimation_14: 3305971473703783498
-      Demo_ShadowAnimation_15: -2838941186213234320
-      Demo_ShadowAnimation_2: -581994399228841006
-      Demo_ShadowAnimation_3: 7695494855222727532
-      Demo_ShadowAnimation_4: 2492897207670648904
-      Demo_ShadowAnimation_5: -2298776672658101233
-      Demo_ShadowAnimation_6: 38173564686319335
-      Demo_ShadowAnimation_7: 3515543408813012039
-      Demo_ShadowAnimation_8: 8423159327517890866
-      Demo_ShadowAnimation_9: -8678022135091121853
+      Demo_BodyAnimation_0: -2872632761347143041
+      Demo_BodyAnimation_1: 5440272975077421067
+      Demo_BodyAnimation_10: 8865225057126003452
+      Demo_BodyAnimation_11: -7990684079339078810
+      Demo_BodyAnimation_12: -5116084087328756610
+      Demo_BodyAnimation_13: 8932553506129846501
+      Demo_BodyAnimation_14: 5125092113450081316
+      Demo_BodyAnimation_15: 4083782036042916037
+      Demo_BodyAnimation_2: 111600258778475523
+      Demo_BodyAnimation_3: -1022572726281865480
+      Demo_BodyAnimation_4: -428944007286898523
+      Demo_BodyAnimation_5: -137405447317466858
+      Demo_BodyAnimation_6: 5465558129737178591
+      Demo_BodyAnimation_7: -8945517891277122860
+      Demo_BodyAnimation_8: -8924434129733201840
+      Demo_BodyAnimation_9: 2232576887052249776
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

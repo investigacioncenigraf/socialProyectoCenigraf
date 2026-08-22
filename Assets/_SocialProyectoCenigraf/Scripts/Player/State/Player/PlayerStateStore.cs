@@ -40,6 +40,32 @@ namespace SocialProyectoCenigraf.Player.State
             Dispatch(PlayerAction.SetRole(roleId));
         }
 
+        public void SetSkin(string skinId)
+        {
+            Dispatch(PlayerAction.SetSkin(skinId));
+        }
+
+        public void SetFacingFromMovement(Vector2 movementDirection)
+        {
+            Dispatch(PlayerAction.SetFacingFromMovement(movementDirection));
+        }
+
+        public void SetAnimationSettings(
+            int frameDurationMilliseconds,
+            int framesPerAnimation)
+        {
+            Dispatch(PlayerAction.SetAnimationSettings(
+                frameDurationMilliseconds,
+                framesPerAnimation));
+        }
+
+        public void SetForceFrontAnimationOnHorizontalMovement(bool enabled)
+        {
+            Dispatch(
+                PlayerAction.SetForceFrontAnimationOnHorizontalMovement(
+                    enabled));
+        }
+
         public void SetColliderSize(Vector2 size)
         {
             Dispatch(PlayerAction.SetColliderSize(size));
@@ -56,6 +82,13 @@ namespace SocialProyectoCenigraf.Player.State
         {
             return first.Position == second.Position &&
                    first.RoleId == second.RoleId &&
+                   first.SkinId == second.SkinId &&
+                   first.FacingDirection == second.FacingDirection &&
+                   first.AnimationFrameDurationMilliseconds ==
+                       second.AnimationFrameDurationMilliseconds &&
+                   first.FramesPerAnimation == second.FramesPerAnimation &&
+                   first.ForceFrontAnimationOnHorizontalMovement ==
+                       second.ForceFrontAnimationOnHorizontalMovement &&
                    first.YSortEnabled == second.YSortEnabled &&
                    first.ColliderSize == second.ColliderSize &&
                    first.ColliderOffset == second.ColliderOffset;

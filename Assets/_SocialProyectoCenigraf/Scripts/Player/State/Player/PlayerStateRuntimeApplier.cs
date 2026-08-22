@@ -26,12 +26,26 @@ namespace SocialProyectoCenigraf.Player.State
             bodyCollider = GetComponent<BoxCollider2D>();
             worldYSort = GetComponent<WorldYSort>();
 
+            PlayerStateData configuredState = store.State;
+            int frameDurationMilliseconds =
+                configuredState.AnimationFrameDurationMilliseconds > 0
+                    ? configuredState.AnimationFrameDurationMilliseconds
+                    : PlayerStateData.DefaultAnimationFrameDurationMilliseconds;
+            int framesPerAnimation = configuredState.FramesPerAnimation > 0
+                ? configuredState.FramesPerAnimation
+                : PlayerStateData.DefaultFramesPerAnimation;
+
             store.Initialize(new PlayerStateData(
                 body.position,
                 worldYSort.SortingEnabled,
                 bodyCollider.size,
                 bodyCollider.offset,
-                GameSessionStore.Instance.State.SelectedRoleId));
+                GameSessionStore.Instance.State.SelectedRoleId,
+                configuredState.SkinId,
+                configuredState.FacingDirection,
+                frameDurationMilliseconds,
+                framesPerAnimation,
+                configuredState.ForceFrontAnimationOnHorizontalMovement));
 
             ApplyState(store.State);
         }
