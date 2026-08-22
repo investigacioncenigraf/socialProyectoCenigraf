@@ -6,7 +6,7 @@ namespace SocialProyectoCenigraf.Events
     {
         IReadOnlyList<EventPublication> Publications { get; }
         void Add(EventPublication publication);
-        bool Update(EventPublication publication);
+        bool UpdatePublication(EventPublication publication);
         bool Remove(string publicationId);
     }
 }

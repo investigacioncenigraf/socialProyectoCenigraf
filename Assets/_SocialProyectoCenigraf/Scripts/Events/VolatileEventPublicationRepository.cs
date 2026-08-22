@@ -78,7 +78,7 @@ namespace SocialProyectoCenigraf.Events
             PublicationsChanged?.Invoke();
         }
 
-        public bool Update(EventPublication publication)
+        public bool UpdatePublication(EventPublication publication)
         {
             if (publication == null)
             {

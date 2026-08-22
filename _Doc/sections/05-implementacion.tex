@@ -1,0 +1,89 @@
+\section{Ruta de implementación propuesta}
+
+La evolución debe ser incremental para conservar el comportamiento actual. Cada etapa puede integrarse y probarse de manera independiente.
+
+\subsection{Etapa 1: consolidar contratos y nombres}
+
+\begin{enumerate}
+  \item Definir una convención: tipos en \code{PascalCase}, campos serializados en \code{camelCase} y acciones con verbo explícito.
+  \item Resolver términos ambiguos del diagrama: \code{skinId}, \code{imageId}, \code{themeId}, \code{dimensions}, \code{colliderSize} y \code{colliderOffset}.
+  \item Definir IDs como \code{string} si pueden provenir de servicios o bases de datos heterogéneas.
+  \item Crear contratos de inventario, interacción y área antes de agregarlos a los estados principales.
+\end{enumerate}
+
+\subsection{Etapa 2: completar PlayerState}
+
+Agregar identidad y apariencia al modelo existente sin reemplazar la ruta de movimiento. Cada dato nuevo requiere, como mínimo:
+
+\begin{itemize}
+  \item campo privado serializado y propiedad de solo lectura;
+  \item parámetro de constructor con valor seguro;
+  \item método \code{With...};
+  \item tipo de acción, payload y fábrica de acción;
+  \item caso en el reductor;
+  \item comparación en \code{StatesAreEqual};
+  \item prueba del reductor y, si produce un efecto visual, prueba del adaptador.
+\end{itemize}
+
+El correo electrónico debe permanecer en el estado de cuenta o perfil si no es necesario para la simulación del jugador. Separarlo reduce exposición accidental y evita replicar datos privados a otros clientes.
+
+\subsection{Etapa 3: implementar WorldState}
+
+Crear el módulo \code{World/State} con \code{WorldStateData}, \code{WorldAction}, \code{WorldStateReducer} y \code{WorldStateStore}. Su primera versión puede manejar mundo, sala, tema y dimensiones. La carga completa debe ser atómica:
+
+\begin{lstlisting}[caption={Ejemplo de acción compuesta para cargar un mundo}]
+public static WorldAction LoadWorld(WorldDefinition definition) =>
+    new WorldAction(
+        WorldActionType.LoadWorld,
+        new WorldPayload(
+            definition.Id,
+            definition.DisplayName,
+            definition.RoomId,
+            definition.ThemeId,
+            definition.Dimensions));
+\end{lstlisting}
+
+\subsection{Etapa 4: implementar decoraciones como colección}
+
+Un único \code{ObjDecorationStateData} describe una instancia. El store de mundo debería custodiar una colección o un diccionario por ID y ofrecer acciones como:
+
+\begin{itemize}
+  \item \code{AddDecoration(payload)};
+  \item \code{RemoveDecoration(id)};
+  \item \code{MoveDecoration(id, position)};
+  \item \code{SetDecorationTheme(id, themeId)};
+  \item \code{SetDecorationInventory(id, inventory)}.
+\end{itemize}
+
+Para actualizaciones frecuentes, un diccionario facilita buscar por ID. Para serialización con el \code{JsonUtility} tradicional de Unity, una lista es más directa; puede mantenerse una lista serializable y construir un índice de runtime no serializado.
+
+\subsection{Etapa 5: fachada de estado principal}
+
+Solo cuando un caso real lo requiera, crear una fachada que exponga una instantánea coherente de sesión, mundo, jugador y decoraciones. No es obligatorio fusionar todos los stores en un único \code{MonoBehaviour}. Una fachada de solo lectura puede componerlos:
+
+\begin{lstlisting}[caption={Fachada conceptual de solo lectura}]
+public readonly struct PrincipalStateSnapshot
+{
+    public GameSessionStateData Session { get; }
+    public WorldStateData World { get; }
+    public PlayerStateData Player { get; }
+    public IReadOnlyList<ObjDecorationStateData> Decorations { get; }
+}
+\end{lstlisting}
+
+Esta opción conserva la independencia de cada ciclo de actualización y permite producir guardados, telemetría o depuración global sin habilitar mutaciones externas.
+
+\subsection{Mapa completo de referencia}
+
+La Figura~\ref{fig:mapa-completo} reúne los estados y los métodos previstos. Debido a su relación de aspecto, se presenta en una página horizontal para conservar legibilidad.
+
+\begin{landscape}
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=0.98\linewidth,height=0.86\textheight,keepaspectratio]{\figurepath/mapa-estados-metodos.png}
+  \caption{Mapa consolidado de estados, propiedades y operaciones planeadas.}
+  \label{fig:mapa-completo}
+\end{figure}
+\end{landscape}
+
+Los métodos del mapa deben interpretarse como inventario de capacidades. En la implementación, los getters son propiedades de solo lectura y los setters se convierten en acciones; no se recomienda copiar literalmente pares \code{set/get} para cada campo.

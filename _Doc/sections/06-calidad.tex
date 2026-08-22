@@ -1,0 +1,75 @@
+\section{Validación, pruebas y observabilidad}
+
+\subsection{Invariantes por dominio}
+
+Los reductores deben proteger invariantes baratas y deterministas. Las reglas que necesitan acceso a escena, red o base de datos pertenecen a servicios previos al despacho.
+
+\begin{table}[H]
+\centering
+\caption{Invariantes mínimas recomendadas}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3cm}X X}
+\toprule
+Dominio & Invariante & Comportamiento esperado \\
+\midrule
+Player & Cada dimensión del collider es al menos 0.01. & Limitar en el reductor; ya implementado. \\
+Player & El nivel no es negativo. & Limitar o rechazar la acción según la regla de negocio. \\
+Player & La posición contiene valores finitos. & Rechazar NaN e infinito antes de actualizar. \\
+World & Ancho y alto son positivos. & Rechazar mundos sin área válida. \\
+Decoration & El ID no está vacío y no se duplica. & Validar al agregar la instancia. \\
+Decoration & Inventario solo se usa cuando está habilitado. & Vaciar, ignorar o conservar según una política documentada. \\
+Todos & IDs y textos nulos se normalizan. & Convertir a cadena vacía o rechazar según obligatoriedad. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Pirámide de pruebas}
+
+\subsubsection{Pruebas unitarias de reductores}
+
+Son la base del sistema. Cada tipo de acción debe probar estado inicial, payload, resultado y preservación de campos no relacionados. También deben cubrir valores límite y acciones desconocidas.
+
+\subsubsection{Pruebas de stores}
+
+Verifican que \code{StateChanged} se emite una sola vez cuando hay cambio y no se emite para una transición equivalente. Deben comprobar que el evento entrega la acción que causó la transición.
+
+\subsubsection{Pruebas de integración en Play Mode}
+
+Cubren la conexión con \code{Rigidbody2D}, colliders, \code{WorldYSort}, animación y cambios de escena. Casos esenciales:
+
+\begin{itemize}
+  \item el jugador no atraviesa obstáculos y puede deslizarse por sus bordes;
+  \item la reconciliación conserva alineados store y cuerpo físico;
+  \item cambiar el tamaño del collider actualiza el componente y respeta el mínimo;
+  \item cambiar de escena preserva la selección de rol;
+  \item crear o quitar una decoración sincroniza el registro visual sin duplicados.
+\end{itemize}
+
+\subsection{Registro de transiciones}
+
+Durante desarrollo, un observador opcional puede registrar \code{timestamp}, store, tipo de acción y resumen del estado resultante. No debe incluir correo, tokens ni inventarios sensibles. Para estados grandes se registra un resumen o diferencia, no la instantánea completa en cada frame.
+
+\subsection{Rendimiento}
+
+El patrón no implica despachar todos los valores visuales continuamente. Recomendaciones:
+
+\begin{itemize}
+  \item no guardar en el estado global cuadros de animación que cambian cada frame, salvo que sean necesarios para red o repetición;
+  \item evitar reconstruir colecciones completas para una sola decoración en escenarios masivos; usar actualización por ID y estructuras adecuadas;
+  \item no publicar eventos si \code{StatesAreEqual} confirma que no hubo cambio;
+  \item mantener la física en \code{FixedUpdate} y la lectura de entrada en \code{Update};
+  \item perfilar antes de optimizar o reemplazar estructuras claras por soluciones complejas.
+\end{itemize}
+
+\subsection{Criterios de aceptación de la arquitectura}
+
+La implementación objetivo se considera completa cuando:
+
+\begin{enumerate}
+  \item todo estado se modifica únicamente mediante acciones y reductores;
+  \item los estados planeados tienen tipos C\# concretos y serializables;
+  \item cada campo tiene propietario, significado, unidad y valor inicial documentados;
+  \item los efectos de Unity están fuera de los reductores;
+  \item las transiciones críticas cuentan con pruebas unitarias y de integración;
+  \item el guardado y la carga reconstruyen una instantánea equivalente;
+  \item los IDs resuelven assets y objetos sin serializar referencias de escena.
+\end{enumerate}

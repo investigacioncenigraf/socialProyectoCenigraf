@@ -595,7 +595,7 @@ namespace SocialProyectoCenigraf.UI
                     publication.PublicationStartsAt,
                     publication.PublicationEndsAt,
                     publication.LocalImagePath);
-                if (!repository.Update(updated))
+                if (!repository.UpdatePublication(updated))
                 {
                     SetStatus(
                         "La publicación ya no existe y no pudo actualizarse.",
