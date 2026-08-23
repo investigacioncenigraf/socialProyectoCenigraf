@@ -12,6 +12,7 @@ namespace SocialProyectoCenigraf.Player.State
         SetFacingFromMovement,
         SetAnimationSettings,
         SetForceFrontAnimationOnHorizontalMovement,
+        SetAppearanceColors,
         SetYSortEnabled,
         SetColliderSize,
         SetColliderOffset
@@ -81,6 +82,23 @@ namespace SocialProyectoCenigraf.Player.State
         }
     }
 
+    public readonly struct PlayerAppearanceColorsPayload
+    {
+        public Color HeadColor { get; }
+        public Color BodyColor { get; }
+        public Color HandsColor { get; }
+
+        public PlayerAppearanceColorsPayload(
+            Color headColor,
+            Color bodyColor,
+            Color handsColor)
+        {
+            HeadColor = headColor;
+            BodyColor = bodyColor;
+            HandsColor = handsColor;
+        }
+    }
+
     public readonly struct PlayerAction
     {
         public PlayerActionType Type { get; }
@@ -90,6 +108,7 @@ namespace SocialProyectoCenigraf.Player.State
         public PlayerSkinPayload SkinPayload { get; }
         public PlayerMovementDirectionPayload MovementDirectionPayload { get; }
         public PlayerAnimationSettingsPayload AnimationSettingsPayload { get; }
+        public PlayerAppearanceColorsPayload AppearanceColorsPayload { get; }
 
         private PlayerAction(
             PlayerActionType type,
@@ -98,7 +117,8 @@ namespace SocialProyectoCenigraf.Player.State
             PlayerRolePayload rolePayload = default,
             PlayerSkinPayload skinPayload = default,
             PlayerMovementDirectionPayload movementDirectionPayload = default,
-            PlayerAnimationSettingsPayload animationSettingsPayload = default)
+            PlayerAnimationSettingsPayload animationSettingsPayload = default,
+            PlayerAppearanceColorsPayload appearanceColorsPayload = default)
         {
             Type = type;
             PositionPayload = positionPayload;
@@ -107,6 +127,7 @@ namespace SocialProyectoCenigraf.Player.State
             SkinPayload = skinPayload;
             MovementDirectionPayload = movementDirectionPayload;
             AnimationSettingsPayload = animationSettingsPayload;
+            AppearanceColorsPayload = appearanceColorsPayload;
         }
 
         public static PlayerAction SetRole(string roleId)
@@ -148,6 +169,19 @@ namespace SocialProyectoCenigraf.Player.State
             return new PlayerAction(
                 PlayerActionType.SetForceFrontAnimationOnHorizontalMovement,
                 boolPayload: new PlayerBoolPayload(enabled));
+        }
+
+        public static PlayerAction SetAppearanceColors(
+            Color headColor,
+            Color bodyColor,
+            Color handsColor)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetAppearanceColors,
+                appearanceColorsPayload: new PlayerAppearanceColorsPayload(
+                    headColor,
+                    bodyColor,
+                    handsColor));
         }
 
         public static PlayerAction SetPosition(Vector2 position)

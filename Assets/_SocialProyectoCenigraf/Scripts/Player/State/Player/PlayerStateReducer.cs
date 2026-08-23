@@ -56,6 +56,14 @@ namespace SocialProyectoCenigraf.Player.State
                         .WithForceFrontAnimationOnHorizontalMovement(
                             action.BoolPayload.Value);
 
+                case PlayerActionType.SetAppearanceColors:
+                    PlayerAppearanceColorsPayload colors =
+                        action.AppearanceColorsPayload;
+                    return currentState.WithAppearanceColors(
+                        colors.HeadColor,
+                        colors.BodyColor,
+                        colors.HandsColor);
+
                 case PlayerActionType.SetYSortEnabled:
                     return currentState.WithYSortEnabled(action.BoolPayload.Value);
 

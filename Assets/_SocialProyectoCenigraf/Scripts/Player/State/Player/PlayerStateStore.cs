@@ -66,6 +66,17 @@ namespace SocialProyectoCenigraf.Player.State
                     enabled));
         }
 
+        public void SetAppearanceColors(
+            Color headColor,
+            Color bodyColor,
+            Color handsColor)
+        {
+            Dispatch(PlayerAction.SetAppearanceColors(
+                headColor,
+                bodyColor,
+                handsColor));
+        }
+
         public void SetColliderSize(Vector2 size)
         {
             Dispatch(PlayerAction.SetColliderSize(size));
@@ -89,6 +100,9 @@ namespace SocialProyectoCenigraf.Player.State
                    first.FramesPerAnimation == second.FramesPerAnimation &&
                    first.ForceFrontAnimationOnHorizontalMovement ==
                        second.ForceFrontAnimationOnHorizontalMovement &&
+                   first.HeadColor == second.HeadColor &&
+                   first.BodyColor == second.BodyColor &&
+                   first.HandsColor == second.HandsColor &&
                    first.YSortEnabled == second.YSortEnabled &&
                    first.ColliderSize == second.ColliderSize &&
                    first.ColliderOffset == second.ColliderOffset;

@@ -22,6 +22,9 @@ namespace SocialProyectoCenigraf.Player.State
         [SerializeField] private bool ySortEnabled;
         [SerializeField] private Vector2 colliderSize;
         [SerializeField] private Vector2 colliderOffset;
+        [SerializeField] private Color headColor;
+        [SerializeField] private Color bodyColor;
+        [SerializeField] private Color handsColor;
 
         public Vector2 Position => position;
         public string RoleId => string.IsNullOrWhiteSpace(roleId)
@@ -38,6 +41,9 @@ namespace SocialProyectoCenigraf.Player.State
         public bool YSortEnabled => ySortEnabled;
         public Vector2 ColliderSize => colliderSize;
         public Vector2 ColliderOffset => colliderOffset;
+        public Color HeadColor => NormalizeAppearanceColor(headColor);
+        public Color BodyColor => NormalizeAppearanceColor(bodyColor);
+        public Color HandsColor => NormalizeAppearanceColor(handsColor);
 
         public PlayerStateData(
             Vector2 position,
@@ -50,7 +56,10 @@ namespace SocialProyectoCenigraf.Player.State
             int animationFrameDurationMilliseconds = DefaultAnimationFrameDurationMilliseconds,
             int framesPerAnimation = DefaultFramesPerAnimation,
             bool forceFrontAnimationOnHorizontalMovement =
-                DefaultForceFrontAnimationOnHorizontalMovement)
+                DefaultForceFrontAnimationOnHorizontalMovement,
+            Color headColor = default,
+            Color bodyColor = default,
+            Color handsColor = default)
         {
             this.position = position;
             this.roleId = string.IsNullOrWhiteSpace(roleId)
@@ -67,6 +76,9 @@ namespace SocialProyectoCenigraf.Player.State
             this.ySortEnabled = ySortEnabled;
             this.colliderSize = colliderSize;
             this.colliderOffset = colliderOffset;
+            this.headColor = NormalizeAppearanceColor(headColor);
+            this.bodyColor = NormalizeAppearanceColor(bodyColor);
+            this.handsColor = NormalizeAppearanceColor(handsColor);
         }
 
         public PlayerStateData WithPosition(Vector2 value) =>
@@ -80,7 +92,10 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithRole(string value) =>
             new PlayerStateData(
@@ -93,7 +108,10 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithSkin(string value) =>
             new PlayerStateData(
@@ -106,7 +124,10 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithFacingDirection(PlayerFacingDirection value) =>
             new PlayerStateData(
@@ -119,7 +140,10 @@ namespace SocialProyectoCenigraf.Player.State
                 value,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithAnimationSettings(
             int frameDurationMilliseconds,
@@ -134,7 +158,10 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 frameDurationMilliseconds,
                 frameCount,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithForceFrontAnimationOnHorizontalMovement(
             bool value) =>
@@ -148,7 +175,10 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                value);
+                value,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithYSortEnabled(bool value) =>
             new PlayerStateData(
@@ -161,7 +191,10 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithColliderSize(Vector2 value) =>
             new PlayerStateData(
@@ -174,7 +207,10 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
 
         public PlayerStateData WithColliderOffset(Vector2 value) =>
             new PlayerStateData(
@@ -187,6 +223,33 @@ namespace SocialProyectoCenigraf.Player.State
                 facingDirection,
                 animationFrameDurationMilliseconds,
                 framesPerAnimation,
-                forceFrontAnimationOnHorizontalMovement);
+                forceFrontAnimationOnHorizontalMovement,
+                headColor,
+                bodyColor,
+                handsColor);
+
+        public PlayerStateData WithAppearanceColors(
+            Color newHeadColor,
+            Color newBodyColor,
+            Color newHandsColor) =>
+            new PlayerStateData(
+                position,
+                ySortEnabled,
+                colliderSize,
+                colliderOffset,
+                roleId,
+                skinId,
+                facingDirection,
+                animationFrameDurationMilliseconds,
+                framesPerAnimation,
+                forceFrontAnimationOnHorizontalMovement,
+                newHeadColor,
+                newBodyColor,
+                newHandsColor);
+
+        private static Color NormalizeAppearanceColor(Color value)
+        {
+            return value.a <= 0f ? Color.white : value;
+        }
     }
 }

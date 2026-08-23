@@ -36,6 +36,11 @@ namespace SocialProyectoCenigraf.Player.Visual
         {
             store = GetComponent<PlayerStateStore>();
             movementController = GetComponent<PlayerMovementController>();
+
+            if (headRenderer != null)
+            {
+                headRenderer.sharedMaterial = SelectiveHeadTintMaterial.Shared;
+            }
         }
 
         private void OnEnable()
@@ -160,6 +165,7 @@ namespace SocialProyectoCenigraf.Player.Visual
 
             ApplyHorizontalFacing(isFacingLeft);
             ApplyLayerOrder(animationType);
+            ApplyLayerColors(state);
 
             SetSprite(shadowRenderer, PlayerSkinLayer.Shadow, animationType);
             SetSprite(leftLegRenderer, PlayerSkinLayer.LeftLeg, animationType);
@@ -172,6 +178,28 @@ namespace SocialProyectoCenigraf.Player.Visual
             SetSprite(leftHandRenderer, PlayerSkinLayer.LeftHand, animationType);
             SetSprite(rightHandRenderer, PlayerSkinLayer.RightHand, animationType);
             SetSprite(headRenderer, PlayerSkinLayer.Head, animationType);
+        }
+
+        private void ApplyLayerColors(PlayerStateData state)
+        {
+            SetColor(headRenderer, state.HeadColor);
+            SetColor(bodyRenderer, state.BodyColor);
+            SetColor(bodyAccessoryRenderer, state.BodyColor);
+            SetColor(leftLegRenderer, state.BodyColor);
+            SetColor(rightLegRenderer, state.BodyColor);
+            SetColor(leftHandRenderer, state.HandsColor);
+            SetColor(rightHandRenderer, state.HandsColor);
+            SetColor(shadowRenderer, Color.white);
+        }
+
+        private static void SetColor(
+            SpriteRenderer targetRenderer,
+            Color color)
+        {
+            if (targetRenderer != null)
+            {
+                targetRenderer.color = color;
+            }
         }
 
         private void ApplyHorizontalFacing(bool isFacingLeft)
