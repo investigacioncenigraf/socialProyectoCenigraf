@@ -632,32 +632,51 @@ namespace SocialProyectoCenigraf.Editor.UI
                 optionRect.pivot = new Vector2(0.5f, 0.5f);
                 optionRect.anchoredPosition = new Vector2(
                     75f + (column * 135f),
-                    -42f - (row * 78f));
-                optionRect.sizeDelta = new Vector2(70f, 70f);
+                    -41f - (row * 83f));
+                optionRect.sizeDelta = new Vector2(82f, 82f);
                 optionRect.localScale = Vector3.one;
 
                 Image optionBackground =
                     GetOrAddComponent<Image>(optionRect.gameObject);
-                optionBackground.color = new Color(0.82f, 0.82f, 0.82f, 1f);
+                optionBackground.color = new Color(1f, 1f, 1f, 0f);
+                optionBackground.raycastTarget = true;
                 Button button = GetOrAddComponent<Button>(optionRect.gameObject);
                 button.targetGraphic = optionBackground;
-                Outline selectionOutline =
-                    GetOrAddComponent<Outline>(optionRect.gameObject);
-                selectionOutline.effectColor = SelectionColor;
-                selectionOutline.effectDistance = new Vector2(4f, -4f);
+
+                Outline obsoleteOutline = optionRect.GetComponent<Outline>();
+                if (obsoleteOutline != null)
+                {
+                    Object.DestroyImmediate(obsoleteOutline);
+                }
+
+                RectTransform selectionRect = FindOrCreateRectChild(
+                    optionRect,
+                    "SelectionBorder");
+                Stretch(selectionRect);
+                selectionRect.offsetMin = Vector2.zero;
+                selectionRect.offsetMax = Vector2.zero;
+                Image selectionOutline =
+                    GetOrAddComponent<Image>(selectionRect.gameObject);
+                selectionOutline.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>(
+                    "UI/Skin/UISprite.psd");
+                selectionOutline.type = Image.Type.Sliced;
+                selectionOutline.fillCenter = false;
+                selectionOutline.color = SelectionColor;
+                selectionOutline.raycastTarget = false;
                 selectionOutline.enabled = index == 0;
 
                 RectTransform iconRect = FindOrCreateRectChild(
                     optionRect,
                     "LayerPreview");
                 Stretch(iconRect);
-                iconRect.offsetMin = new Vector2(7f, 7f);
-                iconRect.offsetMax = new Vector2(-7f, -7f);
+                iconRect.offsetMin = new Vector2(5f, 5f);
+                iconRect.offsetMax = new Vector2(-5f, -5f);
                 Image icon = GetOrAddComponent<Image>(iconRect.gameObject);
                 icon.sprite = representativeSprite;
                 icon.color = PaletteColors[index];
                 icon.preserveAspect = true;
                 icon.raycastTarget = false;
+                selectionRect.SetAsLastSibling();
 
                 options.Add(new ConfiguredPaletteOption(
                     group,
@@ -673,7 +692,7 @@ namespace SocialProyectoCenigraf.Editor.UI
                 AppearanceColorGroup group,
                 Color color,
                 Button button,
-                Outline selectionOutline)
+                Image selectionOutline)
             {
                 Group = group;
                 Color = color;
@@ -684,7 +703,7 @@ namespace SocialProyectoCenigraf.Editor.UI
             public AppearanceColorGroup Group { get; }
             public Color Color { get; }
             public Button Button { get; }
-            public Outline SelectionOutline { get; }
+            public Image SelectionOutline { get; }
         }
 
         private static Image ConfigurePreviewLayer(

@@ -19,7 +19,7 @@ namespace SocialProyectoCenigraf.UI
         public AppearanceColorGroup Group;
         public Color Color = Color.white;
         public Button Button;
-        public Outline SelectionOutline;
+        public Image SelectionOutline;
     }
 
     [DisallowMultipleComponent]
