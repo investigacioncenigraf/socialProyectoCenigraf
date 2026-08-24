@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InteraccionRecepcion : MonoBehaviour
+public class Interaction_oso : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject teclaE;
