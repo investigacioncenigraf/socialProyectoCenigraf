@@ -31,6 +31,9 @@ public class Interaction_oso : MonoBehaviour
     [Header("Diálogo")]
     [SerializeField] private LineaDialogo[] dialogos;
 
+    [Header("Recompensa")]
+    [SerializeField] private GameObject carnetID;
+
     private bool jugadorEnZona = false;
     private bool dialogoActivo = false;
 
@@ -38,11 +41,17 @@ public class Interaction_oso : MonoBehaviour
 
     private void Start()
     {
+        // Ocultar tecla E al comenzar
         if (teclaE != null)
             teclaE.SetActive(false);
 
+        // Ocultar panel de diálogo
         if (panelDialogo != null)
             panelDialogo.SetActive(false);
+
+        // Ocultar carnet ID
+        if (carnetID != null)
+            carnetID.SetActive(false);
     }
 
     private void Update()
@@ -97,9 +106,10 @@ public class Interaction_oso : MonoBehaviour
             teclaE.SetActive(false);
 
         // Cerrar el diálogo si el jugador se aleja
+        // IMPORTANTE: aquí NO mostramos el carnet
         if (dialogoActivo)
         {
-            CerrarDialogo();
+            CerrarDialogo(false);
         }
     }
 
@@ -132,7 +142,8 @@ public class Interaction_oso : MonoBehaviour
         // Si ya no quedan líneas
         if (dialogoActual >= dialogos.Length)
         {
-            CerrarDialogo();
+            // Terminó normalmente
+            CerrarDialogo(true);
             return;
         }
 
@@ -156,12 +167,12 @@ public class Interaction_oso : MonoBehaviour
         {
             retratoPersonaje.sprite = linea.retrato;
 
-            // Mostrar la imagen
+            // Mostrar la imagen solo si existe un retrato
             retratoPersonaje.gameObject.SetActive(linea.retrato != null);
         }
     }
 
-    private void CerrarDialogo()
+    private void CerrarDialogo(bool mostrarCarnet)
     {
         Debug.Log("Diálogo terminado.");
 
@@ -177,7 +188,18 @@ public class Interaction_oso : MonoBehaviour
             nombrePersonaje.text = "";
 
         if (retratoPersonaje != null)
+        {
             retratoPersonaje.sprite = null;
+            retratoPersonaje.gameObject.SetActive(false);
+        }
+
+        // Mostrar el carnet SOLO si el diálogo terminó normalmente
+        if (mostrarCarnet && carnetID != null)
+        {
+            carnetID.SetActive(true);
+
+            Debug.Log("¡CARNET ID DESBLOQUEADO!");
+        }
 
         // Mostrar E nuevamente si el jugador sigue dentro
         if (jugadorEnZona && teclaE != null)
