@@ -1,20 +1,40 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Interaction_oso : MonoBehaviour
 {
+    [Serializable]
+    public class LineaDialogo
+    {
+        [Header("Personaje")]
+        public string nombre;
+
+        public Sprite retrato;
+
+        [Header("Texto")]
+        [TextArea(2, 5)]
+        public string texto;
+    }
+
     [Header("UI")]
     [SerializeField] private GameObject teclaE;
     [SerializeField] private GameObject panelDialogo;
+
+    [SerializeField] private TMP_Text nombrePersonaje;
     [SerializeField] private TMP_Text textoDialogo;
 
+    [SerializeField] private Image retratoPersonaje;
+
     [Header("Diálogo")]
-    [TextArea(2, 5)]
-    [SerializeField] private string mensaje = "Bienvenido a la recepción.";
+    [SerializeField] private LineaDialogo[] dialogos;
 
     private bool jugadorEnZona = false;
     private bool dialogoActivo = false;
+
+    private int dialogoActual = 0;
 
     private void Start()
     {
@@ -27,33 +47,32 @@ public class Interaction_oso : MonoBehaviour
 
     private void Update()
     {
-        // Si el diálogo está activo, esperar cualquier tecla para cerrarlo
+        // Si estamos dentro de un diálogo
         if (dialogoActivo)
         {
-            if (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
+            if (Keyboard.current != null &&
+                Keyboard.current.eKey.wasPressedThisFrame)
             {
-                CerrarDialogo();
+                SiguienteDialogo();
             }
 
             return;
         }
 
-        // Si el jugador no está en la zona, no hacer nada
+        // Si el jugador no está en la zona
         if (!jugadorEnZona)
             return;
 
-        // Presionar E para iniciar el diálogo
+        // E para comenzar el diálogo
         if (Keyboard.current != null &&
             Keyboard.current.eKey.wasPressedThisFrame)
         {
-            MostrarDialogo();
+            IniciarDialogo();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Algo entró al área: " + other.name);
-
         if (!other.CompareTag("Player"))
             return;
 
@@ -77,32 +96,74 @@ public class Interaction_oso : MonoBehaviour
         if (teclaE != null)
             teclaE.SetActive(false);
 
-        // Si sale mientras el diálogo está abierto, también lo cerramos
+        // Cerrar el diálogo si el jugador se aleja
         if (dialogoActivo)
         {
             CerrarDialogo();
         }
     }
 
-    private void MostrarDialogo()
+    private void IniciarDialogo()
     {
-        Debug.Log("¡SE PRESIONÓ E!");
+        if (dialogos == null || dialogos.Length == 0)
+        {
+            Debug.LogWarning("No hay diálogos configurados.");
+            return;
+        }
+
+        Debug.Log("¡COMENZÓ EL DIÁLOGO!");
 
         dialogoActivo = true;
+        dialogoActual = 0;
 
         if (teclaE != null)
             teclaE.SetActive(false);
 
-        if (textoDialogo != null)
-            textoDialogo.text = mensaje;
-
         if (panelDialogo != null)
             panelDialogo.SetActive(true);
+
+        MostrarDialogoActual();
+    }
+
+    private void SiguienteDialogo()
+    {
+        dialogoActual++;
+
+        // Si ya no quedan líneas
+        if (dialogoActual >= dialogos.Length)
+        {
+            CerrarDialogo();
+            return;
+        }
+
+        MostrarDialogoActual();
+    }
+
+    private void MostrarDialogoActual()
+    {
+        LineaDialogo linea = dialogos[dialogoActual];
+
+        // Nombre
+        if (nombrePersonaje != null)
+            nombrePersonaje.text = linea.nombre;
+
+        // Texto
+        if (textoDialogo != null)
+            textoDialogo.text = linea.texto;
+
+        // Retrato
+        if (retratoPersonaje != null)
+        {
+            retratoPersonaje.sprite = linea.retrato;
+
+            // Mostrar la imagen
+            retratoPersonaje.gameObject.SetActive(linea.retrato != null);
+        }
     }
 
     private void CerrarDialogo()
     {
-        Debug.Log("Diálogo cerrado.");
+        Debug.Log("Diálogo terminado.");
 
         dialogoActivo = false;
 
@@ -112,7 +173,13 @@ public class Interaction_oso : MonoBehaviour
         if (textoDialogo != null)
             textoDialogo.text = "";
 
-        // Volver a mostrar E si el jugador sigue dentro del área
+        if (nombrePersonaje != null)
+            nombrePersonaje.text = "";
+
+        if (retratoPersonaje != null)
+            retratoPersonaje.sprite = null;
+
+        // Mostrar E nuevamente si el jugador sigue dentro
         if (jugadorEnZona && teclaE != null)
             teclaE.SetActive(true);
     }
