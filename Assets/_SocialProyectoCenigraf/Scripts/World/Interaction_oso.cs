@@ -28,8 +28,11 @@ public class Interaction_oso : MonoBehaviour
 
     [SerializeField] private Image retratoPersonaje;
 
-    [Header("Diálogo")]
+    [Header("Diálogo inicial")]
     [SerializeField] private LineaDialogo[] dialogos;
+
+    [Header("Diálogo después de obtener el carnet")]
+    [SerializeField] private LineaDialogo[] dialogosConCarnet;
 
     [Header("Recompensa")]
     [SerializeField] private GameObject carnetID;
@@ -39,8 +42,14 @@ public class Interaction_oso : MonoBehaviour
 
     private int dialogoActual = 0;
 
+    // Indica si el jugador ya recibió el carnet durante esta partida
+    private bool tieneCarnet = false;
+
     private void Start()
     {
+        // Al comenzar una partida nueva NO tiene el carnet
+        tieneCarnet = false;
+
         // Ocultar tecla E al comenzar
         if (teclaE != null)
             teclaE.SetActive(false);
@@ -115,7 +124,20 @@ public class Interaction_oso : MonoBehaviour
 
     private void IniciarDialogo()
     {
-        if (dialogos == null || dialogos.Length == 0)
+        // Elegir qué conjunto de diálogos utilizar
+        LineaDialogo[] dialogosActuales;
+
+        if (tieneCarnet)
+        {
+            dialogosActuales = dialogosConCarnet;
+        }
+        else
+        {
+            dialogosActuales = dialogos;
+        }
+
+        // Comprobar que existen diálogos
+        if (dialogosActuales == null || dialogosActuales.Length == 0)
         {
             Debug.LogWarning("No hay diálogos configurados.");
             return;
@@ -139,8 +161,20 @@ public class Interaction_oso : MonoBehaviour
     {
         dialogoActual++;
 
+        // Elegir qué conjunto de diálogos estamos utilizando
+        LineaDialogo[] dialogosActuales;
+
+        if (tieneCarnet)
+        {
+            dialogosActuales = dialogosConCarnet;
+        }
+        else
+        {
+            dialogosActuales = dialogos;
+        }
+
         // Si ya no quedan líneas
-        if (dialogoActual >= dialogos.Length)
+        if (dialogoActual >= dialogosActuales.Length)
         {
             // Terminó normalmente
             CerrarDialogo(true);
@@ -152,7 +186,19 @@ public class Interaction_oso : MonoBehaviour
 
     private void MostrarDialogoActual()
     {
-        LineaDialogo linea = dialogos[dialogoActual];
+        // Elegir el diálogo correspondiente
+        LineaDialogo[] dialogosActuales;
+
+        if (tieneCarnet)
+        {
+            dialogosActuales = dialogosConCarnet;
+        }
+        else
+        {
+            dialogosActuales = dialogos;
+        }
+
+        LineaDialogo linea = dialogosActuales[dialogoActual];
 
         // Nombre
         if (nombrePersonaje != null)
@@ -193,12 +239,16 @@ public class Interaction_oso : MonoBehaviour
             retratoPersonaje.gameObject.SetActive(false);
         }
 
-        // Mostrar el carnet SOLO si el diálogo terminó normalmente
-        if (mostrarCarnet && carnetID != null)
+        // Mostrar el carnet SOLO la primera vez
+        if (mostrarCarnet && !tieneCarnet && carnetID != null)
         {
             carnetID.SetActive(true);
 
             Debug.Log("¡CARNET ID DESBLOQUEADO!");
+
+            // Marcar que ya recibió el carnet
+            // Esto dura solamente durante esta partida
+            tieneCarnet = true;
         }
 
         // Mostrar E nuevamente si el jugador sigue dentro
