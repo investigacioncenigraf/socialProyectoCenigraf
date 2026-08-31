@@ -33,6 +33,7 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
 
         private CameraStateStore cameraStateStore;
         private UnityEngine.Camera attachedCamera;
+        private CameraBounds cameraBounds;
         private Vector2 smoothingVelocity;
         private Vector2 continuousPosition;
         private float cameraZ;
@@ -53,6 +54,7 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
         {
             cameraStateStore = GetComponent<CameraStateStore>();
             attachedCamera = GetComponent<UnityEngine.Camera>();
+            cameraBounds = GetComponent<CameraBounds>();
             cameraZ = transform.position.z;
             continuousPosition = transform.position;
 
@@ -140,11 +142,23 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
                 nextPosition = desiredPosition;
             }
 
+            if (cameraBounds != null && cameraBounds.isActiveAndEnabled)
+            {
+                nextPosition = cameraBounds.ConstrainPosition(
+                    nextPosition, state.Zoom, attachedCamera.aspect);
+            }
+
             continuousPosition = nextPosition;
 
             Vector2 renderedPosition = state.PixelSnapEnabled
                 ? SnapToScreenPixel(nextPosition)
                 : nextPosition;
+
+            if (cameraBounds != null && cameraBounds.isActiveAndEnabled)
+            {
+                renderedPosition = cameraBounds.ConstrainPosition(
+                    renderedPosition, state.Zoom, attachedCamera.aspect);
+            }
 
             // The state changes before its physical representation (Transform).
             cameraStateStore.Dispatch(CameraAction.SetPosition(renderedPosition));
