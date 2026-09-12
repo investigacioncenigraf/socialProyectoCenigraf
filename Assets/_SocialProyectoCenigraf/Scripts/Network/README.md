@@ -24,13 +24,13 @@ graph TD
         DC[DisableControlsOnRemote]
     end
 
-    S <-->|Payload: ID\|X\|Y\|Z| NC
-    NC -- "Event:<br>OnPositionReceived" --> NM
-    NM -- "SendPosition()" --> NC
-    JL -- "Lee Posición" --> NM
-    NM -- "Instancia" --> AR
-    NM -- "Aplica a Remotos" --> DC
-    DC -.->|Quita controles y<br>física local| AR
+    S <-->|Payload: ID, X, Y, Z| NC
+    NC -->|Evento: OnPositionReceived| NM
+    NM -->|SendPosition| NC
+    JL -->|Lee Posición| NM
+    NM -->|Instancia| AR
+    NM -->|Aplica a Remotos| DC
+    DC -.->|Quita controles y física local| AR
 ```
 
 ### Componentes del Sistema
