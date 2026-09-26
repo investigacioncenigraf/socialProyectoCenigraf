@@ -64,6 +64,17 @@ namespace SocialProyectoCenigraf.Player.State
                         colors.BodyColor,
                         colors.HandsColor);
 
+                case PlayerActionType.SetPlayerId:
+                    return currentState.WithPlayerId(
+                        action.PlayerIdPayload.PlayerId);
+
+                case PlayerActionType.SetIsMoving:
+                    return currentState.WithIsMoving(action.BoolPayload.Value);
+
+                case PlayerActionType.ApplyReplicatedState:
+                    return currentState.WithReplicatedState(
+                        action.ReplicatedStatePayload);
+
                 case PlayerActionType.SetYSortEnabled:
                     return currentState.WithYSortEnabled(action.BoolPayload.Value);
 

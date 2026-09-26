@@ -1,4 +1,5 @@
 using SocialProyectoCenigraf.Player.State;
+using SocialProyectoCenigraf.Player.Replication;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,10 +26,12 @@ namespace SocialProyectoCenigraf.Player.Movement
         private Rigidbody2D body;
         private BoxCollider2D bodyCollider;
         private PlayerStateStore store;
+        private PlayerReplicationContext replicationContext;
         private ContactFilter2D collisionFilter;
         private InputAction moveAction;
         private Vector2 moveInput;
         private bool hasPendingPhysicalMove;
+        private bool lastReportedMoving;
 
         public Vector2 MoveInput => moveInput;
 
@@ -37,6 +40,8 @@ namespace SocialProyectoCenigraf.Player.Movement
             body = GetComponent<Rigidbody2D>();
             bodyCollider = GetComponent<BoxCollider2D>();
             store = GetComponent<PlayerStateStore>();
+            replicationContext = GetComponent<PlayerReplicationContext>();
+            lastReportedMoving = store.State.IsMoving;
 
             collisionFilter = new ContactFilter2D();
             collisionFilter.SetLayerMask(collisionMask);
@@ -58,9 +63,23 @@ namespace SocialProyectoCenigraf.Player.Movement
 
         private void Update()
         {
+            if (replicationContext != null &&
+                !replicationContext.AcceptsLocalInput)
+            {
+                moveInput = Vector2.zero;
+                return;
+            }
+
             moveInput = moveAction == null
                 ? Vector2.zero
                 : Vector2.ClampMagnitude(moveAction.ReadValue<Vector2>(), 1f);
+
+            bool isMoving = moveInput.sqrMagnitude > DirectionThreshold;
+            if (isMoving != lastReportedMoving)
+            {
+                lastReportedMoving = isMoving;
+                store.Dispatch(PlayerAction.SetIsMoving(isMoving));
+            }
         }
 
         private void FixedUpdate()
@@ -184,9 +203,18 @@ namespace SocialProyectoCenigraf.Player.Movement
 
         private void OnDisable()
         {
+            if (store != null &&
+                store.State.IsMoving &&
+                (replicationContext == null ||
+                 replicationContext.AcceptsLocalInput))
+            {
+                store.Dispatch(PlayerAction.SetIsMoving(false));
+            }
+
             moveAction = null;
             moveInput = Vector2.zero;
             hasPendingPhysicalMove = false;
+            lastReportedMoving = false;
         }
 
         private void OnValidate()

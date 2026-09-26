@@ -48,7 +48,9 @@ namespace SocialProyectoCenigraf.Player.State
                 configuredState.ForceFrontAnimationOnHorizontalMovement,
                 configuredState.HeadColor,
                 configuredState.BodyColor,
-                configuredState.HandsColor));
+                configuredState.HandsColor,
+                configuredState.PlayerId,
+                configuredState.IsMoving));
 
             ApplyState(store.State);
         }

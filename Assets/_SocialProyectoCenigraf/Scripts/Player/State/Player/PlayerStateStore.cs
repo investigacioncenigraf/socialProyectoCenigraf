@@ -77,6 +77,21 @@ namespace SocialProyectoCenigraf.Player.State
                 handsColor));
         }
 
+        public void SetPlayerId(string playerId)
+        {
+            Dispatch(PlayerAction.SetPlayerId(playerId));
+        }
+
+        public void SetIsMoving(bool isMoving)
+        {
+            Dispatch(PlayerAction.SetIsMoving(isMoving));
+        }
+
+        public void ApplyReplicatedState(PlayerReplicatedStateData snapshot)
+        {
+            Dispatch(PlayerAction.ApplyReplicatedState(snapshot));
+        }
+
         public void SetColliderSize(Vector2 size)
         {
             Dispatch(PlayerAction.SetColliderSize(size));
@@ -92,6 +107,8 @@ namespace SocialProyectoCenigraf.Player.State
             PlayerStateData second)
         {
             return first.Position == second.Position &&
+                   first.PlayerId == second.PlayerId &&
+                   first.IsMoving == second.IsMoving &&
                    first.RoleId == second.RoleId &&
                    first.SkinId == second.SkinId &&
                    first.FacingDirection == second.FacingDirection &&

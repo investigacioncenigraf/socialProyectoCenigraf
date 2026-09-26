@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SocialProyectoCenigraf.CameraSystem.State;
 using SocialProyectoCenigraf.Player.State;
+using SocialProyectoCenigraf.Player.Replication;
 using UnityEngine;
 
 namespace SocialProyectoCenigraf.CameraSystem.Follow
@@ -60,7 +61,25 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
 
             if (playerStateStore == null)
             {
-                playerStateStore = FindFirstObjectByType<PlayerStateStore>();
+                PlayerReplicationContext[] contexts =
+                    FindObjectsByType<PlayerReplicationContext>(
+                        FindObjectsInactive.Exclude,
+                        FindObjectsSortMode.None);
+
+                foreach (PlayerReplicationContext context in contexts)
+                {
+                    if (context.AcceptsLocalInput)
+                    {
+                        playerStateStore =
+                            context.GetComponent<PlayerStateStore>();
+                        break;
+                    }
+                }
+
+                if (playerStateStore == null)
+                {
+                    playerStateStore = FindFirstObjectByType<PlayerStateStore>();
+                }
             }
 
             if (playerStateStore == null)

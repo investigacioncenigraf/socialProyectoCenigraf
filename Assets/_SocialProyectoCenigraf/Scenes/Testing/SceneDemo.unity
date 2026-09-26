@@ -12073,7 +12073,7 @@ MonoBehaviour:
   smoothingEnabled: 1
   smoothingTime: 0.5
   pixelSnapEnabled: 1
-  zoom: 2.5
+  zoom: 3
 --- !u!114 &1052243577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15325,7 +15325,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1764532223
   m_SortingLayer: 3
-  m_SortingOrder: 20
+  m_SortingOrder: -134
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3891079615352636150, guid: 9f6dc769c8c526d42812169b0ef1d792, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

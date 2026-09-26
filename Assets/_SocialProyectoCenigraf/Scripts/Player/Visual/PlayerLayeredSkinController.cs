@@ -56,7 +56,7 @@ namespace SocialProyectoCenigraf.Player.Visual
         private void Update()
         {
             PlayerStateData state = store.State;
-            bool isMoving = movementController.MoveInput.sqrMagnitude > 0.0001f;
+            bool isMoving = state.IsMoving;
 
             if (isMoving != wasMoving)
             {
@@ -111,7 +111,7 @@ namespace SocialProyectoCenigraf.Player.Visual
                 frameElapsedMilliseconds = 0f;
             }
 
-            ApplySprites(state, movementController.MoveInput.sqrMagnitude > 0.0001f);
+            ApplySprites(state, state.IsMoving);
         }
 
         private static int GetStartingFrame(PlayerStateData state)
@@ -138,7 +138,7 @@ namespace SocialProyectoCenigraf.Player.Visual
         {
             ApplySprites(
                 state,
-                movementController.MoveInput.sqrMagnitude > 0.0001f);
+                state.IsMoving);
         }
 
         private void ApplySprites(PlayerStateData state, bool isMoving)

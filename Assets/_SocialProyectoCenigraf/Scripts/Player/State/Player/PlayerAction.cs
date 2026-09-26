@@ -13,6 +13,9 @@ namespace SocialProyectoCenigraf.Player.State
         SetAnimationSettings,
         SetForceFrontAnimationOnHorizontalMovement,
         SetAppearanceColors,
+        SetPlayerId,
+        SetIsMoving,
+        ApplyReplicatedState,
         SetYSortEnabled,
         SetColliderSize,
         SetColliderOffset
@@ -35,6 +38,16 @@ namespace SocialProyectoCenigraf.Player.State
         public PlayerSkinPayload(string skinId)
         {
             SkinId = skinId ?? string.Empty;
+        }
+    }
+
+    public readonly struct PlayerIdPayload
+    {
+        public string PlayerId { get; }
+
+        public PlayerIdPayload(string playerId)
+        {
+            PlayerId = playerId ?? string.Empty;
         }
     }
 
@@ -109,6 +122,8 @@ namespace SocialProyectoCenigraf.Player.State
         public PlayerMovementDirectionPayload MovementDirectionPayload { get; }
         public PlayerAnimationSettingsPayload AnimationSettingsPayload { get; }
         public PlayerAppearanceColorsPayload AppearanceColorsPayload { get; }
+        public PlayerIdPayload PlayerIdPayload { get; }
+        public PlayerReplicatedStateData ReplicatedStatePayload { get; }
 
         private PlayerAction(
             PlayerActionType type,
@@ -118,7 +133,9 @@ namespace SocialProyectoCenigraf.Player.State
             PlayerSkinPayload skinPayload = default,
             PlayerMovementDirectionPayload movementDirectionPayload = default,
             PlayerAnimationSettingsPayload animationSettingsPayload = default,
-            PlayerAppearanceColorsPayload appearanceColorsPayload = default)
+            PlayerAppearanceColorsPayload appearanceColorsPayload = default,
+            PlayerIdPayload playerIdPayload = default,
+            PlayerReplicatedStateData replicatedStatePayload = default)
         {
             Type = type;
             PositionPayload = positionPayload;
@@ -128,6 +145,8 @@ namespace SocialProyectoCenigraf.Player.State
             MovementDirectionPayload = movementDirectionPayload;
             AnimationSettingsPayload = animationSettingsPayload;
             AppearanceColorsPayload = appearanceColorsPayload;
+            PlayerIdPayload = playerIdPayload;
+            ReplicatedStatePayload = replicatedStatePayload;
         }
 
         public static PlayerAction SetRole(string roleId)
@@ -182,6 +201,28 @@ namespace SocialProyectoCenigraf.Player.State
                     headColor,
                     bodyColor,
                     handsColor));
+        }
+
+        public static PlayerAction SetPlayerId(string playerId)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetPlayerId,
+                playerIdPayload: new PlayerIdPayload(playerId));
+        }
+
+        public static PlayerAction SetIsMoving(bool isMoving)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetIsMoving,
+                boolPayload: new PlayerBoolPayload(isMoving));
+        }
+
+        public static PlayerAction ApplyReplicatedState(
+            PlayerReplicatedStateData snapshot)
+        {
+            return new PlayerAction(
+                PlayerActionType.ApplyReplicatedState,
+                replicatedStatePayload: snapshot);
         }
 
         public static PlayerAction SetPosition(Vector2 position)
