@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 8805343624174990725}
   - component: {fileID: 2358469737244116739}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player_Remote
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4934931351137026194}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1d6c88f926d94a02bac347c4fcaafaf, type: 3}
   m_Name: 
@@ -301,7 +301,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4934931351137026194}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4e178eeca4b014091f3ec8f37039ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Networking.Runtime.Controllers.PlayerNetworkSync
-  _isLocalPlayer: 1
+  _isLocalPlayer: 0
   _remoteUserId: 
   _syncRateHz: 20
   _minimumMovementThreshold: 0.01
