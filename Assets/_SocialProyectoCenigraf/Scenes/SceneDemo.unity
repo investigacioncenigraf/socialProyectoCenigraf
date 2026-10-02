@@ -5418,8 +5418,9 @@ GameObject:
   m_Component:
   - component: {fileID: 368978961}
   - component: {fileID: 368978960}
+  - component: {fileID: 368978962}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: '[NetworkManager]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5456,6 +5457,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &368978962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368978959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654dbc334e91fe74297bb457536cb85a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Networking.Runtime.Controllers.NetworkPlayerSpawner
+  _remotePlayerPrefab: {fileID: 4934931351137026194, guid: 9b26cac8fb68ee942947a4fff08b6791, type: 3}
+  _localPlayerPrefab: {fileID: 4934931351137026194, guid: ab78177235aaf4d8ab89aec47a357077, type: 3}
+  _spawnParent: {fileID: 0}
+  _spawnLocalPlayerAutomatically: 0
 --- !u!1 &372461068
 GameObject:
   m_ObjectHideFlags: 0
