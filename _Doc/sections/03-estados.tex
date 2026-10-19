@@ -1,0 +1,128 @@
+\section{Composición de los estados}
+
+\subsection{Estado principal}
+
+El diseño plantea un agregado raíz con los subestados \code{world}, \code{player} y una colección de \code{objDecoration}. En el proyecto actual no existe todavía un único \code{PrincipalStateData}; hay stores separados para sesión, jugador y cámara. Esta separación ya ofrece independencia por dominio y puede conservarse, incorporando un coordinador solamente si aparecen operaciones que necesiten una instantánea global consistente.
+
+\begin{table}[H]
+\centering
+\caption{Mapa de dominios y avance actual}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.3cm}p{2.5cm}X}
+\toprule
+Dominio & Estado & Evidencia en el proyecto \\
+\midrule
+Sesión & Implementado & \code{GameSessionStateData}, acciones, reductor y store persistente entre escenas. \\
+Jugador & Parcial & Posición, rol, ordenamiento Y y configuración del collider; faltan identidad, apariencia e inventario del diseño. \\
+Cámara & Implementado & Posición, objetivo, retardo, suavizado, ajuste a píxel y zoom. \\
+Mundo & Planeado & Existe lógica de renderizado por Y, pero no un \code{WorldStateData} ni su store. \\
+ObjDecoration & Planeado & Los diagramas definen sus datos; no hay un store/reductor específico localizado. \\
+Estado principal & Planeado/opcional & Puede materializarse como fachada de stores o como agregado serializable para guardado. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{WorldStateData}
+
+El estado del mundo identifica el escenario activo y sus dimensiones lógicas. No debe almacenar referencias directas a escenas o GameObjects si se pretende persistir o sincronizar.
+
+\begin{table}[H]
+\centering
+\caption{Campos planeados para el estado del mundo}
+\begin{tabularx}{\textwidth}{>{\ttfamily}p{2.6cm}>{\ttfamily}p{3.2cm}X}
+\toprule
+\normalfont\bfseries Campo & \normalfont\bfseries Tipo recomendado & \normalfont\bfseries Descripción \\
+\midrule
+id & string & Identificador estable del mundo; se prefiere texto sobre un número dependiente de base de datos. \\
+name & string & Nombre visible o administrativo. \\
+room & string & Sala, zona o escena lógica activa. \\
+mainTheme & string & Identificador del tema visual principal. \\
+dimensions & Vector2Int & Ancho y alto del mapa en celdas o unidades lógicas. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Las acciones mínimas serían \code{SetWorld}, \code{SetRoom}, \code{SetMainTheme} y \code{SetDimensions}. Para cargar un mundo completo conviene una sola acción con un payload compuesto, evitando que los consumidores observen configuraciones intermedias incoherentes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{\figurepath/estructura-world.png}
+  \caption{Estructura de datos y operaciones propuestas para el estado World.}
+  \label{fig:world}
+\end{figure}
+
+\subsection{PlayerStateData}
+
+El jugador tiene una implementación parcial que ya controla los valores con efecto inmediato en física y renderizado. El modelo objetivo agrega identidad, progresión, apariencia e inventario.
+
+\begin{longtable}{>{\ttfamily}p{2.7cm}>{\ttfamily}p{3cm}p{6.6cm}}
+\caption{Campos del jugador: diseño y normalización recomendada}\label{tab:player-fields}\\
+\toprule
+\normalfont\bfseries Campo & \normalfont\bfseries Tipo recomendado & \normalfont\bfseries Propósito y estado \\
+\midrule
+\endfirsthead
+\toprule
+\normalfont\bfseries Campo & \normalfont\bfseries Tipo recomendado & \normalfont\bfseries Propósito y estado \\
+\midrule
+\endhead
+id & string & Identidad estable. Planeado. \\
+nickname & string & Nombre público. Planeado. \\
+email & string & Dato de cuenta; no debería viajar en estados públicos de red. Planeado. \\
+level & int & Progresión; validar un mínimo de cero o uno. Planeado. \\
+frameAnimation & int & Índice de cuadro si realmente es dato persistente; de lo contrario pertenece al runtime. Planeado. \\
+skinId & string & Identificador de apariencia. El diagrama usa \code{rana/skin}; se recomienda un nombre único. Planeado. \\
+roleId & string & Rol elegido en la sesión. Implementado. \\
+position & Vector2 & Posición lógica del cuerpo 2D. Implementado. \\
+colliderSize & Vector2 & Dimensiones del \code{BoxCollider2D}. Implementado con mínimo de 0.01. \\
+colliderOffset & Vector2 & Desplazamiento del collider respecto al transform. Implementado. \\
+ySortEnabled & bool & Activa el ordenamiento visual por coordenada Y. Implementado. \\
+dimensions & PlayerSpatialData & Agrupación opcional para sprites, colliders e iconos; planeada y por definir. \\
+inventoryEnabled & bool & Permite activar el subsistema de inventario. Planeado. \\
+inventory & InventoryStateData & Lista o agregado de ítems identificables. Planeado. \\
+\bottomrule
+\end{longtable}
+
+Los bloques \code{dimension}, \code{position} y \code{offset} del diagrama mezclan matrices, valores escalares e información para varios sistemas. En Unity conviene separar semánticas: \code{Vector2} para medidas/posiciones, arreglos tipados para datos por capa y estructuras específicas cuando un bloque crece. Una matriz \code{[X,Y]} solo es apropiada si representa una cuadrícula real.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[height=0.82\textheight]{\figurepath/estructura-player.png}
+  \caption{Estructura planeada del jugador y catálogo conceptual de operaciones.}
+  \label{fig:player}
+\end{figure}
+
+\subsection{ObjDecorationStateData}
+
+Un objeto decorativo describe elementos del escenario que pueden tener representación visual, colisión, interacción o inventario. Para mantener el sistema escalable, cada instancia necesita identidad propia y los objetos repetidos deben almacenarse en una colección indexada por \code{id}.
+
+\begin{table}[H]
+\centering
+\caption{Campos planeados para objetos decorativos}
+\begin{tabularx}{\textwidth}{>{\ttfamily}p{2.7cm}>{\ttfamily}p{3.1cm}X}
+\toprule
+\normalfont\bfseries Campo & \normalfont\bfseries Tipo recomendado & \normalfont\bfseries Descripción \\
+\midrule
+id & string & Identificador único y estable. \\
+imageId & string & Clave de sprite, Addressable o recurso; evita serializar un \code{Sprite} dentro del estado puro. \\
+themeId & string & Tema o variante visual. \\
+position & Vector2 & Posición lógica en el mundo. \\
+dimensions & Vector2 & Tamaño visual o de celda. \\
+colliderSize & Vector2 & Tamaño del collider, separado del sprite. \\
+colliderOffset & Vector2 & Desplazamiento local del collider. \\
+lineIndex & int & Índice de línea/capa si el mapa lo requiere; para Y-sort puede derivarse de la posición. \\
+areaInfo & AreaInfoState[] & Regiones informativas. \\
+interactions & InteractionState[] & Interacciones disponibles. \\
+icons & string[] & Identificadores de iconos asociados. \\
+inventoryEnabled & bool & Controla si el objeto puede contener ítems. \\
+inventory & InventoryStateData & Contenido del objeto; preferiblemente IDs y cantidades. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[height=0.82\textheight]{\figurepath/estructura-obj-decoration.png}
+  \caption{Estructura planeada de ObjDecoration y operaciones de actualización.}
+  \label{fig:obj-decoration}
+\end{figure}
+
+Las operaciones repetidas que aparecen en el diagrama deben consolidarse en un catálogo único de acciones. Además, \code{enableInventory} es booleano y no un objeto; la acción correspondiente debería aceptar \code{bool}. Los nombres \code{imagebg} y \code{theme} deberían normalizarse a \code{imageId} y \code{themeId} para indicar que son referencias lógicas.

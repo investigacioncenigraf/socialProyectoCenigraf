@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SocialProyectoCenigraf.CameraSystem.State;
 using SocialProyectoCenigraf.Player.State;
+using SocialProyectoCenigraf.Player.Replication;
 using UnityEngine;
 
 namespace SocialProyectoCenigraf.CameraSystem.Follow
@@ -33,6 +34,7 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
 
         private CameraStateStore cameraStateStore;
         private UnityEngine.Camera attachedCamera;
+        private CameraBounds cameraBounds;
         private Vector2 smoothingVelocity;
         private Vector2 continuousPosition;
         private float cameraZ;
@@ -53,12 +55,31 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
         {
             cameraStateStore = GetComponent<CameraStateStore>();
             attachedCamera = GetComponent<UnityEngine.Camera>();
+            cameraBounds = GetComponent<CameraBounds>();
             cameraZ = transform.position.z;
             continuousPosition = transform.position;
 
             if (playerStateStore == null)
             {
-                playerStateStore = FindFirstObjectByType<PlayerStateStore>();
+                PlayerReplicationContext[] contexts =
+                    FindObjectsByType<PlayerReplicationContext>(
+                        FindObjectsInactive.Exclude,
+                        FindObjectsSortMode.None);
+
+                foreach (PlayerReplicationContext context in contexts)
+                {
+                    if (context.AcceptsLocalInput)
+                    {
+                        playerStateStore =
+                            context.GetComponent<PlayerStateStore>();
+                        break;
+                    }
+                }
+
+                if (playerStateStore == null)
+                {
+                    playerStateStore = FindFirstObjectByType<PlayerStateStore>();
+                }
             }
 
             if (playerStateStore == null)
@@ -140,11 +161,23 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
                 nextPosition = desiredPosition;
             }
 
+            if (cameraBounds != null && cameraBounds.isActiveAndEnabled)
+            {
+                nextPosition = cameraBounds.ConstrainPosition(
+                    nextPosition, state.Zoom, attachedCamera.aspect);
+            }
+
             continuousPosition = nextPosition;
 
             Vector2 renderedPosition = state.PixelSnapEnabled
                 ? SnapToScreenPixel(nextPosition)
                 : nextPosition;
+
+            if (cameraBounds != null && cameraBounds.isActiveAndEnabled)
+            {
+                renderedPosition = cameraBounds.ConstrainPosition(
+                    renderedPosition, state.Zoom, attachedCamera.aspect);
+            }
 
             // The state changes before its physical representation (Transform).
             cameraStateStore.Dispatch(CameraAction.SetPosition(renderedPosition));
@@ -156,6 +189,28 @@ namespace SocialProyectoCenigraf.CameraSystem.Follow
                 cameraZ);
 
             TrimHistory(state.DelaySeconds);
+        }
+
+        /// <summary>Places the camera at the resolved spawn without retaining delay or smoothing from the previous position.</summary>
+        public void SnapToTarget()
+        {
+            if (playerStateStore == null || cameraStateStore == null || attachedCamera == null) return;
+            CameraStateData state = cameraStateStore.State;
+            Vector2 target = playerStateStore.State.Position;
+            cameraStateStore.Dispatch(CameraAction.SetTargetPosition(target));
+            positionHistory.Clear();
+            AddPositionSample(target);
+            smoothingVelocity = Vector2.zero;
+            attachedCamera.orthographicSize = state.Zoom;
+            Vector2 next = target;
+            if (cameraBounds != null && cameraBounds.isActiveAndEnabled)
+                next = cameraBounds.ConstrainPosition(next, state.Zoom, attachedCamera.aspect);
+            continuousPosition = next;
+            Vector2 rendered = state.PixelSnapEnabled ? SnapToScreenPixel(next) : next;
+            if (cameraBounds != null && cameraBounds.isActiveAndEnabled)
+                rendered = cameraBounds.ConstrainPosition(rendered, state.Zoom, attachedCamera.aspect);
+            cameraStateStore.Dispatch(CameraAction.SetPosition(rendered));
+            transform.position = new Vector3(rendered.x, rendered.y, cameraZ);
         }
 
         private Vector2 SnapToScreenPixel(Vector2 position)

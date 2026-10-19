@@ -1,0 +1,49 @@
+\section{Propósito y alcance}
+
+Este documento define la arquitectura de estados del Proyecto Cenigraf y su aplicación en Unity. Su objetivo es establecer un lenguaje común entre diseño, programación y pruebas para representar el mundo, el jugador y los objetos decorativos mediante datos explícitos y transiciones controladas.
+
+La propuesta toma como fuente los diagramas entregados y contrasta sus conceptos con el código C\# disponible en el repositorio. Esta distinción es importante: los diagramas describen la visión objetivo, mientras que las clases del proyecto muestran qué partes ya funcionan en Unity.
+
+\subsection{Alcance funcional}
+
+La documentación cubre:
+
+\begin{itemize}
+  \item composición del estado principal y de los estados \code{World}, \code{Player} y \code{ObjDecoration};
+  \item responsabilidades de \code{StateData}, \code{Action}, \code{Payload}, \code{Reducer}, \code{Store} y adaptadores de runtime;
+  \item flujo de movimiento y reconciliación con \code{Rigidbody2D};
+  \item correspondencia entre los campos planeados y tipos apropiados de Unity/C\#;
+  \item estrategia incremental para completar los estados aún no implementados;
+  \item reglas de validación, persistencia y pruebas.
+\end{itemize}
+
+No se describe aquí la lógica de interfaz, autenticación o publicación de eventos, excepto cuando consumen o producen cambios de estado.
+
+\subsection{Convenciones de estado de avance}
+
+\begin{table}[H]
+\centering
+\caption{Estados usados para describir el avance técnico}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.6cm}X}
+\toprule
+Etiqueta & Significado \\
+\midrule
+Implementado & Existe una representación funcional en el código actual. \\
+Parcial & Existe la infraestructura base, pero el modelo no contiene todavía todos los campos del diseño. \\
+Planeado & Está definido en los diagramas o en esta especificación, pero requiere implementación. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Vista general de la composición}
+
+El estado principal se concibe como un contenedor de subestados independientes. Esta división evita que una actualización del jugador tenga que reconstruir o conocer todos los detalles del mundo, y permite evolucionar cada dominio con acciones y reductores propios.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{\figurepath/composicion-estados.png}
+  \caption{Composición planeada del estado principal, el mundo, el jugador y los objetos decorativos.}
+  \label{fig:composicion-estados}
+\end{figure}
+
+La Figura~\ref{fig:composicion-estados} funciona como mapa conceptual, no como definición literal de tipos C\#. En las secciones siguientes se normalizan nombres, tipos y responsabilidades para que el diseño sea compatible con serialización, física 2D y convenciones de Unity.

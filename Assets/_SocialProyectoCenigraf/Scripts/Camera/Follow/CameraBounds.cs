@@ -8,34 +8,23 @@ public class CameraBounds : MonoBehaviour
     public float minY;
     public float maxY;
 
-    private Camera cam;
-
-    void Awake()
+    // The follow controller applies this constraint before dispatching position.
+    // Do not move the Transform here: the Redux camera state stays authoritative.
+    public Vector2 ConstrainPosition(Vector2 position, float orthographicSize, float aspect)
     {
-        cam = GetComponent<Camera>();
+        float halfHeight = Mathf.Max(0f, orthographicSize);
+        float halfWidth = halfHeight * Mathf.Max(0f, aspect);
+        position.x = ClampAxis(position.x, minX, maxX, halfWidth);
+        position.y = ClampAxis(position.y, minY, maxY, halfHeight);
+        return position;
     }
 
-    void LateUpdate()
+    private static float ClampAxis(float value, float minimum, float maximum, float halfSize)
     {
-        float camHeight = cam.orthographicSize;
-        float camWidth = camHeight * cam.aspect;
-
-        Vector3 pos = transform.position;
-
-        // Limitar X
-        pos.x = Mathf.Clamp(
-            pos.x,
-            minX + camWidth,
-            maxX - camWidth
-        );
-
-        // Limitar Y
-        pos.y = Mathf.Clamp(
-            pos.y,
-            minY + camHeight,
-            maxY - camHeight
-        );
-
-        transform.position = pos;
+        float low = Mathf.Min(minimum, maximum);
+        float high = Mathf.Max(minimum, maximum);
+        return high - low <= halfSize * 2f
+            ? (low + high) * 0.5f
+            : Mathf.Clamp(value, low + halfSize, high - halfSize);
     }
 }

@@ -1,0 +1,65 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern,microtype}
+\usepackage[margin=1.9cm,headheight=14pt]{geometry}
+\usepackage{xcolor,booktabs,tabularx,array,fancyhdr,titlesec,xurl}
+\usepackage{hyperref}
+\definecolor{navy}{HTML}{17324D}
+\definecolor{teal}{HTML}{2A7F9E}
+\hypersetup{colorlinks=true,urlcolor=teal,
+ pdftitle={Resumen de avances - Proyecto Cenigraf},pdfauthor={Proyecto Cenigraf}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\arraystretch}{1.12}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\titleformat{\section}{\normalsize\bfseries\color{navy}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{6pt}{3pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Proyecto Cenigraf}
+\fancyhead[R]{\small 31 de agosto de 2026}
+\fancyfoot[C]{\small Resumen ejecutivo}
+\newcommand{\code}[1]{\nolinkurl{#1}}
+\begin{document}
+
+{\Large\bfseries\color{navy} Resumen de avances\par}
+{\color{teal}\rule{\textwidth}{0.8pt}}
+Recorrido 2D, personalización, interacción con NPC, carnet y acceso diferenciado por roles.
+
+\section{Arquitectura tipo Redux}
+El patrón en C\# separa \textbf{StateData} (datos), \textbf{Action/Payload} (cambio solicitado), \textbf{Reducer} (siguiente estado) y \textbf{Store} (almacenamiento y notificaciones). Está implementado en \textbf{personaje, sesión y cámara}; los adaptadores aplican los cambios a Unity sin mezclar física o renderizado con el reductor.
+
+\section{Estados y escenario}
+\textbf{Personaje:} administra posición, rol, skin, orientación, configuración de animación, colores de cabeza/cuerpo/manos, ordenamiento por Y y collider. Incluye movimiento con colisiones, reconciliación física y apariencia por capas. Identidad de cuenta, nivel e inventario siguen pendientes.
+
+\textbf{Mundo y Object Decoration:} existen escenario, objetos, interacciones y zonas restringidas mediante componentes Unity, pero \textbf{aún no tienen stores Redux propios}. Sus modelos de datos, acciones y reductores siguen planeados. La cámara ya dispone de estado para seguimiento, suavizado, retardo, ajuste a píxel y zoom.
+
+\section{Carnet y desbloqueo}
+Con \textbf{E}, el jugador completa el diálogo del NPC y habilita el carnet; al acercarse, lo recoge automáticamente y se desactivan los bloqueos configurados. Salir antes de terminar el diálogo no entrega la recompensa.
+
+El sistema usa variables locales: no está integrado en Redux ni tiene guardado persistente. El indicador \code{tieneCarnet} se activa al mostrar la recompensa, no al recogerla. El desbloqueo por carnet es independiente del rol.
+
+\section{Roles y escenas}
+El catálogo define cuatro roles. La selección se conserva entre escenas en \code{GameSessionStore} y se transfiere al personaje.
+
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.7cm}Y >{\raggedright\arraybackslash}p{2.6cm}@{}}
+\toprule
+\textbf{Rol} & \textbf{Acceso actual} & \textbf{Gestión de eventos} \\
+\midrule
+Estudiante & Directo a \code{SceneDemo}. & No. \\
+Visitante & Directo a \code{SceneDemo}. & No. \\
+Docente & Menú administrativo; opción de ir al juego. & Deshabilitada. \\
+Administrativo & Menú administrativo; opción de ir al juego. & Habilitada. \\
+\bottomrule
+\end{tabularx}
+
+Solo \code{InitialDemoScene} y \code{SceneDemo} están habilitadas en la compilación. Administración y eventos funcionan como paneles de la escena inicial; \code{MenuAdmin} y \code{EventsScene} existen como archivos, pero no están habilitadas. Los permisos son controles locales de interfaz, no autenticación ni autorización de servidor.
+
+\section{Balance y siguientes pasos}
+La gestión de publicaciones dispone de listado, creación y edición, con repositorio temporal en memoria. Falta integrar mundo, decoraciones y posesión del carnet en estados persistibles, centralizar permisos y verificar los recorridos por rol.
+
+\vfill
+{\footnotesize\color{teal}\textbf{Base:} revisión del código y la configuración al 31/08/2026; no incluye nuevas pruebas de ejecución en Unity.\par}
+\end{document}

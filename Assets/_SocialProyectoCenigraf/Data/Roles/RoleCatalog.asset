@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4a4c8ec70d44c84a3dd4a7be0e46901, type: 3}
+  m_Name: RoleCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Roles.RoleCatalog
+  roles:
+  - {fileID: 11400000, guid: 75b18e32b0d54d21a5da3e5090f51701, type: 2}
+  - {fileID: 11400000, guid: 9c1d4f43c1e64e32b6eb4f61a1062802, type: 2}
+  - {fileID: 11400000, guid: b82e6054d2f74f43a7fc5072b2173903, type: 2}
+  - {fileID: 11400000, guid: c93f7165e3084054b80d6183c3284a04, type: 2}

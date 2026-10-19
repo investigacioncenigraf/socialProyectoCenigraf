@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/_SocialProyectoCenigraf/Scenes/Deprecate/InitialDemoScene.unity
+    guid: e1313e3174b3547c0b58a1c200d752e9
+  - enabled: 0
+    path: Assets/_SocialProyectoCenigraf/Scenes/Deprecate/SceneDemo.unity
+    guid: a0ca2c361a66f4669a1be00e5f8f1511
+  - enabled: 1
+    path: Assets/_SocialProyectoCenigraf/Scenes/Salas/Plaza_Central.unity
+    guid: e8c8bcc8a20444cd9aab55ced1396b5c
+  - enabled: 1
+    path: Assets/_SocialProyectoCenigraf/Scenes/Salas/Sala_ABC.unity
+    guid: 0bfb1361dd99e43fa9c35cc8221b488c
+  - enabled: 1
+    path: Assets/_SocialProyectoCenigraf/Scenes/Salas/Sala_Lobby.unity
+    guid: 4256413dabfbd47459be4080446c5bd0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

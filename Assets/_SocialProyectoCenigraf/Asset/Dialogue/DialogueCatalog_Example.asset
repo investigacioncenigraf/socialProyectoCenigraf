@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d986185aff14b81b9c02b695f74e5c1, type: 3}
+  m_Name: DialogueCatalog_Example
+  m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Dialogue.DialogueCatalog
+  dialogues:
+  - id: bienvenida_sala_abc
+    lines:
+    - speaker: "Guía de Sala ABC"
+      text: "¡Hola! Bienvenido a la Sala ABC. Este es nuestro primer diálogo de prueba."
+    - speaker: "Guía de Sala ABC"
+      text: "Aquí podrás explorar el espacio y descubrir objetos con los que puedes interactuar."
+    - speaker: "Guía de Sala ABC"
+      text: "Cuando veas el icono de interacción, acércate y pulsa E. ¡Disfruta el recorrido!"
+  - id: bienvenida_parque_central
+    lines:
+    - speaker: "Guía del Parque Central"
+      text: "¡Hola! Bienvenido al Parque Central. Me alegra verte por aquí."
+    - speaker: "Guía del Parque Central"
+      text: "Para comenzar tu recorrido, ve a la sala del Lobby a recibir tu carnet de aprendiz."
+    - speaker: "Guía del Parque Central"
+      text: "Allí te están esperando para entregártelo. ¡Acércate al Lobby y dales un saludo de mi parte!"
+  - id: recepcion_lobby_entrega_carnet
+    lines:
+    - speaker: "Recepcionista del Lobby"
+      text: "¡Hola! Bienvenido al Lobby. Te estábamos esperando para entregarte tu carnet de aprendiz."
+    - speaker: "Recepcionista del Lobby"
+      text: "Aquí tienes tu carnet. Guárdalo y llévalo contigo durante tu recorrido por el centro."
+    - speaker: "Recepcionista del Lobby"
+      text: "Este carnet te identifica como aprendiz. Recuerda presentarlo cuando te lo soliciten."
+    - speaker: "Recepcionista del Lobby"
+      text: "¡Listo! Ya puedes continuar tu recorrido. Si necesitas orientación, estaremos aquí para ayudarte."
+    completionReward: {fileID: 11400000, guid: 6378d6e395fe842a2adbfb559161e62b, type: 2}

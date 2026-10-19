@@ -1,0 +1,83 @@
+\section{Aplicación del flujo en Unity}
+
+\subsection{Inicialización}
+
+La inicialización debe tomar como fuente los componentes existentes de la escena y producir una instantánea válida antes de procesar entrada. El proyecto ya aplica este criterio en \code{PlayerStateRuntimeApplier.Awake}: obtiene \code{Rigidbody2D}, \code{BoxCollider2D}, \code{WorldYSort} y el rol de la sesión, inicializa el store y aplica el estado.
+
+El orden de ejecución relevante es:
+
+\begin{enumerate}
+  \item \code{GameSessionStore} se crea o despierta con orden $-1000$ y sobrevive cambios de escena.
+  \item Los objetos de la nueva escena ejecutan \code{Awake}.
+  \item \code{PlayerStateRuntimeApplier}, con orden $-100$, construye el estado inicial del jugador.
+  \item Los controladores comienzan a leer entrada en \code{Update} y a mover en \code{FixedUpdate}.
+\end{enumerate}
+
+\subsection{Movimiento del jugador}
+
+El movimiento implementado usa la física como restricción y el store como fuente lógica de posición:
+
+\begin{enumerate}
+  \item \code{Update} lee la acción \code{Player/Move} y limita su magnitud.
+  \item \code{FixedUpdate} reconcilia un movimiento físico previo si Unity produjo una posición distinta.
+  \item Se calcula el desplazamiento solicitado con velocidad y \code{fixedDeltaTime}.
+  \item \code{Physics2D.BoxCast} resuelve cada eje de forma independiente para permitir deslizamiento contra paredes.
+  \item Se despacha \code{PlayerAction.SetPosition(allowedPosition)}.
+  \item El store reduce y publica el nuevo estado.
+  \item \code{Rigidbody2D.MovePosition} solicita el movimiento físico.
+  \item En el siguiente paso fijo se usa \code{ReconcilePosition} cuando la posición física final difiere de la lógica.
+\end{enumerate}
+
+Esta reconciliación evita que el estado quede desfasado cuando otro cuerpo, un contacto o el propio motor ajusta la posición solicitada.
+
+\begin{lstlisting}[caption={Secuencia esencial implementada para el movimiento},label={lst:movement}]
+Vector2 allowedPosition = ResolveAllowedPosition(
+    store.State.Position,
+    requestedDisplacement);
+
+store.Dispatch(PlayerAction.SetPosition(allowedPosition));
+body.MovePosition(store.State.Position);
+\end{lstlisting}
+
+\subsection{Aplicación a componentes de runtime}
+
+El \code{PlayerStateRuntimeApplier} escucha \code{StateChanged} y refleja en Unity el ordenamiento Y y los datos del collider. La posición se aplica desde el controlador de movimiento, porque debe sincronizarse con \code{FixedUpdate}. Esta división es válida si se documenta la propiedad de cada efecto:
+
+\begin{table}[H]
+\centering
+\caption{Propietario recomendado de cada efecto}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.3cm}p{4.2cm}X}
+\toprule
+Dato & Aplicador & Motivo \\
+\midrule
+Posición de Rigidbody2D & Controlador de movimiento & Debe respetar el paso fijo y las consultas de colisión. \\
+Tamaño/offset de collider & Runtime applier & Es una proyección directa del estado. \\
+Y-sort & Runtime applier / WorldYSort & Es un efecto visual derivado. \\
+Skin y animación & Adaptador visual del jugador & Aísla Animator, SpriteRenderer y carga de assets. \\
+Decoraciones & World/Decoration runtime registry & Crea, recicla o actualiza vistas según IDs. \\
+Inventario & Adaptador de inventario/UI & La vista reacciona; las reglas permanecen en el dominio. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Eventos y prevención de ciclos}
+
+Un consumidor de \code{StateChanged} puede aplicar efectos, pero no debería volver a despachar la misma acción sin una condición de salida. Para evitar ciclos:
+
+\begin{itemize}
+  \item el store ignora transiciones cuyo resultado es igual al estado actual;
+  \item las acciones de reconciliación usan tolerancia numérica;
+  \item los aplicadores no leen entrada ni inventan valores de dominio;
+  \item las suscripciones se realizan en \code{OnEnable} y se eliminan en \code{OnDisable}.
+\end{itemize}
+
+\subsection{Persistencia y cambio de escena}
+
+El estado de sesión ya usa \code{DontDestroyOnLoad}. Para el estado global planeado se recomiendan dos niveles:
+
+\begin{itemize}
+  \item \textbf{Estado de sesión:} selección de rol, sala activa y datos necesarios mientras la aplicación está abierta.
+  \item \textbf{Estado persistente:} progreso, inventarios y configuraciones que se serializan a JSON o a un repositorio.
+\end{itemize}
+
+No se deben serializar referencias directas a \code{GameObject}, \code{Transform}, \code{Collider2D} o \code{Sprite}. En su lugar se guardan IDs y datos simples; al cargar una escena, un registro de runtime resuelve esos IDs a componentes o assets.

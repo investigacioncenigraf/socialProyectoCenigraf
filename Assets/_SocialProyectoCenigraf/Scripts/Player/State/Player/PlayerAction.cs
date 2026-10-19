@@ -7,9 +7,72 @@ namespace SocialProyectoCenigraf.Player.State
         SetPosition,
         Translate,
         ReconcilePosition,
+        SetRole,
+        SetSkin,
+        SetFacingFromMovement,
+        SetAnimationSettings,
+        SetForceFrontAnimationOnHorizontalMovement,
+        SetAppearanceColors,
+        SetPlayerId,
+        SetIsMoving,
+        ApplyReplicatedState,
         SetYSortEnabled,
         SetColliderSize,
         SetColliderOffset
+    }
+
+    public readonly struct PlayerRolePayload
+    {
+        public string RoleId { get; }
+
+        public PlayerRolePayload(string roleId)
+        {
+            RoleId = roleId ?? string.Empty;
+        }
+    }
+
+    public readonly struct PlayerSkinPayload
+    {
+        public string SkinId { get; }
+
+        public PlayerSkinPayload(string skinId)
+        {
+            SkinId = skinId ?? string.Empty;
+        }
+    }
+
+    public readonly struct PlayerIdPayload
+    {
+        public string PlayerId { get; }
+
+        public PlayerIdPayload(string playerId)
+        {
+            PlayerId = playerId ?? string.Empty;
+        }
+    }
+
+    public readonly struct PlayerMovementDirectionPayload
+    {
+        public Vector2 Value { get; }
+
+        public PlayerMovementDirectionPayload(Vector2 value)
+        {
+            Value = value;
+        }
+    }
+
+    public readonly struct PlayerAnimationSettingsPayload
+    {
+        public int FrameDurationMilliseconds { get; }
+        public int FramesPerAnimation { get; }
+
+        public PlayerAnimationSettingsPayload(
+            int frameDurationMilliseconds,
+            int framesPerAnimation)
+        {
+            FrameDurationMilliseconds = frameDurationMilliseconds;
+            FramesPerAnimation = framesPerAnimation;
+        }
     }
 
     public readonly struct PlayerBoolPayload
@@ -32,20 +95,134 @@ namespace SocialProyectoCenigraf.Player.State
         }
     }
 
+    public readonly struct PlayerAppearanceColorsPayload
+    {
+        public Color HeadColor { get; }
+        public Color BodyColor { get; }
+        public Color HandsColor { get; }
+
+        public PlayerAppearanceColorsPayload(
+            Color headColor,
+            Color bodyColor,
+            Color handsColor)
+        {
+            HeadColor = headColor;
+            BodyColor = bodyColor;
+            HandsColor = handsColor;
+        }
+    }
+
     public readonly struct PlayerAction
     {
         public PlayerActionType Type { get; }
         public PlayerPositionPayload PositionPayload { get; }
         public PlayerBoolPayload BoolPayload { get; }
+        public PlayerRolePayload RolePayload { get; }
+        public PlayerSkinPayload SkinPayload { get; }
+        public PlayerMovementDirectionPayload MovementDirectionPayload { get; }
+        public PlayerAnimationSettingsPayload AnimationSettingsPayload { get; }
+        public PlayerAppearanceColorsPayload AppearanceColorsPayload { get; }
+        public PlayerIdPayload PlayerIdPayload { get; }
+        public PlayerReplicatedStateData ReplicatedStatePayload { get; }
 
         private PlayerAction(
             PlayerActionType type,
             PlayerPositionPayload positionPayload = default,
-            PlayerBoolPayload boolPayload = default)
+            PlayerBoolPayload boolPayload = default,
+            PlayerRolePayload rolePayload = default,
+            PlayerSkinPayload skinPayload = default,
+            PlayerMovementDirectionPayload movementDirectionPayload = default,
+            PlayerAnimationSettingsPayload animationSettingsPayload = default,
+            PlayerAppearanceColorsPayload appearanceColorsPayload = default,
+            PlayerIdPayload playerIdPayload = default,
+            PlayerReplicatedStateData replicatedStatePayload = default)
         {
             Type = type;
             PositionPayload = positionPayload;
             BoolPayload = boolPayload;
+            RolePayload = rolePayload;
+            SkinPayload = skinPayload;
+            MovementDirectionPayload = movementDirectionPayload;
+            AnimationSettingsPayload = animationSettingsPayload;
+            AppearanceColorsPayload = appearanceColorsPayload;
+            PlayerIdPayload = playerIdPayload;
+            ReplicatedStatePayload = replicatedStatePayload;
+        }
+
+        public static PlayerAction SetRole(string roleId)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetRole,
+                rolePayload: new PlayerRolePayload(roleId));
+        }
+
+        public static PlayerAction SetSkin(string skinId)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetSkin,
+                skinPayload: new PlayerSkinPayload(skinId));
+        }
+
+        public static PlayerAction SetFacingFromMovement(Vector2 movementDirection)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetFacingFromMovement,
+                movementDirectionPayload: new PlayerMovementDirectionPayload(
+                    movementDirection));
+        }
+
+        public static PlayerAction SetAnimationSettings(
+            int frameDurationMilliseconds,
+            int framesPerAnimation)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetAnimationSettings,
+                animationSettingsPayload: new PlayerAnimationSettingsPayload(
+                    frameDurationMilliseconds,
+                    framesPerAnimation));
+        }
+
+        public static PlayerAction SetForceFrontAnimationOnHorizontalMovement(
+            bool enabled)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetForceFrontAnimationOnHorizontalMovement,
+                boolPayload: new PlayerBoolPayload(enabled));
+        }
+
+        public static PlayerAction SetAppearanceColors(
+            Color headColor,
+            Color bodyColor,
+            Color handsColor)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetAppearanceColors,
+                appearanceColorsPayload: new PlayerAppearanceColorsPayload(
+                    headColor,
+                    bodyColor,
+                    handsColor));
+        }
+
+        public static PlayerAction SetPlayerId(string playerId)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetPlayerId,
+                playerIdPayload: new PlayerIdPayload(playerId));
+        }
+
+        public static PlayerAction SetIsMoving(bool isMoving)
+        {
+            return new PlayerAction(
+                PlayerActionType.SetIsMoving,
+                boolPayload: new PlayerBoolPayload(isMoving));
+        }
+
+        public static PlayerAction ApplyReplicatedState(
+            PlayerReplicatedStateData snapshot)
+        {
+            return new PlayerAction(
+                PlayerActionType.ApplyReplicatedState,
+                replicatedStatePayload: snapshot);
         }
 
         public static PlayerAction SetPosition(Vector2 position)

@@ -1,0 +1,79 @@
+\section{Anexos}
+
+\subsection{Correspondencia con el código actual}
+
+Las clases citadas se encuentran bajo \code{Assets/\_SocialProyectoCenigraf/Scripts}:
+
+\begin{longtable}{>{\ttfamily}p{5.8cm}p{7cm}}
+\caption{Clases implementadas relevantes para la arquitectura}\label{tab:current-code}\\
+\toprule
+\normalfont\bfseries Clase & \normalfont\bfseries Responsabilidad observada \\
+\midrule
+\endfirsthead
+\toprule
+\normalfont\bfseries Clase & \normalfont\bfseries Responsabilidad observada \\
+\midrule
+\endhead
+GameSessionStateData & Conserva el ID del rol seleccionado. \\
+GameSessionAction & Declara selección y limpieza de rol con payload tipado. \\
+GameSessionReducer & Produce la nueva sesión de forma determinista. \\
+GameSessionStore & Store singleton persistente entre escenas. \\
+PlayerStateData & Conserva posición, rol, Y-sort, tamaño y offset del collider. \\
+PlayerAction & Declara posición, traslación, reconciliación, rol, Y-sort y collider. \\
+PlayerStateReducer & Calcula el siguiente estado y limita dimensiones de collider. \\
+PlayerStateStore & Custodia el estado del jugador y publica cambios reales. \\
+PlayerStateRuntimeApplier & Inicializa y aplica collider y Y-sort al runtime. \\
+PlayerMovementController & Lee input, resuelve colisiones, despacha posición y reconcilia física. \\
+CameraStateData & Conserva estado lógico de posición, seguimiento y zoom de cámara. \\
+CameraAction/Reducer/Store & Implementan el mismo flujo unidireccional para cámara. \\
+WorldYSort & Deriva \code{sortingOrder} desde la coordenada Y. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Glosario}
+
+\begin{description}[style=nextline,leftmargin=3.1cm,labelwidth=2.8cm]
+  \item[Acción] Mensaje inmutable que identifica una intención de cambio.
+  \item[Payload] Datos específicos transportados por una acción.
+  \item[Reductor] Función determinista que calcula el siguiente estado.
+  \item[Store] Componente propietario de una instantánea y del método de despacho.
+  \item[Instantánea] Valor completo del estado en un momento determinado.
+  \item[Reconciliación] Corrección del estado lógico con el resultado definitivo del runtime o servidor.
+  \item[Runtime applier] Adaptador que traduce datos del estado a componentes Unity.
+  \item[Y-sort] Ordenamiento visual basado en la posición vertical para simular profundidad 2D.
+\end{description}
+
+\subsection{Decisiones pendientes}
+
+Antes de implementar todos los diagramas, el equipo debe resolver:
+
+\begin{itemize}
+  \item si el ID canónico es texto o número en los servicios externos;
+  \item qué representa exactamente cada matriz \code{[X,Y]} del diseño;
+  \item si \code{frameAnimation} es persistente, replicado o exclusivamente visual;
+  \item si el inventario vive en jugador/decoración o en un store normalizado por propietario;
+  \item qué datos del jugador son privados y cuáles pueden compartirse con otros clientes;
+  \item si la sala equivale a una escena Unity, una zona dentro de escena o una sesión de red;
+  \item si el estado principal será un store único o una fachada de stores por dominio.
+\end{itemize}
+
+\subsection{Registro de fuentes visuales}
+
+Los seis diagramas suministrados se copiaron a \code{\_Doc/images} con nombres normalizados. Todas las figuras forman parte del proyecto documental y usan rutas relativas, por lo que no dependen de la carpeta de descargas del autor.
+
+\begin{table}[H]
+\centering
+\caption{Archivos visuales incorporados}
+\begin{tabularx}{\textwidth}{>{\ttfamily}p{6.4cm}X}
+\toprule
+\normalfont\bfseries Archivo & \normalfont\bfseries Uso \\
+\midrule
+composicion-estados.png & Vista general de subestados y campos. \\
+flujo-datos.png & Flujo unidireccional y ejemplo de movimiento. \\
+mapa-estados-metodos.png & Mapa consolidado de propiedades y operaciones. \\
+estructura-world.png & Detalle de World y su payload conceptual. \\
+estructura-player.png & Detalle de Player y sus operaciones. \\
+estructura-obj-decoration.png & Detalle de ObjDecoration y sus operaciones. \\
+\bottomrule
+\end{tabularx}
+\end{table}

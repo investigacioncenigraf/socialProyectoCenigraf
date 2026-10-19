@@ -1,4 +1,5 @@
 using SocialProyectoCenigraf.Player.State;
+using SocialProyectoCenigraf.Player.Replication;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,7 @@ namespace SocialProyectoCenigraf.Player.Movement
         [SerializeField, Min(0.001f)] private float skinWidth = 0.02f;
 
         private const float ReconcileTolerance = 0.0001f;
+        private const float DirectionThreshold = 0.0001f;
         private const int MaximumCastHits = 16;
 
         private readonly RaycastHit2D[] castHits = new RaycastHit2D[MaximumCastHits];
@@ -24,18 +26,23 @@ namespace SocialProyectoCenigraf.Player.Movement
         private Rigidbody2D body;
         private BoxCollider2D bodyCollider;
         private PlayerStateStore store;
+        private PlayerReplicationContext replicationContext;
         private ContactFilter2D collisionFilter;
         private InputAction moveAction;
         private Vector2 moveInput;
         private bool hasPendingPhysicalMove;
+        private bool lastReportedMoving;
 
         public Vector2 MoveInput => moveInput;
+        public bool AcceptsLocalInput => replicationContext == null || replicationContext.AcceptsLocalInput;
 
         private void Awake()
         {
             body = GetComponent<Rigidbody2D>();
             bodyCollider = GetComponent<BoxCollider2D>();
             store = GetComponent<PlayerStateStore>();
+            replicationContext = GetComponent<PlayerReplicationContext>();
+            lastReportedMoving = store.State.IsMoving;
 
             collisionFilter = new ContactFilter2D();
             collisionFilter.SetLayerMask(collisionMask);
@@ -57,14 +64,45 @@ namespace SocialProyectoCenigraf.Player.Movement
 
         private void Update()
         {
-            moveInput = moveAction == null
-                ? Vector2.zero
-                : Vector2.ClampMagnitude(moveAction.ReadValue<Vector2>(), 1f);
+            if (replicationContext != null &&
+                !replicationContext.AcceptsLocalInput)
+            {
+                moveInput = Vector2.zero;
+                return;
+            }
+
+            Vector2 keyboardOrGamepad = moveAction == null ? Vector2.zero : moveAction.ReadValue<Vector2>();
+            Vector2 touch = SocialProyectoCenigraf.Mobile.MobileControls.Movement;
+            moveInput = Vector2.ClampMagnitude(touch.sqrMagnitude > 0f ? touch : keyboardOrGamepad, 1f);
+
+            bool isMoving = moveInput.sqrMagnitude > DirectionThreshold;
+            if (isMoving != lastReportedMoving)
+            {
+                lastReportedMoving = isMoving;
+                store.Dispatch(PlayerAction.SetIsMoving(isMoving));
+            }
         }
 
         private void FixedUpdate()
         {
             ReconcilePreviousPhysicalMove();
+
+            if (moveInput.sqrMagnitude > Mathf.Epsilon)
+            {
+                Vector2 facingDirection = moveInput;
+
+                if (store.State.ForceFrontAnimationOnHorizontalMovement &&
+                    Mathf.Abs(moveInput.x) > DirectionThreshold &&
+                    Mathf.Abs(moveInput.y) <= DirectionThreshold)
+                {
+                    // A negative Y component selects the Front animation while
+                    // preserving the real horizontal movement direction.
+                    facingDirection.y = -1f;
+                }
+
+                store.Dispatch(
+                    PlayerAction.SetFacingFromMovement(facingDirection));
+            }
 
             Vector2 requestedDisplacement = moveInput * (moveSpeed * Time.fixedDeltaTime);
             if (requestedDisplacement.sqrMagnitude <= Mathf.Epsilon)
@@ -166,9 +204,18 @@ namespace SocialProyectoCenigraf.Player.Movement
 
         private void OnDisable()
         {
+            if (store != null &&
+                store.State.IsMoving &&
+                (replicationContext == null ||
+                 replicationContext.AcceptsLocalInput))
+            {
+                store.Dispatch(PlayerAction.SetIsMoving(false));
+            }
+
             moveAction = null;
             moveInput = Vector2.zero;
             hasPendingPhysicalMove = false;
+            lastReportedMoving = false;
         }
 
         private void OnValidate()

@@ -19,6 +19,62 @@ namespace SocialProyectoCenigraf.Player.State
                     return currentState.WithPosition(
                         currentState.Position + action.PositionPayload.Value);
 
+                case PlayerActionType.SetRole:
+                    return currentState.WithRole(action.RolePayload.RoleId);
+
+                case PlayerActionType.SetSkin:
+                    string requestedSkinId = action.SkinPayload.SkinId;
+                    string validSkinId = string.IsNullOrWhiteSpace(requestedSkinId)
+                        ? PlayerStateData.DefaultSkinId
+                        : requestedSkinId.Trim();
+                    return currentState.WithSkin(validSkinId);
+
+                case PlayerActionType.SetFacingFromMovement:
+                    PlayerFacingDirection nextFacingDirection =
+                        PlayerFacingDirectionResolver.Resolve(
+                            currentState.FacingDirection,
+                            action.MovementDirectionPayload.Value);
+                    return currentState.WithFacingDirection(nextFacingDirection);
+
+                case PlayerActionType.SetAnimationSettings:
+                    PlayerAnimationSettingsPayload requestedAnimationSettings =
+                        action.AnimationSettingsPayload;
+
+                    int validFrameDurationMilliseconds = Mathf.Max(
+                        1,
+                        requestedAnimationSettings.FrameDurationMilliseconds);
+                    int validFramesPerAnimation = Mathf.Max(
+                        1,
+                        requestedAnimationSettings.FramesPerAnimation);
+
+                    return currentState.WithAnimationSettings(
+                        validFrameDurationMilliseconds,
+                        validFramesPerAnimation);
+
+                case PlayerActionType.SetForceFrontAnimationOnHorizontalMovement:
+                    return currentState
+                        .WithForceFrontAnimationOnHorizontalMovement(
+                            action.BoolPayload.Value);
+
+                case PlayerActionType.SetAppearanceColors:
+                    PlayerAppearanceColorsPayload colors =
+                        action.AppearanceColorsPayload;
+                    return currentState.WithAppearanceColors(
+                        colors.HeadColor,
+                        colors.BodyColor,
+                        colors.HandsColor);
+
+                case PlayerActionType.SetPlayerId:
+                    return currentState.WithPlayerId(
+                        action.PlayerIdPayload.PlayerId);
+
+                case PlayerActionType.SetIsMoving:
+                    return currentState.WithIsMoving(action.BoolPayload.Value);
+
+                case PlayerActionType.ApplyReplicatedState:
+                    return currentState.WithReplicatedState(
+                        action.ReplicatedStatePayload);
+
                 case PlayerActionType.SetYSortEnabled:
                     return currentState.WithYSortEnabled(action.BoolPayload.Value);
 

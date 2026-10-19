@@ -1,0 +1,66 @@
+\section{Patrón arquitectónico}
+
+La arquitectura adopta un flujo unidireccional inspirado en Redux, ajustado al ciclo de vida de Unity. Los datos actuales residen en un \emph{store}; cualquier intención de cambio se expresa como una acción; un reductor calcula el siguiente estado; finalmente, un adaptador aplica al runtime los efectos necesarios.
+
+\subsection{Componentes y responsabilidades}
+
+\begin{table}[H]
+\centering
+\caption{Responsabilidades de los componentes del patrón}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.1cm}X X}
+\toprule
+Componente & Responsabilidad & Restricción principal \\
+\midrule
+StateData & Contener una instantánea serializable del dominio. & No controla objetos de escena ni ejecuta efectos. \\
+Action & Nombrar una intención: mover, cambiar rol, configurar colisión. & Debe ser explícita y tener un tipo inequívoco. \\
+Payload & Transportar los valores necesarios para la acción. & Solo datos; sin acceso al store. \\
+Reducer & Calcular el siguiente estado desde el estado actual y la acción. & Debe ser determinista y no modificar la escena. \\
+Store & Custodiar el estado, ejecutar el reductor y publicar cambios. & Es el único punto de escritura del estado. \\
+Runtime Applier & Traducir el estado a componentes Unity. & Escucha al store; no decide reglas de dominio. \\
+Controlador & Lee entrada o eventos y despacha acciones. & No escribe directamente el StateData. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Flujo unidireccional}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{\figurepath/flujo-datos.png}
+  \caption{Flujo conceptual desde el estado actual hasta la actualización del store y la reconciliación física.}
+  \label{fig:flujo-datos}
+\end{figure}
+
+El flujo esperado es:
+
+\begin{enumerate}
+  \item un controlador captura una intención del usuario o un evento del juego;
+  \item calcula o solicita un valor permitido, por ejemplo una posición sin penetrar colisiones;
+  \item crea una \code{Action} con su \code{Payload};
+  \item el \code{Store.Dispatch} entrega la acción al \code{Reducer};
+  \item el reductor valida reglas simples y devuelve una nueva instantánea;
+  \item si el estado cambió, el store publica \code{StateChanged};
+  \item los adaptadores actualizan \code{Rigidbody2D}, \code{BoxCollider2D}, renderizadores u otros componentes;
+  \item cuando Unity altera el valor final por física, se despacha una acción de reconciliación.
+\end{enumerate}
+
+\subsection{Propiedades del diseño}
+
+\begin{itemize}
+  \item \textbf{Trazabilidad:} cada mutación se identifica mediante un tipo de acción.
+  \item \textbf{Repetibilidad:} el mismo estado y la misma acción producen el mismo resultado.
+  \item \textbf{Desacoplamiento:} la lógica de datos no necesita referencias a objetos de escena.
+  \item \textbf{Pruebas simples:} reductores y constructores se prueban sin cargar una escena.
+  \item \textbf{Integración segura:} los efectos de Unity quedan concentrados en controladores y adaptadores.
+\end{itemize}
+
+\subsection{Inmutabilidad práctica}
+
+En el código actual, \code{PlayerStateData} y \code{GameSessionStateData} son estructuras serializables con campos privados y propiedades de solo lectura. Los métodos \code{With...} construyen una nueva instantánea en vez de exponer setters. Este enfoque debe mantenerse para los estados planeados.
+
+\begin{lstlisting}[caption={Forma recomendada de producir una nueva instantánea},label={lst:with-pattern}]
+public WorldStateData WithRoom(string value) =>
+    new WorldStateData(id, name, value, mainTheme, dimensions);
+\end{lstlisting}
+
+El uso de métodos \code{set.X} y \code{get.X} en los diagramas representa la intención funcional. En C\# se recomienda expresarla mediante fábricas de acciones, propiedades de solo lectura y métodos \code{With...}; no mediante setters públicos que permitan saltarse el store.

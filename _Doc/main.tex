@@ -1,0 +1,128 @@
+\documentclass[11pt,letterpaper,oneside]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\geometry{top=2.2cm,bottom=2.2cm,left=2.35cm,right=2.35cm,headheight=15pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+\setlength{\emergencystretch}{2em}
+\setlist{itemsep=0.25em,topsep=0.35em}
+\renewcommand{\arraystretch}{1.2}
+
+\definecolor{CenigrafNavy}{HTML}{17324D}
+\definecolor{CenigrafBlue}{HTML}{2A7F9E}
+\definecolor{CenigrafGold}{HTML}{B6812D}
+\definecolor{CenigrafRed}{HTML}{A94F55}
+\definecolor{CenigrafLight}{HTML}{EEF3F6}
+\definecolor{CodeBackground}{HTML}{F4F6F8}
+\definecolor{CodeComment}{HTML}{587A61}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=CenigrafNavy,
+  urlcolor=CenigrafBlue,
+  citecolor=CenigrafBlue,
+  pdftitle={Arquitectura de estados - Proyecto Cenigraf},
+  pdfauthor={Proyecto Cenigraf}
+}
+
+\titleformat{\section}{\Large\bfseries\color{CenigrafNavy}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{CenigrafBlue}}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{CenigrafGold}}{\thesubsubsection}{0.7em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Proyecto Cenigraf}
+\fancyhead[R]{\small Arquitectura de estados en Unity}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\lstdefinestyle{cenigraf}{
+  language=[Sharp]C,
+  backgroundcolor=\color{CodeBackground},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{CenigrafBlue}\bfseries,
+  commentstyle=\color{CodeComment},
+  stringstyle=\color{CenigrafRed},
+  numbers=left,
+  numberstyle=\scriptsize\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{CenigrafLight},
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=4,
+  columns=fullflexible
+}
+\lstset{style=cenigraf}
+
+\newcommand{\implemented}{\textbf{Implementado}}
+\newcommand{\planned}{\textbf{Planeado}}
+\newcommand{\code}[1]{\nolinkurl{#1}}
+\newcommand{\figurepath}{images}
+
+\begin{document}
+
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+  \pagecolor{CenigrafNavy}
+  \color{white}
+  \vspace*{2.1cm}
+  {\Huge\bfseries Arquitectura de estados\par}
+  \vspace{0.35cm}
+  {\LARGE Aplicación en Unity para el Proyecto Cenigraf\par}
+  \vspace{1cm}
+  {\color{CenigrafGold}\rule{\textwidth}{2pt}}
+  \vspace{1cm}
+  {\large Diseño, flujo de datos, contratos y ruta de implementación\par}
+  \vfill
+  \begin{tabular}{@{}ll@{}}
+    \textbf{Motor:} & Unity 6 (6000.3.18f1) \\
+    \textbf{Lenguaje:} & C\# \\
+    \textbf{Documento:} & Versión 1.0 \\
+    \textbf{Fecha:} & Agosto de 2026
+  \end{tabular}
+  \vspace{1.4cm}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\nopagecolor
+\color{black}
+
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\pagenumbering{arabic}
+
+\input{sections/01-introduccion}
+\input{sections/02-arquitectura}
+\input{sections/03-estados}
+\input{sections/04-flujo-unity}
+\input{sections/05-implementacion}
+\input{sections/06-calidad}
+\input{sections/07-anexos}
+
+\end{document}

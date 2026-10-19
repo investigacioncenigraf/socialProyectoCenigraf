@@ -35,6 +35,63 @@ namespace SocialProyectoCenigraf.Player.State
             Dispatch(PlayerAction.SetYSortEnabled(enabled));
         }
 
+        public void SetRole(string roleId)
+        {
+            Dispatch(PlayerAction.SetRole(roleId));
+        }
+
+        public void SetSkin(string skinId)
+        {
+            Dispatch(PlayerAction.SetSkin(skinId));
+        }
+
+        public void SetFacingFromMovement(Vector2 movementDirection)
+        {
+            Dispatch(PlayerAction.SetFacingFromMovement(movementDirection));
+        }
+
+        public void SetAnimationSettings(
+            int frameDurationMilliseconds,
+            int framesPerAnimation)
+        {
+            Dispatch(PlayerAction.SetAnimationSettings(
+                frameDurationMilliseconds,
+                framesPerAnimation));
+        }
+
+        public void SetForceFrontAnimationOnHorizontalMovement(bool enabled)
+        {
+            Dispatch(
+                PlayerAction.SetForceFrontAnimationOnHorizontalMovement(
+                    enabled));
+        }
+
+        public void SetAppearanceColors(
+            Color headColor,
+            Color bodyColor,
+            Color handsColor)
+        {
+            Dispatch(PlayerAction.SetAppearanceColors(
+                headColor,
+                bodyColor,
+                handsColor));
+        }
+
+        public void SetPlayerId(string playerId)
+        {
+            Dispatch(PlayerAction.SetPlayerId(playerId));
+        }
+
+        public void SetIsMoving(bool isMoving)
+        {
+            Dispatch(PlayerAction.SetIsMoving(isMoving));
+        }
+
+        public void ApplyReplicatedState(PlayerReplicatedStateData snapshot)
+        {
+            Dispatch(PlayerAction.ApplyReplicatedState(snapshot));
+        }
+
         public void SetColliderSize(Vector2 size)
         {
             Dispatch(PlayerAction.SetColliderSize(size));
@@ -50,6 +107,19 @@ namespace SocialProyectoCenigraf.Player.State
             PlayerStateData second)
         {
             return first.Position == second.Position &&
+                   first.PlayerId == second.PlayerId &&
+                   first.IsMoving == second.IsMoving &&
+                   first.RoleId == second.RoleId &&
+                   first.SkinId == second.SkinId &&
+                   first.FacingDirection == second.FacingDirection &&
+                   first.AnimationFrameDurationMilliseconds ==
+                       second.AnimationFrameDurationMilliseconds &&
+                   first.FramesPerAnimation == second.FramesPerAnimation &&
+                   first.ForceFrontAnimationOnHorizontalMovement ==
+                       second.ForceFrontAnimationOnHorizontalMovement &&
+                   first.HeadColor == second.HeadColor &&
+                   first.BodyColor == second.BodyColor &&
+                   first.HandsColor == second.HandsColor &&
                    first.YSortEnabled == second.YSortEnabled &&
                    first.ColliderSize == second.ColliderSize &&
                    first.ColliderOffset == second.ColliderOffset;

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 162e3e1b100242199f28a5f0331d09a8, type: 3}
+  m_Name: Reward_CarnetAprendiz
+  m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Rewards.RewardDefinition
+  id: carnet_estudiantil
+  displayName: Carnet de aprendiz
+  description: "Tu identificaci\xF3n como aprendiz. Ll\xE9vala contigo durante
+    tu recorrido."
+  icon: {fileID: 8243303746098052050, guid: 72fb4213bf8c7834b8626ffa62b168ce, type: 3}
+  roleOnContinue: {fileID: 11400000, guid: 9c1d4f43c1e64e32b6eb4f61a1062802, type: 2}
