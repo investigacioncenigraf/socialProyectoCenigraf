@@ -62,7 +62,7 @@ namespace SocialProyectoCenigraf.World.Teleport
                 && Time.frameCount != SocialProyectoCenigraf.Dialogue.DialoguePresenter.LastClosedFrame;
             bool available = inRange && !string.IsNullOrWhiteSpace(destinationScenePath);
             SetPrompt(inRange);
-            if (!available || Keyboard.current == null || !Keyboard.current.eKey.wasPressedThisFrame) return;
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked || !available || Keyboard.current == null || !Keyboard.current.eKey.wasPressedThisFrame) return;
             GameObject selected = EventSystem.current?.currentSelectedGameObject;
             if (selected != null && (selected.GetComponentInParent<TMP_InputField>() != null
                 || selected.GetComponentInParent<UnityEngine.UI.InputField>() != null)) return;
@@ -84,7 +84,7 @@ namespace SocialProyectoCenigraf.World.Teleport
         }
         public bool TryTravel(PlayerMovementController player)
         {
-            if (player == null || !player.AcceptsLocalInput || !player.isActiveAndEnabled || TeleportTravel.IsTraveling
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked || player == null || !player.AcceptsLocalInput || !player.isActiveAndEnabled || TeleportTravel.IsTraveling
                 || SocialProyectoCenigraf.Dialogue.DialoguePresenter.IsOpen
                 || SocialProyectoCenigraf.Rewards.RewardWindow.IsOpen
                 || string.IsNullOrWhiteSpace(destinationScenePath)) return false;
@@ -109,7 +109,7 @@ namespace SocialProyectoCenigraf.World.Teleport
         public Vector3 InteractionPosition => transform.position;
         public bool CanInteractWith(PlayerMovementController player)
         {
-            if (player == null || !player.AcceptsLocalInput || !player.isActiveAndEnabled || TeleportTravel.IsTraveling
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked || player == null || !player.AcceptsLocalInput || !player.isActiveAndEnabled || TeleportTravel.IsTraveling
                 || SocialProyectoCenigraf.Dialogue.DialoguePresenter.IsOpen
                 || SocialProyectoCenigraf.Rewards.RewardWindow.IsOpen
                 || string.IsNullOrWhiteSpace(destinationScenePath)) return false;

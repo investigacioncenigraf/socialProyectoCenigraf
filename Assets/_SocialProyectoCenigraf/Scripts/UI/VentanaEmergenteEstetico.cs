@@ -35,6 +35,11 @@ namespace SocialProyectoCenigraf.UI
 
         private void Update()
         {
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked)
+            {
+                return;
+            }
+
             Keyboard keyboard = Keyboard.current;
 
             if (keyboard != null && keyboard.mKey.wasPressedThisFrame)

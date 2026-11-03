@@ -15,28 +15,46 @@ MonoBehaviour:
   dialogues:
   - id: bienvenida_sala_abc
     lines:
-    - speaker: "Guía de Sala ABC"
-      text: "¡Hola! Bienvenido a la Sala ABC. Este es nuestro primer diálogo de prueba."
-    - speaker: "Guía de Sala ABC"
-      text: "Aquí podrás explorar el espacio y descubrir objetos con los que puedes interactuar."
-    - speaker: "Guía de Sala ABC"
-      text: "Cuando veas el icono de interacción, acércate y pulsa E. ¡Disfruta el recorrido!"
+    - speaker: "Gu\xEDa de Sala ABC"
+      text: "\xA1Hola! Bienvenido a la Sala ABC. Este es nuestro primer di\xE1logo
+        de prueba."
+    - speaker: "Gu\xEDa de Sala ABC"
+      text: "Aqu\xED podr\xE1s explorar el espacio y descubrir objetos con los que
+        puedes interactuar."
+    - speaker: "Gu\xEDa de Sala ABC"
+      text: "Cuando veas el icono de interacci\xF3n, ac\xE9rcate y pulsa E. \xA1Disfruta
+        el recorrido!"
+    completionReward: {fileID: 0}
   - id: bienvenida_parque_central
     lines:
-    - speaker: "Guía del Parque Central"
-      text: "¡Hola! Bienvenido al Parque Central. Me alegra verte por aquí."
-    - speaker: "Guía del Parque Central"
-      text: "Para comenzar tu recorrido, ve a la sala del Lobby a recibir tu carnet de aprendiz."
-    - speaker: "Guía del Parque Central"
-      text: "Allí te están esperando para entregártelo. ¡Acércate al Lobby y dales un saludo de mi parte!"
+    - speaker: "Gu\xEDa del Parque Central"
+      text: "\xA1Hola! Bienvenido al Parque Central. Me alegra verte por aqu\xED."
+    - speaker: "Gu\xEDa del Parque Central"
+      text: Para comenzar tu recorrido, ve a la sala del Lobby a recibir tu carnet
+        de aprendiz.
+    - speaker: "Gu\xEDa del Parque Central"
+      text: "All\xED te est\xE1n esperando para entreg\xE1rtelo. \xA1Ac\xE9rcate
+        al Lobby y dales un saludo de mi parte!"
+    completionReward: {fileID: 0}
   - id: recepcion_lobby_entrega_carnet
     lines:
-    - speaker: "Recepcionista del Lobby"
-      text: "¡Hola! Bienvenido al Lobby. Te estábamos esperando para entregarte tu carnet de aprendiz."
-    - speaker: "Recepcionista del Lobby"
-      text: "Aquí tienes tu carnet. Guárdalo y llévalo contigo durante tu recorrido por el centro."
-    - speaker: "Recepcionista del Lobby"
-      text: "Este carnet te identifica como aprendiz. Recuerda presentarlo cuando te lo soliciten."
-    - speaker: "Recepcionista del Lobby"
-      text: "¡Listo! Ya puedes continuar tu recorrido. Si necesitas orientación, estaremos aquí para ayudarte."
+    - speaker: Recepcionista del Lobby
+      text: "\xA1Hola! Bienvenido al Lobby. Te est\xE1bamos esperando para entregarte
+        tu carnet de aprendiz."
+    - speaker: Recepcionista del Lobby
+      text: "Aqu\xED tienes tu carnet. Gu\xE1rdalo y ll\xE9valo contigo durante tu
+        recorrido por el centro."
+    - speaker: Recepcionista del Lobby
+      text: Este carnet te identifica como aprendiz. Recuerda presentarlo cuando
+        te lo soliciten.
+    - speaker: Recepcionista del Lobby
+      text: "\xA1Listo! Ya puedes continuar tu recorrido. Si necesitas orientaci\xF3n,
+        estaremos aqu\xED para ayudarte."
+    completionReward: {fileID: 11400000, guid: 6378d6e395fe842a2adbfb559161e62b, type: 2}
+  - id: Recepcion_Ocupada
+    lines:
+    - speaker: Recepcionista del Lobby
+      text: '... ,        ...
+
+'
     completionReward: {fileID: 11400000, guid: 6378d6e395fe842a2adbfb559161e62b, type: 2}

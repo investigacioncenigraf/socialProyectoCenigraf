@@ -7,6 +7,7 @@ namespace SocialProyectoCenigraf.UI
     [ExecuteAlways]
     [AddComponentMenu("UI/Effects/Rounded Inner Border")]
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(CanvasRenderer))]
     public sealed class UIRoundedInnerBorder : MaskableGraphic
     {
         [SerializeField, Min(0f)] private float thickness = 4f;

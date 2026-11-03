@@ -181,6 +181,11 @@ namespace SocialProyectoCenigraf.UI
 
         private void HandleBack(InputAction.CallbackContext context)
         {
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked)
+            {
+                return;
+            }
+
             GameObject selectedObject = EventSystem.current?.currentSelectedGameObject;
             if (selectedObject != null &&
                 selectedObject.GetComponentInParent<TMP_InputField>() != null)

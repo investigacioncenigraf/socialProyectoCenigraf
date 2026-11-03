@@ -65,6 +65,9 @@ public class Interaction_oso : MonoBehaviour
 
     private void Update()
     {
+        if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked)
+            return;
+
         // Si estamos dentro de un diálogo
         if (dialogoActivo)
         {

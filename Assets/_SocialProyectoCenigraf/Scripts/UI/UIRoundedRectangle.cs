@@ -6,6 +6,7 @@ namespace SocialProyectoCenigraf.UI
 {
     [AddComponentMenu("UI/Graphics/Rounded Rectangle")]
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(CanvasRenderer))]
     public sealed class UIRoundedRectangle : MaskableGraphic
     {
         [SerializeField, Min(0f)] private float cornerRadius = 8f;

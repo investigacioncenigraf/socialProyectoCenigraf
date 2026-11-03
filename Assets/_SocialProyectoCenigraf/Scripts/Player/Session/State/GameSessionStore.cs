@@ -60,13 +60,42 @@ namespace SocialProyectoCenigraf.Session.State
         public void Dispatch(GameSessionAction action)
         {
             GameSessionStateData nextState = GameSessionReducer.Reduce(state, action);
-            if (nextState.SelectedRoleId == state.SelectedRoleId)
+            if (StatesAreEqual(nextState, state))
             {
                 return;
             }
 
             state = nextState;
             StateChanged?.Invoke(state, action);
+        }
+
+        public void StartVisitorSession(string playerName)
+        {
+            Dispatch(GameSessionAction.StartSession(
+                playerName,
+                RoleIds.Visitor,
+                GameSessionStateData.DefaultExperience));
+        }
+
+        public void AddExperience(int amount)
+        {
+            Dispatch(GameSessionAction.AddExperience(amount));
+        }
+
+        public void SetExperience(int value)
+        {
+            Dispatch(GameSessionAction.SetExperience(value));
+        }
+
+        private static bool StatesAreEqual(
+            GameSessionStateData first,
+            GameSessionStateData second)
+        {
+            return first.PlayerName == second.PlayerName &&
+                first.SelectedRoleId == second.SelectedRoleId &&
+                first.HasSelectedRole == second.HasSelectedRole &&
+                first.Level == second.Level &&
+                first.Experience == second.Experience;
         }
     }
 }

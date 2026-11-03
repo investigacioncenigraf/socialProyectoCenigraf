@@ -82,7 +82,8 @@ namespace SocialProyectoCenigraf.Dialogue
                 hintText.text = lineIndex + 1 < sequence.lines.Length
                     ? (SocialProyectoCenigraf.Mobile.MobileControls.IsMobileDevice ? "Toca E para continuar" : "E · Continuar     Esc · Cerrar")
                     : (SocialProyectoCenigraf.Mobile.MobileControls.IsMobileDevice ? "Toca E para terminar" : "E · Terminar     Esc · Cerrar");
-            if (Time.frameCount == inputFrame || Keyboard.current == null) return;
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked ||
+                Time.frameCount == inputFrame || Keyboard.current == null) return;
             if (Keyboard.current.escapeKey.wasPressedThisFrame) { Close(); return; }
             if (!Keyboard.current.eKey.wasPressedThisFrame) return;
             Advance();
