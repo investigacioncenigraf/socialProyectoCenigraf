@@ -18,6 +18,15 @@ namespace SocialProyectoCenigraf.Editor.Player
         private const string DemoSkinId = "Demo";
         private const string DemoSpritesDirectory =
             "Assets/_SocialProyectoCenigraf/Asset/Image/Entities/Player/Skin/Demo";
+        private const string SkinFilePrefix = "SkinPlayer";
+        private const string PlayerPrefabPath =
+            "Assets/_SocialProyectoCenigraf/Prefabs/Entities/PlayerDemo/Player.prefab";
+        private const string DefaultSkinId = "Default";
+        private const string DefaultSpritesDirectory =
+            "Assets/_SocialProyectoCenigraf/Asset/Image/Entities/Player/Skin/Default";
+        private const string DefaultDefinitionPath =
+            "Assets/_SocialProyectoCenigraf/Data/Player/Skins/" +
+            "Default_PlayerSkinDefinition.asset";
         private const string PlayerDataDirectory =
             "Assets/_SocialProyectoCenigraf/Data/Player";
         private const string SkinDataDirectory = PlayerDataDirectory + "/Skins";
@@ -61,6 +70,145 @@ namespace SocialProyectoCenigraf.Editor.Player
             Debug.Log(
                 "Demo layered player skin configured: Redux SkinId 'Demo', " +
                 "Idle/Walk Front/Back, four frames and eight synchronized layers.");
+        }
+
+        [MenuItem("Tools/Cenigraf/Player/Configure Default Layered Skin")]
+        public static void ConfigureDefaultLayeredSkin()
+        {
+            EnsureFolder(PlayerDataDirectory);
+            EnsureFolder(SkinDataDirectory);
+
+            PlayerSkinDefinition definition =
+                AssetDatabase.LoadAssetAtPath<PlayerSkinDefinition>(
+                    DefaultDefinitionPath);
+
+            if (definition == null)
+            {
+                definition = ScriptableObject.CreateInstance<PlayerSkinDefinition>();
+                AssetDatabase.CreateAsset(definition, DefaultDefinitionPath);
+            }
+
+            // Naming standard: SkinPlayer_<SkinName>_<Layer>_<TBD>_<TBD>.png
+            // Shadow and BodyAccessory are optional and left empty here.
+            SerializedObject serializedDefinition = new(definition);
+            serializedDefinition.FindProperty("skinId").stringValue = DefaultSkinId;
+            SetSpriteArray(serializedDefinition.FindProperty("leftLegFrames"),
+                LoadSkinFrames(DefaultSpritesDirectory, DefaultSkinId, "LeftLeg"));
+            SetSpriteArray(serializedDefinition.FindProperty("rightLegFrames"),
+                LoadSkinFrames(DefaultSpritesDirectory, DefaultSkinId, "RightLeg"));
+            SetSpriteArray(serializedDefinition.FindProperty("bodyFrames"),
+                LoadSkinFrames(DefaultSpritesDirectory, DefaultSkinId, "Body"));
+            SetSpriteArray(serializedDefinition.FindProperty("leftHandFrames"),
+                LoadSkinFrames(DefaultSpritesDirectory, DefaultSkinId, "LeftHand"));
+            SetSpriteArray(serializedDefinition.FindProperty("rightHandFrames"),
+                LoadSkinFrames(DefaultSpritesDirectory, DefaultSkinId, "RightHand"));
+            SetSpriteArray(serializedDefinition.FindProperty("headFrames"),
+                LoadSkinFrames(DefaultSpritesDirectory, DefaultSkinId, "Head"));
+            serializedDefinition.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(definition);
+
+            PlayerSkinCatalog catalog = CreateOrUpdateCatalog(definition);
+            AssetDatabase.SaveAssets();
+            ApplySkinToPrefab(PlayerPrefabPath, catalog, definition, DefaultSkinId);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            Debug.Log(
+                "Default layered player skin configured (SkinId 'Default'): " +
+                "Body, Head, hands and legs. Shadow/BodyAccessory not provided.");
+        }
+
+        /// <summary>
+        /// Assigns catalog, SkinId and the IdleFront frame 0 sprite of every
+        /// layer renderer on a player prefab. Layers the skin does not provide
+        /// are cleared and disabled.
+        /// </summary>
+        private static void ApplySkinToPrefab(
+            string prefabPath,
+            PlayerSkinCatalog catalog,
+            PlayerSkinDefinition definition,
+            string skinId)
+        {
+            GameObject root = PrefabUtility.LoadPrefabContents(prefabPath);
+
+            try
+            {
+                PlayerLayeredSkinController controller =
+                    root.GetComponent<PlayerLayeredSkinController>();
+                PlayerStateStore store = root.GetComponent<PlayerStateStore>();
+
+                if (controller == null || store == null)
+                {
+                    throw new InvalidOperationException(
+                        $"'{prefabPath}' needs PlayerLayeredSkinController " +
+                        "and PlayerStateStore.");
+                }
+
+                SerializedObject serializedController = new(controller);
+                serializedController.FindProperty("skinCatalog")
+                    .objectReferenceValue = catalog;
+
+                foreach (LayerSetup setup in LayerSetups)
+                {
+                    SpriteRenderer renderer = serializedController
+                        .FindProperty(setup.ControllerProperty)
+                        .objectReferenceValue as SpriteRenderer;
+
+                    if (renderer == null)
+                    {
+                        Debug.LogWarning(
+                            $"Renderer '{setup.Name}' is not assigned on " +
+                            $"'{prefabPath}'.");
+                        continue;
+                    }
+
+                    Sprite sprite = definition.GetSprite(
+                        ParseLayer(setup.Name),
+                        PlayerAnimationType.IdleFront,
+                        0);
+                    renderer.sprite = sprite;
+                    renderer.enabled = sprite != null;
+                    EditorUtility.SetDirty(renderer);
+                }
+
+                serializedController.ApplyModifiedPropertiesWithoutUndo();
+
+                SerializedObject serializedStore = new(store);
+                serializedStore.FindProperty("state")
+                    .FindPropertyRelative("skinId").stringValue = skinId;
+                serializedStore.ApplyModifiedPropertiesWithoutUndo();
+
+                PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+        }
+
+        private static Sprite[] LoadSkinFrames(
+            string directory,
+            string skinId,
+            string layer)
+        {
+            // Convention: SkinPlayer_<SkinName>_<Layer>_<TBD>_<TBD>.png
+            // The trailing "_" keeps 'Body' from matching 'BodyAccessory'.
+            string prefix = $"{SkinFilePrefix}_{skinId}_{layer}_";
+            string[] matches = AssetDatabase
+                .FindAssets(prefix + " t:Texture2D", new[] { directory })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Where(path => System.IO.Path.GetFileNameWithoutExtension(path)
+                    .StartsWith(prefix, StringComparison.Ordinal))
+                .ToArray();
+
+            if (matches.Length != 1)
+            {
+                throw new InvalidOperationException(
+                    $"Expected exactly one '{prefix}*.png' in '{directory}', " +
+                    $"found {matches.Length}.");
+            }
+
+            return LoadFramesAtPath(matches[0]);
         }
 
         private static PlayerSkinDefinition CreateOrUpdateDefinition()
@@ -270,9 +418,11 @@ namespace SocialProyectoCenigraf.Editor.Player
             Selection.activeGameObject = player;
         }
 
-        private static Sprite[] LoadFrames(string fileName)
+        private static Sprite[] LoadFrames(string fileName) =>
+            LoadFramesAtPath($"{DemoSpritesDirectory}/{fileName}");
+
+        private static Sprite[] LoadFramesAtPath(string assetPath)
         {
-            string assetPath = $"{DemoSpritesDirectory}/{fileName}";
             ConfigureTextureImporter(assetPath);
 
             Sprite[] frames = AssetDatabase.LoadAllAssetsAtPath(assetPath)

@@ -22,6 +22,15 @@ En cada teleport activa **Restringir por rol**, asigna el catálogo de roles y m
 
 Cuando se rechaza el viaje, la escena y la posición se conservan y se muestra **Mensaje de acceso denegado** durante tres segundos. No bloquea el movimiento. Configura todas las entradas que conduzcan al lugar que quieras restringir; estas reglas regulan la salida desde cada teleport, no las llegadas a un punto de spawn.
 
+## Activación por objetivos y diálogo local
+
+- **Portal Active** permite habilitar o deshabilitar el portal desde el Inspector. También se puede cambiar durante la partida con `SetPortalActive(true/false)` desde un script o UnityEvent. Al desactivarlo se oculta el aviso de interacción y no se puede viajar.
+- En **Access Requirements** agrega los requisitos que deben cumplirse; todos se evalúan como AND. `ItemOwned` comprueba un ítem del inventario, `MissionActive` una misión activa, `MissionCompleted` una misión completada, `DialogueCompleted` un diálogo finalizado y `TalkedToCharacter` un personaje con quien ya se completó un diálogo. El ID debe coincidir exactamente con el catálogo.
+- Si el portal está activo pero falta un requisito, el viaje se bloquea. Puedes asignar un **Locked Dialogue Catalog** y **Locked Dialogue Id** para mostrar una conversación local de pista; acepta diálogos clásicos o DialogoOfficial. Si se dejan vacíos o el diálogo no es válido, se muestra **Requirements Not Met Message**.
+- El diálogo local también se usa cuando el rol está excluido. Si se configura un diálogo distinto para esa situación más adelante, se podrá separar en otra opción; actualmente reutiliza el mismo diálogo local.
+
+Los requisitos no activan el portal automáticamente: determinan si el jugador puede viajar al interactuar. Cuando un objetivo complete una misión, llama `MissionJournal.Complete("id_mision")`; luego un portal que requiera esa misión permitirá el viaje. Para controlar su disponibilidad directamente, llama a `SetPortalActive(false)` o `SetPortalActive(true)` desde ese flujo.
+
 ## Transición de carga y respawn
 
 El viaje crea una pantalla negra persistente con «Cargando…» antes de cargar la escena. Mantiene una cobertura mínima de un segundo, resuelve el ID de llegada y retira la pantalla con un fundido de 0.35 segundos. Si la carga tarda más, espera hasta que esté lista.
@@ -35,3 +44,9 @@ Los controles y la física se restauran al terminar el fundido. Si falta el ID o
 `Resources/UI/LoadingScreen.prefab` contiene el fondo negro y el indicador inferior derecho, con márgenes de 48 px a la derecha y 40 px abajo en la resolución de referencia 1920×1080. Para añadir el icono, selecciona `LoadingIndicator → IconSlot → LoadingIcon` y asigna un Sprite en Image → Source Image. Al cargar, el script activa la imagen si tiene un Sprite; el espacio está reservado por un marco discreto de 64×64.
 
 Una LoadingCamera persistente, sin objetos visibles (Culling Mask = Nothing), sigue renderizando negro mientras las cámaras de llegada están desactivadas. Se apaga únicamente después de restaurar una cámara de la escena, antes del fundido, para evitar el aviso de Game View sin cámaras renderizando.
+
+### Reutilización desde el login
+
+`TeleportTravel.Begin(escena, idDestino, segundosMinimos)` devuelve `false` cuando no puede arrancar el viaje, para que quien lo llame tenga una alternativa. `LoginController` lo usa al aceptar el usuario: la misma pantalla de carga cubre el cambio del login al Lobby, con el tiempo que marque **Loading Screen Seconds** en el Inspector de la tarjeta de login (1 segundo por defecto). Si la escena de destino no está disponible, cae en `SceneNavigationService.NavigateTo`.
+
+Un id de destino vacío ya no genera aviso: significa «conserva el spawn que la escena define», que es el caso del login y de cualquier teleport sin ID de llegada. Al viajar por esta vía no se apila historial de escenas, así que la tecla B en el Lobby no devuelve a la pantalla de login.

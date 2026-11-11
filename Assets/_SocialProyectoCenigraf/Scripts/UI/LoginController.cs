@@ -1,5 +1,6 @@
 using SocialProyectoCenigraf.Navigation;
 using SocialProyectoCenigraf.Session.State;
+using SocialProyectoCenigraf.World.Teleport;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,10 +20,25 @@ namespace SocialProyectoCenigraf.UI
         [SerializeField] private TMP_Text statusText;
         [SerializeField] private Button loginButton;
 
+        [Header("Entrada")]
+        [Tooltip("Segundos del difuminado desde negro al abrir la pantalla de login.")]
+        [SerializeField, Min(0f)] private float introFadeSeconds = 1.25f;
+
+        [Tooltip("Segundos en negro antes de que arranque el difuminado.")]
+        [SerializeField, Min(0f)] private float introHoldSeconds = 0.15f;
+
         [Header("Navigation")]
         [SerializeField] private string destinationSceneName = "Sala_Lobby";
 
+        [Tooltip("Segundos que la pantalla de carga se mantiene antes de entrar al Lobby.")]
+        [SerializeField, Min(0f)] private float loadingScreenSeconds = 1f;
+
         private bool isSubmitting;
+
+        // A scene carrying the login card is the login screen. Other systems ask this to
+        // stay out of it, such as the scene music and the gameplay menu.
+        public static bool ExistsInScene() =>
+            FindFirstObjectByType<LoginController>(FindObjectsInactive.Include) != null;
 
         public void Configure(
             TMP_InputField username,
@@ -42,6 +58,9 @@ namespace SocialProyectoCenigraf.UI
 
         private void Awake()
         {
+            // Built before the first rendered frame, so the scene opens already in black.
+            ScreenFadeIn.FromBlack(introFadeSeconds, introHoldSeconds);
+
             if (!HasRequiredReferences())
             {
                 Debug.LogError(
@@ -115,7 +134,16 @@ namespace SocialProyectoCenigraf.UI
             }
 
             GameSessionStore.Instance.StartVisitorSession(username);
-            SceneNavigationService.Instance.NavigateTo(destinationSceneName);
+
+            // Same loading screen as the teleports: black cover, scene load, the hold of
+            // loadingScreenSeconds and the fade in. Direct navigation is the fallback.
+            if (!TeleportTravel.Begin(
+                destinationSceneName,
+                string.Empty,
+                loadingScreenSeconds))
+            {
+                SceneNavigationService.Instance.NavigateTo(destinationSceneName);
+            }
         }
 
         private void SubmitFromPassword(string _)

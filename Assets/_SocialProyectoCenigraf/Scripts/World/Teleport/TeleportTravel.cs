@@ -39,19 +39,24 @@ namespace SocialProyectoCenigraf.World.Teleport
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics() => IsTraveling = false;
 
-        public static void Begin(string scenePath, string targetId)
+        // Returns false when the trip cannot start, so the caller can fall back.
+        // minimumSeconds below zero keeps the default hold of this component.
+        public static bool Begin(string scenePath, string targetId, float minimumSeconds = -1f)
         {
-            if (IsTraveling) return;
+            if (IsTraveling) return false;
             if (!Application.CanStreamedLevelBeLoaded(scenePath))
             {
                 Debug.LogWarning($"Teleport: la escena '{scenePath}' no está habilitada en Build Profiles. No se cambió de escena.");
-                return;
+                return false;
             }
             IsTraveling = true;
+            SocialProyectoCenigraf.Audio.WorldMusicPlayer.FadeOutForSceneChange();
             var host = new GameObject("TeleportTravel").AddComponent<TeleportTravel>();
             DontDestroyOnLoad(host.gameObject);
+            if (minimumSeconds >= 0f) host.minimumLoadingSeconds = minimumSeconds;
             host.BuildCover(); // Opaque before any scene activation or arrival frame.
             host.StartCoroutine(host.Travel(scenePath, targetId));
+            return true;
         }
         private void BuildCover()
         {
@@ -204,6 +209,10 @@ namespace SocialProyectoCenigraf.World.Teleport
         }
         private void PlacePlayer(string targetId)
         {
+            // An arrival without a target id, such as the login, keeps the spawn the
+            // scene already defines: that is not a missing destination to warn about.
+            if (string.IsNullOrEmpty(targetId)) return;
+
             SceneTeleport destination = null;
             bool duplicate = false;
             foreach (var point in FindObjectsByType<SceneTeleport>(FindObjectsSortMode.None))

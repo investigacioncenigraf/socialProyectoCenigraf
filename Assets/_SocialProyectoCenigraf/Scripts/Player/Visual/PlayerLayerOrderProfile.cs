@@ -10,16 +10,20 @@ namespace SocialProyectoCenigraf.Player.Visual
     {
         private const int SortingOrderStep = 10;
 
+        // Same stacking for every animation. Bottom (0) to top:
+        // Shadow, LeftHand, LeftLeg, RightLeg, Body, RightHand, Head.
+        // BodyAccessory (not in the spec) sits right above Body.
+
         [Header("Top to bottom - Idle Front")]
         [SerializeField] private PlayerSkinLayer[] idleFrontTopToBottom =
         {
             PlayerSkinLayer.Head,
-            PlayerSkinLayer.LeftLeg,
-            PlayerSkinLayer.RightLeg,
-            PlayerSkinLayer.LeftHand,
+            PlayerSkinLayer.RightHand,
             PlayerSkinLayer.BodyAccessory,
             PlayerSkinLayer.Body,
-            PlayerSkinLayer.RightHand,
+            PlayerSkinLayer.RightLeg,
+            PlayerSkinLayer.LeftLeg,
+            PlayerSkinLayer.LeftHand,
             PlayerSkinLayer.Shadow
         };
 
@@ -27,12 +31,12 @@ namespace SocialProyectoCenigraf.Player.Visual
         [SerializeField] private PlayerSkinLayer[] walkFrontTopToBottom =
         {
             PlayerSkinLayer.Head,
-            PlayerSkinLayer.LeftLeg,
-            PlayerSkinLayer.RightLeg,
-            PlayerSkinLayer.LeftHand,
+            PlayerSkinLayer.RightHand,
             PlayerSkinLayer.BodyAccessory,
             PlayerSkinLayer.Body,
-            PlayerSkinLayer.RightHand,
+            PlayerSkinLayer.RightLeg,
+            PlayerSkinLayer.LeftLeg,
+            PlayerSkinLayer.LeftHand,
             PlayerSkinLayer.Shadow
         };
 
@@ -40,11 +44,11 @@ namespace SocialProyectoCenigraf.Player.Visual
         [SerializeField] private PlayerSkinLayer[] idleBackTopToBottom =
         {
             PlayerSkinLayer.Head,
-            PlayerSkinLayer.LeftLeg,
-            PlayerSkinLayer.RightLeg,
             PlayerSkinLayer.RightHand,
             PlayerSkinLayer.BodyAccessory,
             PlayerSkinLayer.Body,
+            PlayerSkinLayer.RightLeg,
+            PlayerSkinLayer.LeftLeg,
             PlayerSkinLayer.LeftHand,
             PlayerSkinLayer.Shadow
         };
@@ -54,10 +58,10 @@ namespace SocialProyectoCenigraf.Player.Visual
         {
             PlayerSkinLayer.Head,
             PlayerSkinLayer.RightHand,
-            PlayerSkinLayer.RightLeg,
-            PlayerSkinLayer.LeftLeg,
             PlayerSkinLayer.BodyAccessory,
             PlayerSkinLayer.Body,
+            PlayerSkinLayer.RightLeg,
+            PlayerSkinLayer.LeftLeg,
             PlayerSkinLayer.LeftHand,
             PlayerSkinLayer.Shadow
         };

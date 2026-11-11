@@ -12,6 +12,17 @@ namespace SocialProyectoCenigraf.UI
         [SerializeField, Min(0f)] private float cornerRadius = 8f;
         [SerializeField, Range(1, 12)] private int cornerSegments = 5;
 
+        // Runtime built panels have no SerializedObject to write the field through.
+        public float CornerRadius
+        {
+            get => cornerRadius;
+            set
+            {
+                cornerRadius = Mathf.Max(0f, value);
+                SetVerticesDirty();
+            }
+        }
+
         protected override void OnPopulateMesh(VertexHelper vertexHelper)
         {
             vertexHelper.Clear();

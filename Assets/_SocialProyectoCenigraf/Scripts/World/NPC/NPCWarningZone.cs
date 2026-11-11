@@ -11,6 +11,11 @@ namespace SocialProyectoCenigraf.World.NPC
         [Header("References")]
         [SerializeField]
         private NPCPlayerTrackingController trackingController;
+        [SerializeField]
+        private NPCWarningZoneVisualFade visualFade;
+
+        [Header("Area en la vista Scene")]
+        [SerializeField] private Color areaColor = new Color(1f, 0.48f, 0.12f, 0.2f);
 
         private readonly HashSet<Transform> playersInside = new();
 
@@ -32,6 +37,14 @@ namespace SocialProyectoCenigraf.World.NPC
                 }
             }
 
+            if (visualFade != null)
+            {
+                for (int i = 0; i < playersInside.Count; i++)
+                {
+                    visualFade.PlayerExitedWarningZone();
+                }
+            }
+
             playersInside.Clear();
         }
 
@@ -42,6 +55,7 @@ namespace SocialProyectoCenigraf.World.NPC
             if (player != null && playersInside.Add(player))
             {
                 trackingController?.EnterWarningZone(player);
+                visualFade?.PlayerEnteredWarningZone();
             }
         }
 
@@ -52,6 +66,7 @@ namespace SocialProyectoCenigraf.World.NPC
             if (player != null && playersInside.Remove(player))
             {
                 trackingController?.ExitWarningZone(player);
+                visualFade?.PlayerExitedWarningZone();
             }
         }
 
@@ -75,6 +90,11 @@ namespace SocialProyectoCenigraf.World.NPC
                 trackingController =
                     GetComponentInParent<NPCPlayerTrackingController>();
             }
+
+            if (visualFade == null)
+            {
+                visualFade = GetComponentInParent<NPCWarningZoneVisualFade>();
+            }
         }
 
         private void EnsureTrigger()
@@ -94,5 +114,22 @@ namespace SocialProyectoCenigraf.World.NPC
             EnsureTrigger();
         }
 #endif
+
+        private void OnDrawGizmos()
+        {
+            BoxCollider2D area = GetComponent<BoxCollider2D>();
+            if (area == null) return;
+
+            Matrix4x4 previousMatrix = Gizmos.matrix;
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Gizmos.color = areaColor;
+            Gizmos.DrawCube(area.offset, area.size);
+
+            Color outlineColor = areaColor;
+            outlineColor.a = Mathf.Max(0.9f, areaColor.a);
+            Gizmos.color = outlineColor;
+            Gizmos.DrawWireCube(area.offset, area.size);
+            Gizmos.matrix = previousMatrix;
+        }
     }
 }

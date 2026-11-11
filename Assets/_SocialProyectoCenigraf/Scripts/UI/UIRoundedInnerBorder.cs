@@ -24,6 +24,16 @@ namespace SocialProyectoCenigraf.UI
             }
         }
 
+        public float CornerRadius
+        {
+            get => cornerRadius;
+            set
+            {
+                cornerRadius = Mathf.Max(0f, value);
+                SetVerticesDirty();
+            }
+        }
+
         protected override void OnPopulateMesh(VertexHelper vertexHelper)
         {
             vertexHelper.Clear();

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Player.Visual.PlayerSkinCatalog
   skins:
   - {fileID: 11400000, guid: 1181ea0e270fb4f24b2c5f90362ac51c, type: 2}
+  - {fileID: 11400000, guid: 6d0d4293b8ac44ebab719ed6084a862b, type: 2}

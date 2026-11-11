@@ -10,10 +10,16 @@ namespace SocialProyectoCenigraf.Player.Visual
     [RequireComponent(typeof(PlayerMovementController))]
     public sealed class PlayerLayeredSkinController : MonoBehaviour
     {
+        public const string DefaultFallbackSkinId = "Default";
+
         [Header("Skin source")]
         [SerializeField] private PlayerSkinCatalog skinCatalog;
         [SerializeField] private PlayerLayerOrderProfile layerOrderProfile;
         [SerializeField] private Transform skinRoot;
+        [Tooltip(
+            "Skin used when the requested SkinId is not in the catalog. " +
+            "Standard naming: SkinPlayer_<SkinName>_<Layer>_<TBD>_<TBD>.")]
+        [SerializeField] private string fallbackSkinId = DefaultFallbackSkinId;
 
         [Header("Layer renderers")]
         [SerializeField] private SpriteRenderer shadowRenderer;
@@ -28,6 +34,7 @@ namespace SocialProyectoCenigraf.Player.Visual
         private PlayerStateStore store;
         private PlayerMovementController movementController;
         private PlayerSkinDefinition activeSkin;
+        private string resolvedSkinId;
         private int animationFrame;
         private float frameElapsedMilliseconds;
         private bool wasMoving;
@@ -94,11 +101,10 @@ namespace SocialProyectoCenigraf.Player.Visual
             PlayerStateData state,
             PlayerAction action)
         {
-            bool skinChanged = activeSkin == null ||
-                !string.Equals(
-                    activeSkin.SkinId,
-                    state.SkinId,
-                    System.StringComparison.OrdinalIgnoreCase);
+            bool skinChanged = !string.Equals(
+                resolvedSkinId,
+                state.SkinId,
+                System.StringComparison.OrdinalIgnoreCase);
             ApplyState(state, skinChanged);
         }
 
@@ -106,6 +112,7 @@ namespace SocialProyectoCenigraf.Player.Visual
         {
             if (resolveSkin)
             {
+                resolvedSkinId = state.SkinId;
                 ResolveActiveSkin(state.SkinId);
                 animationFrame = GetStartingFrame(state);
                 frameElapsedMilliseconds = 0f;
@@ -125,6 +132,18 @@ namespace SocialProyectoCenigraf.Player.Visual
                 skinCatalog.TryGetSkin(skinId, out PlayerSkinDefinition skin))
             {
                 activeSkin = skin;
+                return;
+            }
+
+            if (skinCatalog != null &&
+                !string.IsNullOrWhiteSpace(fallbackSkinId) &&
+                skinCatalog.TryGetSkin(fallbackSkinId, out skin))
+            {
+                activeSkin = skin;
+                Debug.LogWarning(
+                    $"Player skin '{skinId}' not found; using fallback " +
+                    $"'{fallbackSkinId}'.",
+                    this);
                 return;
             }
 
@@ -267,13 +286,19 @@ namespace SocialProyectoCenigraf.Player.Visual
             PlayerSkinLayer layer,
             PlayerAnimationType animationType)
         {
-            if (targetRenderer != null)
+            if (targetRenderer == null)
             {
-                targetRenderer.sprite = activeSkin.GetSprite(
-                    layer,
-                    animationType,
-                    animationFrame);
+                return;
             }
+
+            // Layers a skin does not provide (e.g. Shadow/BodyAccessory in
+            // the Default skin) are simply hidden.
+            Sprite sprite = activeSkin.GetSprite(
+                layer,
+                animationType,
+                animationFrame);
+            targetRenderer.sprite = sprite;
+            targetRenderer.enabled = sprite != null;
         }
     }
 }

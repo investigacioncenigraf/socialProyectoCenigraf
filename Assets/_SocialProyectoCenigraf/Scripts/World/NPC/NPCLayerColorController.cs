@@ -9,6 +9,12 @@ namespace SocialProyectoCenigraf.World.NPC
     {
         private static readonly int FaceColorProperty =
             Shader.PropertyToID("_FaceColor");
+        private static readonly int OutlineColorProperty =
+            Shader.PropertyToID("_OutlineColor");
+        private static readonly int OutlineSourceColorProperty =
+            Shader.PropertyToID("_OutlineSourceColor");
+        private static readonly int OutlineColorToleranceProperty =
+            Shader.PropertyToID("_OutlineColorTolerance");
 
         [Header("Complete character tint")]
         [Tooltip(
@@ -29,6 +35,14 @@ namespace SocialProyectoCenigraf.World.NPC
         [SerializeField] private Color headColor = Color.white;
         [SerializeField] private Color faceColor = Color.white;
 
+        [Header("Layer outline")]
+        [Tooltip("Replacement color for every #3C3C3C pixel in every NPC skin layer.")]
+        [SerializeField] private Color outlineColor = new Color(64f / 255f, 55f / 255f, 1f, 1f);
+        [Tooltip("Source color in the sprite that should be replaced by the outline color.")]
+        [SerializeField] private Color outlineSourceColor = new Color(60f / 255f, 60f / 255f, 60f / 255f, 1f);
+        [Tooltip("Small color difference allowed when matching the source pixels.")]
+        [SerializeField, Range(0f, 0.1f)] private float outlineColorTolerance = 0.015f;
+
         [Header("Layer renderers")]
         [SerializeField] private SpriteRenderer shadowRenderer;
         [SerializeField] private SpriteRenderer leftLegRenderer;
@@ -43,6 +57,8 @@ namespace SocialProyectoCenigraf.World.NPC
         public Color FaceColor => faceColor;
 
         private MaterialPropertyBlock headPropertyBlock;
+        private MaterialPropertyBlock layerPropertyBlock;
+        private float visualOpacity = 1f;
 
         private void Awake()
         {
@@ -100,6 +116,12 @@ namespace SocialProyectoCenigraf.World.NPC
             ApplyColors();
         }
 
+        public void SetOutlineColor(Color color)
+        {
+            outlineColor = color;
+            ApplyColors();
+        }
+
         public Color GetLayerColor(PlayerSkinLayer layer)
         {
             return layer switch
@@ -147,6 +169,24 @@ namespace SocialProyectoCenigraf.World.NPC
             SetRendererColor(rightHandRenderer, rightHandColor);
             SetRendererColor(headRenderer, headColor);
             SetFaceRendererColor();
+            ApplyOutlineColor(shadowRenderer);
+            ApplyOutlineColor(leftLegRenderer);
+            ApplyOutlineColor(rightLegRenderer);
+            ApplyOutlineColor(bodyRenderer);
+            ApplyOutlineColor(bodyAccessoryRenderer);
+            ApplyOutlineColor(leftHandRenderer);
+            ApplyOutlineColor(rightHandRenderer);
+            ApplyOutlineColor(headRenderer);
+        }
+
+        /// <summary>
+        /// Multiplies the alpha of every colored layer, including the face
+        /// and outline shader masks. RGB values remain untouched.
+        /// </summary>
+        public void SetVisualOpacity(float opacity)
+        {
+            visualOpacity = Mathf.Clamp01(opacity);
+            ApplyColors();
         }
 
         private void SetRendererColor(
@@ -155,6 +195,7 @@ namespace SocialProyectoCenigraf.World.NPC
         {
             if (targetRenderer != null)
             {
+                layerColor.a *= visualOpacity;
                 targetRenderer.color = layerColor;
             }
         }
@@ -170,8 +211,26 @@ namespace SocialProyectoCenigraf.World.NPC
             headRenderer.GetPropertyBlock(headPropertyBlock);
             headPropertyBlock.SetColor(
                 FaceColorProperty,
-                faceColor);
+                WithVisualOpacity(faceColor));
             headRenderer.SetPropertyBlock(headPropertyBlock);
+        }
+
+        private void ApplyOutlineColor(SpriteRenderer targetRenderer)
+        {
+            if (targetRenderer == null) return;
+
+            layerPropertyBlock ??= new MaterialPropertyBlock();
+            targetRenderer.GetPropertyBlock(layerPropertyBlock);
+            layerPropertyBlock.SetColor(OutlineColorProperty, WithVisualOpacity(outlineColor));
+            layerPropertyBlock.SetColor(OutlineSourceColorProperty, outlineSourceColor.linear);
+            layerPropertyBlock.SetFloat(OutlineColorToleranceProperty, outlineColorTolerance);
+            targetRenderer.SetPropertyBlock(layerPropertyBlock);
+        }
+
+        private Color WithVisualOpacity(Color color)
+        {
+            color.a *= visualOpacity;
+            return color;
         }
 
         private void ApplyCharacterColorToEveryLayer()

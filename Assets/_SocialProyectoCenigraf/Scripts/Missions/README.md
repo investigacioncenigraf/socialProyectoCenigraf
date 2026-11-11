@@ -6,4 +6,4 @@ El diálogo es independiente: puedes tener diálogo informativo, misión sin di�
 
 Crea contenido en Project → Create → Cenigraf → Mission Catalog. Cada entrada contiene ID, Title, Description y Objective. Los IDs deben ser únicos en todos los catálogos de la partida.
 
-MissionJournal.ActiveMissions expone el registro; IsActive(id) consulta si está recibida y MissionActivated notifica nuevas activaciones. Se conserva entre escenas y se reinicia en una partida nueva. La consola muestra la activación. Este primer registro no incluye HUD, guardado al cerrar el juego, progreso automático, finalización ni recompensas. El texto Objective es descriptivo.
+MissionJournal.ActiveMissions expone las misiones activas; IsActive(id) e IsCompleted(id) consultan sus estados. Al cumplir el objetivo, el sistema que detecta su finalización debe llamar a `MissionJournal.Complete(id)`. La misión se retira de las activas, queda marcada como completada y emite `MissionFinished`. El estado se conserva entre escenas y se reinicia en una partida nueva; todavía no se guarda al cerrar el juego ni se detecta el progreso automáticamente. El texto Objective sigue siendo descriptivo.

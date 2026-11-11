@@ -156,6 +156,7 @@ namespace SocialProyectoCenigraf.Navigation
         private void LoadScene(string sceneName)
         {
             isLoadingScene = true;
+            SocialProyectoCenigraf.Audio.WorldMusicPlayer.FadeOutForSceneChange();
             SceneManager.LoadScene(sceneName);
         }
 

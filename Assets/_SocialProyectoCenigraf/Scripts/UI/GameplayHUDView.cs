@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SocialProyectoCenigraf.UI
@@ -7,6 +8,14 @@ namespace SocialProyectoCenigraf.UI
     [DisallowMultipleComponent]
     public sealed class GameplayHUDView : MonoBehaviour
     {
+        private static readonly Color SceneLabelBackground =
+            new Color32(30, 45, 61, 232);
+        private static readonly Color SceneLabelText =
+            new Color32(244, 249, 255, 255);
+
+        private TMP_Text sceneNameText;
+        private RectTransform sceneNameLabelRect;
+
         [Header("Player summary")]
         [SerializeField] private Graphic playerAvatarGraphic;
         [SerializeField] private TMP_Text playerNameText;
@@ -17,6 +26,81 @@ namespace SocialProyectoCenigraf.UI
 
         [Header("Menu")]
         [SerializeField] private Button menuButton;
+
+        private void Awake()
+        {
+            CreateSceneNameLabel();
+            UpdateSceneName(SceneManager.GetActiveScene(), SceneManager.GetActiveScene());
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.activeSceneChanged += UpdateSceneName;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.activeSceneChanged -= UpdateSceneName;
+        }
+
+        private void CreateSceneNameLabel()
+        {
+            Transform hudRoot = transform.Find("SafeArea/HUD_Root");
+            if (hudRoot == null) hudRoot = transform;
+
+            GameObject backgroundObject = new GameObject(
+                "SceneNameLabel",
+                typeof(RectTransform),
+                typeof(CanvasRenderer),
+                typeof(UIRoundedRectangle));
+            backgroundObject.transform.SetParent(hudRoot, false);
+
+            RectTransform backgroundRect = backgroundObject.GetComponent<RectTransform>();
+            backgroundRect.anchorMin = new Vector2(1f, 1f);
+            backgroundRect.anchorMax = new Vector2(1f, 1f);
+            backgroundRect.pivot = new Vector2(1f, 1f);
+            backgroundRect.anchoredPosition = new Vector2(0f, -92f);
+            backgroundRect.sizeDelta = new Vector2(220f, 50f);
+            sceneNameLabelRect = backgroundRect;
+
+            UIRoundedRectangle background = backgroundObject.GetComponent<UIRoundedRectangle>();
+            background.color = SceneLabelBackground;
+            background.raycastTarget = false;
+
+            GameObject textObject = new GameObject(
+                "SceneNameText",
+                typeof(RectTransform),
+                typeof(CanvasRenderer),
+                typeof(TextMeshProUGUI));
+            textObject.transform.SetParent(backgroundRect, false);
+
+            RectTransform textRect = textObject.GetComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = new Vector2(14f, 7f);
+            textRect.offsetMax = new Vector2(-14f, -7f);
+
+            sceneNameText = textObject.GetComponent<TextMeshProUGUI>();
+            sceneNameText.font = TMP_Settings.defaultFontAsset;
+            sceneNameText.fontSize = 16f;
+            sceneNameText.color = SceneLabelText;
+            sceneNameText.alignment = TextAlignmentOptions.Center;
+            sceneNameText.enableWordWrapping = true;
+            sceneNameText.overflowMode = TextOverflowModes.Overflow;
+            sceneNameText.raycastTarget = false;
+        }
+
+        private void UpdateSceneName(UnityEngine.SceneManagement.Scene previous, UnityEngine.SceneManagement.Scene current)
+        {
+            if (sceneNameText == null) return;
+
+            string sceneName = current.IsValid() ? current.name : string.Empty;
+            sceneNameText.text = sceneName.Replace('_', ' ');
+            sceneNameText.ForceMeshUpdate();
+            sceneNameLabelRect.sizeDelta = new Vector2(
+                220f,
+                Mathf.Max(50f, sceneNameText.preferredHeight + 20f));
+        }
 
         [Header("Chat")]
         [SerializeField] private GameObject chatPanel;

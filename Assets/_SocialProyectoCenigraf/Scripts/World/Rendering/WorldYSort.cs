@@ -20,6 +20,8 @@ namespace SocialProyectoCenigraf.World.Rendering
 
         public int CurrentSortingOrder { get; private set; }
         public bool SortingEnabled => sortingEnabled;
+        /// <summary>Sorting orders added per world unit of Y.</summary>
+        public int OrdersPerUnit => ordersPerUnit;
 
         private void Reset()
         {
@@ -54,11 +56,25 @@ namespace SocialProyectoCenigraf.World.Rendering
 
         public void RefreshSortingOrder()
         {
-            CurrentSortingOrder =
-                Mathf.RoundToInt(-sortPoint.position.y * ordersPerUnit) +
-                orderOffset;
+            // Unity stores sorting orders as a signed 16 bit value: past that they wrap around
+            // and the object is drawn behind everything instead of in front.
+            CurrentSortingOrder = Mathf.Clamp(
+                Mathf.RoundToInt(-sortPoint.position.y * ordersPerUnit) + orderOffset,
+                short.MinValue,
+                short.MaxValue);
 
             SetTargetSortingOrder(CurrentSortingOrder);
+        }
+
+        /// <summary>Changes the base order added to the Y-based order (used by generated objects).</summary>
+        public void SetOrderOffset(int offset)
+        {
+            orderOffset = offset;
+
+            if (sortingEnabled && sortPoint != null && HasSortingTarget)
+            {
+                RefreshSortingOrder();
+            }
         }
 
         public void SetSortingEnabled(bool value)

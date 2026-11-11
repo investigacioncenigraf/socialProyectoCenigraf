@@ -98,10 +98,15 @@ MonoBehaviour:
   destinationTeleportId: 024
   interactionPrompt: {fileID: 4661009400296212337}
   areaColor: {r: 0.45, g: 0.76, b: 0.78, a: 0.18}
+  portalActive: 1
+  accessRequirements: []
   restrictByRole: 0
   roleCatalog: {fileID: 11400000, guid: da407276f4194165c91e7294d4395b05, type: 2}
   excludedRoleIds: []
   accessDeniedMessage: "Tu rol no tiene permiso para entrar a esta zona."
+  requirementsNotMetMessage: Todavía necesitas cumplir un objetivo para activar este portal.
+  lockedDialogueCatalog: {fileID: 0}
+  lockedDialogueId: ""
 --- !u!1 &3504311241765766206
 GameObject:
   m_ObjectHideFlags: 0

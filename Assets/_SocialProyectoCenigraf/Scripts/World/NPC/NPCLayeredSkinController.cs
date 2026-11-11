@@ -11,6 +11,7 @@ namespace SocialProyectoCenigraf.World.NPC
         [SerializeField] private PlayerSkinCatalog skinCatalog;
         [SerializeField] private PlayerLayerOrderProfile layerOrderProfile;
         [SerializeField] private string skinId = PlayerStateData.DefaultSkinId;
+        [SerializeField] private Shader outlineShader;
         [SerializeField] private Transform skinRoot;
         [SerializeField] private NPCLayerColorController layerColorController;
 
@@ -42,10 +43,15 @@ namespace SocialProyectoCenigraf.World.NPC
         public PlayerAnimationType AnimationType => animationType;
         public PlayerFacingDirection FacingDirection => facingDirection;
         public bool IsAnimationPlaying => playAnimation;
+        public Sprite HeadSprite => headRenderer != null ? headRenderer.sprite : null;
+        public Color HeadColor => layerColorController != null
+            ? layerColorController.GetLayerColor(PlayerSkinLayer.Head)
+            : Color.white;
 
         private void Awake()
         {
             FindColorController();
+            ConfigureLayerMaterials();
             ConfigureHeadMaterial();
             ResolveSkin(true);
             ResetAnimation();
@@ -252,6 +258,28 @@ namespace SocialProyectoCenigraf.World.NPC
             }
         }
 
+        private void ConfigureLayerMaterials()
+        {
+            Material outlineMaterial = NPCLayerOutlineMaterial.GetShared(outlineShader);
+            if (outlineMaterial == null) return;
+
+            SetLayerMaterial(shadowRenderer, outlineMaterial);
+            SetLayerMaterial(leftLegRenderer, outlineMaterial);
+            SetLayerMaterial(rightLegRenderer, outlineMaterial);
+            SetLayerMaterial(bodyRenderer, outlineMaterial);
+            SetLayerMaterial(bodyAccessoryRenderer, outlineMaterial);
+            SetLayerMaterial(leftHandRenderer, outlineMaterial);
+            SetLayerMaterial(rightHandRenderer, outlineMaterial);
+        }
+
+        private static void SetLayerMaterial(
+            SpriteRenderer targetRenderer,
+            Material material)
+        {
+            if (targetRenderer != null)
+                targetRenderer.sharedMaterial = material;
+        }
+
         private void FindColorController()
         {
             if (layerColorController == null)
@@ -277,6 +305,7 @@ namespace SocialProyectoCenigraf.World.NPC
             if (!Application.isPlaying)
             {
                 FindColorController();
+                ConfigureLayerMaterials();
                 ConfigureHeadMaterial();
                 ResolveSkin(false);
                 ResetAnimation();

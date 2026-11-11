@@ -6,6 +6,9 @@ Shader "Cenigraf/Selective Head Tint"
         [HideInInspector] _Color("Tint", Color) = (1, 1, 1, 1)
         [HideInInspector] _RendererColor("Renderer Color", Color) = (1, 1, 1, 1)
         [PerRendererData] _FaceColor("Face Tint", Color) = (1, 1, 1, 1)
+        [PerRendererData] _OutlineColor("Outline Color", Color) = (0, 0, 0, 1)
+        [PerRendererData] _OutlineSourceColor("Source Color To Replace", Color) = (0.0451862, 0.0451862, 0.0451862, 1)
+        [PerRendererData] _OutlineColorTolerance("Source Color Tolerance", Range(0, 0.1)) = 0.015
         _TintMinimum("Tint Minimum Luminance", Range(0, 1)) = 0.35
         _TintMaximum("Tint Maximum Luminance", Range(0, 1)) = 0.88
         [MaterialToggle] _ZWrite("ZWrite", Float) = 0
@@ -70,18 +73,31 @@ Shader "Cenigraf/Selective Head Tint"
             };
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/Lit2DCommon.hlsl"
+            float4 _MainTex_TexelSize;
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _Color;
                 half4 _FaceColor;
+                half4 _OutlineColor;
+                half4 _OutlineSourceColor;
+                half _OutlineColorTolerance;
                 half _TintMinimum;
                 half _TintMaximum;
             CBUFFER_END
 
+            half DetectOutlinePixel(half3 sourceColor)
+            {
+                half3 difference = abs(sourceColor - _OutlineSourceColor.rgb);
+                half largestDifference = max(difference.r, max(difference.g, difference.b));
+                return 1.0h - step(_OutlineColorTolerance, largestDifference);
+            }
+
             half4 ApplySelectiveTint(
                 half4 source,
                 half4 headTint,
-                half4 faceTint)
+                half4 faceTint,
+                half4 outlineTint,
+                float2 uv)
             {
                 half luminance = dot(source.rgb, half3(0.299h, 0.587h, 0.114h));
                 half headMask = step(_TintMinimum, luminance) *
@@ -95,8 +111,11 @@ Shader "Cenigraf/Selective Head Tint"
                     result,
                     source.rgb * faceTint.rgb,
                     faceMask);
+                half outlineMask = DetectOutlinePixel(source.rgb);
+                result = lerp(result, outlineTint.rgb, outlineMask);
                 half alphaTint = lerp(1.0h, headTint.a, headMask);
                 alphaTint = lerp(alphaTint, faceTint.a, faceMask);
+                alphaTint = lerp(alphaTint, outlineTint.a, outlineMask);
                 return half4(result, source.a * alphaTint);
             }
 
@@ -122,7 +141,9 @@ Shader "Cenigraf/Selective Head Tint"
                 half4 main = ApplySelectiveTint(
                     source,
                     input.color,
-                    _FaceColor);
+                    _FaceColor,
+                    _OutlineColor,
+                    input.uv);
                 half4 mask = SAMPLE_TEXTURE2D(
                     _MaskTex,
                     sampler_MaskTex,
@@ -172,13 +193,24 @@ Shader "Cenigraf/Selective Head Tint"
             };
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/2DCommon.hlsl"
+            float4 _MainTex_TexelSize;
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _Color;
                 half4 _FaceColor;
+                half4 _OutlineColor;
+                half4 _OutlineSourceColor;
+                half _OutlineColorTolerance;
                 half _TintMinimum;
                 half _TintMaximum;
             CBUFFER_END
+
+            half DetectOutlinePixel(half3 sourceColor)
+            {
+                half3 difference = abs(sourceColor - _OutlineSourceColor.rgb);
+                half largestDifference = max(difference.r, max(difference.g, difference.b));
+                return 1.0h - step(_OutlineColorTolerance, largestDifference);
+            }
 
             Varyings SelectiveUnlitVertex(Attributes input)
             {
@@ -213,8 +245,11 @@ Shader "Cenigraf/Selective Head Tint"
                     result,
                     source.rgb * _FaceColor.rgb,
                     faceMask);
+                half outlineMask = DetectOutlinePixel(source.rgb);
+                result = lerp(result, _OutlineColor.rgb, outlineMask);
                 half alphaTint = lerp(1.0h, input.color.a, headMask);
                 alphaTint = lerp(alphaTint, _FaceColor.a, faceMask);
+                alphaTint = lerp(alphaTint, _OutlineColor.a, outlineMask);
                 return half4(result, source.a * alphaTint);
             }
             ENDHLSL

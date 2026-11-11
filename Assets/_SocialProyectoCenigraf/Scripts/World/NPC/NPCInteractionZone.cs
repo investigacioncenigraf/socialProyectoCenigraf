@@ -18,6 +18,9 @@ namespace SocialProyectoCenigraf.World.NPC
         [SerializeField]
         private NPCInteractionIndicatorController indicatorController;
 
+        [Header("Area en la vista Scene")]
+        [SerializeField] private Color areaColor = new Color(0.12f, 0.82f, 0.72f, 0.22f);
+
         private readonly HashSet<Collider2D> playerCollidersInside = new();
 
         public bool HasPlayerInside => playerCollidersInside.Count > 0;
@@ -138,5 +141,27 @@ namespace SocialProyectoCenigraf.World.NPC
             EnsureTrigger();
         }
 #endif
+
+        private void OnDrawGizmos()
+        {
+            DrawAreaGizmo(areaColor);
+        }
+
+        private void DrawAreaGizmo(Color fillColor)
+        {
+            BoxCollider2D area = GetComponent<BoxCollider2D>();
+            if (area == null) return;
+
+            Matrix4x4 previousMatrix = Gizmos.matrix;
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Gizmos.color = fillColor;
+            Gizmos.DrawCube(area.offset, area.size);
+
+            Color outlineColor = fillColor;
+            outlineColor.a = Mathf.Max(0.85f, fillColor.a);
+            Gizmos.color = outlineColor;
+            Gizmos.DrawWireCube(area.offset, area.size);
+            Gizmos.matrix = previousMatrix;
+        }
     }
 }

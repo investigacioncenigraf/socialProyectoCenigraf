@@ -23,6 +23,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_SocialProyectoCenigraf/Scenes/Salas/Sala_Lobby.unity
     guid: 4256413dabfbd47459be4080446c5bd0
+  - enabled: 1
+    path: Assets/_SocialProyectoCenigraf/Scenes/Salas/Propuesta/Templo_De_Los_4_Caminos.unity
+    guid: 097a60db7f0c743728b3af880a6cbda5
+  - enabled: 1
+    path: Assets/_SocialProyectoCenigraf/Scenes/Salas/Propuesta/Prueba_deL_Aprendizaje.unity
+    guid: 200d796e9e52b4b8cb0cb4ec1b061ed8
+  - enabled: 1
+    path: Assets/_SocialProyectoCenigraf/Scenes/Salas/Propuesta/Prueba_de_la_Orientacion
+      1.unity
+    guid: 151ea7b2ce71e416cb1221e03c500137
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -28,8 +28,8 @@ namespace SocialProyectoCenigraf.Editor.Player
             "Assets/_SocialProyectoCenigraf/Asset/WorldScene/Colections/" +
             "teclaE.png";
         private const string DialogueCatalogPath =
-            "Assets/_SocialProyectoCenigraf/Asset/Dialogue/" +
-            "DialogueCatalog_Example.asset";
+            "Assets/_SocialProyectoCenigraf/Data/Dialogue/" +
+            "DialogueCatalog.asset";
         private const string DefaultDialogueId =
             "recepcion_lobby_entrega_carnet";
 
@@ -138,8 +138,9 @@ namespace SocialProyectoCenigraf.Editor.Player
                 GetOrAddComponent<NPCPlayerTrackingController>(npc);
             NPCInteractionIndicatorController indicatorController =
                 GetOrAddComponent<NPCInteractionIndicatorController>(npc);
-            NPCDialogueInteractionController dialogueController =
-                GetOrAddComponent<NPCDialogueInteractionController>(npc);
+            RemoveComponent<NPCDialogueInteractionController>(npc);
+            NPCDialogoOfficialInteraction dialogueController =
+                GetOrAddComponent<NPCDialogoOfficialInteraction>(npc);
             SerializedObject serializedController = new(controller);
             serializedController.FindProperty("skinCatalog").objectReferenceValue =
                 catalog;
@@ -263,7 +264,7 @@ namespace SocialProyectoCenigraf.Editor.Player
             Transform npc,
             NPCPlayerTrackingController trackingController,
             NPCInteractionIndicatorController indicatorController,
-            NPCDialogueInteractionController dialogueController)
+            NPCDialogoOfficialInteraction dialogueController)
         {
             Transform interactionZone = npc.Find("InteractionZone") ??
                 CreateChild(npc, "InteractionZone");
