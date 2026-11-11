@@ -58,7 +58,7 @@ namespace SocialProyectoCenigraf.World
         {
             occupants.RemoveWhere(c => c == null || !c.enabled || !c.gameObject.activeInHierarchy || (!IsPlayer(c) && !(DialoguePresenter.IsOpen || RewardWindow.IsOpen)));
             SetPrompt(PlayerInRange && !(DialoguePresenter.IsOpen || RewardWindow.IsOpen));
-            if (!PlayerInRange || (DialoguePresenter.IsOpen || RewardWindow.IsOpen) || dialogueCatalog == null || string.IsNullOrWhiteSpace(dialogueId)
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked || !PlayerInRange || (DialoguePresenter.IsOpen || RewardWindow.IsOpen) || dialogueCatalog == null || string.IsNullOrWhiteSpace(dialogueId)
                 || (Time.frameCount == DialoguePresenter.LastClosedFrame || Time.frameCount == RewardWindow.LastClosedFrame)
                 || Keyboard.current == null || !Keyboard.current.eKey.wasPressedThisFrame) return;
             GameObject selected = EventSystem.current?.currentSelectedGameObject;
@@ -68,7 +68,7 @@ namespace SocialProyectoCenigraf.World
         }
         public bool Interact()
         {
-            if (!PlayerInRange || (DialoguePresenter.IsOpen || RewardWindow.IsOpen) || dialogueCatalog == null
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked || !PlayerInRange || (DialoguePresenter.IsOpen || RewardWindow.IsOpen) || dialogueCatalog == null
                 || string.IsNullOrWhiteSpace(dialogueId)
                 || (Time.frameCount == DialoguePresenter.LastClosedFrame || Time.frameCount == RewardWindow.LastClosedFrame)) return false;
             foreach (var collider in occupants)
@@ -88,7 +88,7 @@ namespace SocialProyectoCenigraf.World
         public Vector3 InteractionPosition => transform.position;
         public bool CanInteractWith(PlayerMovementController player)
         {
-            if (player == null || !player.AcceptsLocalInput || !player.isActiveAndEnabled || DialoguePresenter.IsOpen || RewardWindow.IsOpen
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked || player == null || !player.AcceptsLocalInput || !player.isActiveAndEnabled || DialoguePresenter.IsOpen || RewardWindow.IsOpen
                 || dialogueCatalog == null || !dialogueCatalog.TryGet(dialogueId, out _)) return false;
             foreach (var collider in occupants)
                 if (collider != null && collider.enabled && collider.gameObject.activeInHierarchy

@@ -30,6 +30,12 @@ namespace SocialProyectoCenigraf.UI
         [SerializeField] private string subtitle;
         [SerializeField] private NavigationOption[] options = Array.Empty<NavigationOption>();
 
+        [Header("Back navigation")]
+        [SerializeField] private bool showBackButton;
+        [SerializeField] private Sprite backButtonSprite;
+        [Tooltip("Used when this scene was opened directly, without navigation history.")]
+        [SerializeField] private string backFallbackSceneName = "InitialDemoScene";
+
         [Header("Footer")]
         [SerializeField] private string footer =
             "Entorno de desarrollo · Fase de Implementación de Estados";
@@ -128,6 +134,9 @@ namespace SocialProyectoCenigraf.UI
 
             BuildOptions(content);
             BuildFooter(content);
+            if (showBackButton)
+                MenuBackButton.Create(content, backButtonSprite,
+                    () => SceneNavigationService.Instance.GoBackOrTo(backFallbackSceneName));
 
             if (Application.isPlaying)
             {
@@ -137,13 +146,12 @@ namespace SocialProyectoCenigraf.UI
 
         private void BuildOptions(RectTransform parent)
         {
-            if (options == null || options.Length == 0)
-            {
-                return;
-            }
+            int optionCount = options == null ? 0 : options.Length;
+            int buttonCount = optionCount;
+            if (buttonCount == 0) return;
 
             RectTransform container = CreateRect("MenuOptions", parent);
-            float height = options.Length * 80f + Mathf.Max(0, options.Length - 1) * 16f;
+            float height = buttonCount * 80f + Mathf.Max(0, buttonCount - 1) * 16f;
             SetAnchoredRect(
                 container,
                 new Vector2(0.5f, 0.5f),
@@ -158,16 +166,18 @@ namespace SocialProyectoCenigraf.UI
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = false;
 
-            for (int i = 0; i < options.Length; i++)
+            for (int i = 0; i < optionCount; i++)
             {
                 CreateNavigationButton(container, options[i], i);
             }
+
         }
 
-        private void CreateNavigationButton(
+        private Button CreateNavigationButton(
             RectTransform parent,
             NavigationOption option,
-            int index)
+            int index,
+            UnityEngine.Events.UnityAction onClick = null)
         {
             GameObject buttonObject = new GameObject(
                 $"BTN_Option_{index + 1:00}",
@@ -221,6 +231,7 @@ namespace SocialProyectoCenigraf.UI
             Image icon = iconObject.GetComponent<Image>();
             icon.sprite = option?.visualStyle != null ? option.visualStyle.Icon : null;
             icon.color = Color.white;
+            icon.enabled = icon.sprite != null;
             icon.preserveAspect = true;
             icon.raycastTarget = false;
             LayoutElement iconLayout = iconObject.GetComponent<LayoutElement>();
@@ -254,8 +265,10 @@ namespace SocialProyectoCenigraf.UI
             if (Application.isPlaying)
             {
                 string destination = option?.destinationSceneName;
-                button.onClick.AddListener(() => Navigate(destination));
+                if (onClick != null) button.onClick.AddListener(onClick);
+                else button.onClick.AddListener(() => Navigate(destination));
             }
+            return button;
         }
 
         private void BuildFooter(RectTransform parent)

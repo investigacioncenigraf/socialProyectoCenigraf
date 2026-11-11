@@ -1,0 +1,466 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92fd09ac3eea4a808f83ff0da956c7d1, type: 3}
+  m_Name: ItemCatalog_Example
+  m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Items.ItemCatalog
+  items:
+  - id: pepita_oro
+    displayName: 'Pepita de oro'
+    description: 'Grano de oro de río, sin fundir. Es la unidad con la que se mide todo lo demás.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 1
+    tier: 1
+    nuggetValue: 1
+    consumable: 0
+    restoreAmount: 0
+  - id: esmeralda
+    displayName: 'Esmeralda'
+    description: 'La piedra verde de estas montañas. No se cambia por costumbre: vale 125 pepitas.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 1
+    tier: 2
+    nuggetValue: 125
+    consumable: 0
+    restoreAmount: 0
+  - id: carnet_estudiantil
+    displayName: 'Carnet de aprendiz'
+    description: 'Tu identificación como aprendiz. Llévala contigo durante tu recorrido.'
+    icon: {fileID: 8243303746098052050, guid: 72fb4213bf8c7834b8626ffa62b168ce, type: 3}
+    stackable: 0
+    maxStack: 1
+    category: 4
+    tier: 1
+    nuggetValue: 0
+    consumable: 0
+    restoreAmount: 0
+  - id: gema_orientacion
+    displayName: 'Gema de la Orientación'
+    description: 'Recuerdo de la Prueba de la Orientación.'
+    icon: {fileID: 0}
+    stackable: 0
+    maxStack: 1
+    category: 4
+    tier: 1
+    nuggetValue: 0
+    consumable: 0
+    restoreAmount: 0
+  - id: pocion_salud_basica
+    displayName: 'Poción básica'
+    description: 'Repone una parte de la salud. La primera que aprende a preparar cualquiera.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 2
+    tier: 1
+    nuggetValue: 0
+    consumable: 1
+    restoreAmount: 25
+  - id: pocion_salud_mejorada
+    displayName: 'Poción mejorada'
+    description: 'Repone el doble que la básica.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 2
+    tier: 2
+    nuggetValue: 0
+    consumable: 1
+    restoreAmount: 50
+  - id: pocion_salud_suprema
+    displayName: 'Poción suprema'
+    description: 'Repone toda la salud.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 2
+    tier: 3
+    nuggetValue: 0
+    consumable: 1
+    restoreAmount: 100
+  - id: aluna_soplo
+    displayName: 'Soplo de Aluna'
+    description: 'Un hilo de la energía que, según los pueblos de la Sierra Nevada, sostiene y piensa el mundo.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 3
+    tier: 1
+    nuggetValue: 0
+    consumable: 1
+    restoreAmount: 25
+  - id: aluna_corriente
+    displayName: 'Corriente de Aluna'
+    description: 'Esa misma energía, ya hecha caudal. Repone el doble que un soplo.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 3
+    tier: 2
+    nuggetValue: 0
+    consumable: 1
+    restoreAmount: 50
+  - id: aluna_mayor
+    displayName: 'Aluna Mayor'
+    description: 'La forma más alta de esa energía. Repone todo el maná.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 3
+    tier: 3
+    nuggetValue: 0
+    consumable: 1
+    restoreAmount: 100
+  - id: rama_seca
+    displayName: 'Rama seca'
+    description: 'Leña menuda del bosque seco. Sirve de mango, de armazón o de fuego.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 1
+    consumable: 0
+    restoreAmount: 0
+  - id: hoja_palma
+    displayName: 'Hoja de palma'
+    description: 'Hoja larga y resistente con la que se techan las casas de la Sierra.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 1
+    consumable: 0
+    restoreAmount: 0
+  - id: arena_rio
+    displayName: 'Arena de río'
+    description: 'Arena fina para pulir piedra, madera y metal.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 1
+    consumable: 0
+    restoreAmount: 0
+  - id: piedra_rio
+    displayName: 'Piedra de río'
+    description: 'Canto rodado y liso. Sirve de martillo, de pulidor o de peso.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 2
+    consumable: 0
+    restoreAmount: 0
+  - id: arcilla
+    displayName: 'Arcilla'
+    description: 'Barro de orilla con el que se levantan vasijas antes de cocerlas.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 2
+    consumable: 0
+    restoreAmount: 0
+  - id: bejuco
+    displayName: 'Bejuco'
+    description: 'Liana flexible que amarra lo que ningún clavo sostiene.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 2
+    consumable: 0
+    restoreAmount: 0
+  - id: carbon_vegetal
+    displayName: 'Carbón vegetal'
+    description: 'Brasa apagada que vuelve a arder. Calienta el horno y tiñe de negro.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 2
+    consumable: 0
+    restoreAmount: 0
+  - id: fibra_fique
+    displayName: 'Fibra de fique'
+    description: 'Hebra sacada de la penca. Con ella se hilan cabuyas y se tejen mochilas.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 3
+    consumable: 0
+    restoreAmount: 0
+  - id: cana_brava
+    displayName: 'Caña brava'
+    description: 'Caña recta y hueca, buena para astiles, varas y cercos.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 3
+    consumable: 0
+    restoreAmount: 0
+  - id: concha_mar
+    displayName: 'Concha de mar'
+    description: 'Concha traída de la costa. Entera adorna; quemada se vuelve cal.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 1
+    nuggetValue: 3
+    consumable: 0
+    restoreAmount: 0
+  - id: palo_firme
+    displayName: 'Palo firme'
+    description: 'Madera de corazón, pesada y difícil de partir. La base de toda herramienta seria.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 5
+    consumable: 0
+    restoreAmount: 0
+  - id: algodon_crudo
+    displayName: 'Algodón crudo'
+    description: 'Copo sin hilar. Los taironas tejían con él sus mantas.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 5
+    consumable: 0
+    restoreAmount: 0
+  - id: lana_cruda
+    displayName: 'Lana cruda'
+    description: 'Vellón sin lavar. Se hila a mano y abriga el frío de la montaña.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 6
+    consumable: 0
+    restoreAmount: 0
+  - id: sal_marina
+    displayName: 'Sal marina'
+    description: 'Sal de salinas. Conserva la comida y por eso se cambiaba por casi todo.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 6
+    consumable: 0
+    restoreAmount: 0
+  - id: cal_concha
+    displayName: 'Cal de concha'
+    description: 'Polvo blanco de conchas quemadas y molidas.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 7
+    consumable: 0
+    restoreAmount: 0
+  - id: cera_abeja
+    displayName: 'Cera de abeja'
+    description: 'Cera para sellar, impermeabilizar y moldear antes de fundir.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 7
+    consumable: 0
+    restoreAmount: 0
+  - id: resina_arbol
+    displayName: 'Resina de árbol'
+    description: 'Savia endurecida que pega, impermeabiliza y arde con buen olor.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 8
+    consumable: 0
+    restoreAmount: 0
+  - id: tinte_achiote
+    displayName: 'Tinte de achiote'
+    description: 'Pasta roja de semillas. Pinta telas, cuerpos y cerámica.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 8
+    consumable: 0
+    restoreAmount: 0
+  - id: cuero_curtido
+    displayName: 'Cuero curtido'
+    description: 'Piel tratada, lista para correas, suelas y refuerzos.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 10
+    consumable: 0
+    restoreAmount: 0
+  - id: totumo
+    displayName: 'Totumo'
+    description: 'Calabazo seco y vaciado. Sirve de recipiente para todo.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 2
+    nuggetValue: 10
+    consumable: 0
+    restoreAmount: 0
+  - id: cuarzo
+    displayName: 'Cuarzo'
+    description: 'Cristal transparente de la Sierra. Se talla en cuentas y filos.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 3
+    nuggetValue: 15
+    consumable: 0
+    restoreAmount: 0
+  - id: cobre_nativo
+    displayName: 'Cobre nativo'
+    description: 'Metal rojizo en estado puro, listo para fundirse y alearse.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 3
+    nuggetValue: 20
+    consumable: 0
+    restoreAmount: 0
+  - id: pluma_guacamaya
+    displayName: 'Pluma de guacamaya'
+    description: 'Pluma larga de color encendido. Adorno de ocasiones importantes.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 3
+    nuggetValue: 30
+    consumable: 0
+    restoreAmount: 0
+  - id: piedra_verde
+    displayName: 'Piedra verde'
+    description: 'Piedra pulida de color hondo. Los taironas la labraban en colgantes.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 3
+    nuggetValue: 40
+    consumable: 0
+    restoreAmount: 0
+  - id: tumbaga
+    displayName: 'Tumbaga'
+    description: 'Aleación de oro y cobre con la que los orfebres taironas trabajaban.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 999
+    category: 5
+    tier: 3
+    nuggetValue: 60
+    consumable: 0
+    restoreAmount: 0
+  - id: collar_cuentas_cuarzo
+    displayName: 'Collar de cuentas de cuarzo'
+    description: 'Sarta de cuentas talladas y pulidas una a una. Trabajo de meses.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 5
+    tier: 4
+    nuggetValue: 90
+    consumable: 0
+    restoreAmount: 0
+  - id: nariguera_oro
+    displayName: 'Nariguera de oro'
+    description: 'Media luna de oro batido que se lleva sobre el labio en las ocasiones grandes.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 5
+    tier: 4
+    nuggetValue: 120
+    consumable: 0
+    restoreAmount: 0
+  - id: pectoral_alas
+    displayName: 'Pectoral de alas'
+    description: 'Lámina de oro con alas abiertas, de las que los taironas colgaban del pecho.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 5
+    tier: 4
+    nuggetValue: 150
+    consumable: 0
+    restoreAmount: 0
+  - id: colgante_cacique
+    displayName: 'Colgante de cacique'
+    description: 'Figura de un hombre sentado con tocado. Señal de quien manda.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 5
+    tier: 4
+    nuggetValue: 180
+    consumable: 0
+    restoreAmount: 0
+  - id: diadema_oro
+    displayName: 'Diadema de oro'
+    description: 'Banda labrada para la frente. Brilla incluso bajo la niebla de la Sierra.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 5
+    tier: 4
+    nuggetValue: 210
+    consumable: 0
+    restoreAmount: 0
+  - id: figura_murcielago
+    displayName: 'Figura de hombre murciélago'
+    description: 'Pieza de orfebrería mitad hombre mitad murciélago, de las más reconocidas de los taironas.'
+    icon: {fileID: 0}
+    stackable: 1
+    maxStack: 99
+    category: 5
+    tier: 4
+    nuggetValue: 260
+    consumable: 0
+    restoreAmount: 0

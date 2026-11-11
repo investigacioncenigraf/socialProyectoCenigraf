@@ -7,6 +7,7 @@ namespace SocialProyectoCenigraf.UI
     [ExecuteAlways]
     [AddComponentMenu("UI/Effects/Rounded Inner Border")]
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(CanvasRenderer))]
     public sealed class UIRoundedInnerBorder : MaskableGraphic
     {
         [SerializeField, Min(0f)] private float thickness = 4f;
@@ -19,6 +20,16 @@ namespace SocialProyectoCenigraf.UI
             set
             {
                 thickness = Mathf.Max(0f, value);
+                SetVerticesDirty();
+            }
+        }
+
+        public float CornerRadius
+        {
+            get => cornerRadius;
+            set
+            {
+                cornerRadius = Mathf.Max(0f, value);
                 SetVerticesDirty();
             }
         }

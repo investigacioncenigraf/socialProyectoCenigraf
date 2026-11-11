@@ -9,6 +9,9 @@ Esta carpeta conserva la arquitectura histórica y la documentación del comport
 | [Actualización técnica NIWI-MU - PDF](Actualizacion_Tecnica_NIWI_MU.pdf) | Manual técnico con corte al 18/10/2026: interacciones, diálogos, misiones, recompensas, roles, teleports, audio, móvil, build y validación |
 | [Fuente LaTeX del manual](Actualizacion_Tecnica_NIWI_MU.tex) | Editable; conserva tipografía, colores, tablas y estructura del documento de arquitectura |
 | [Cobertura y pendientes](COBERTURA_Y_PENDIENTES_2026-10-18.md) | Auditoría de documentación, límites reales y criterios para completar lo pendiente |
+| [Sistema de diálogos](SISTEMA_DE_DIALOGOS.md) ([PDF](SISTEMA_DE_DIALOGOS.pdf)) | Guía de autoría, condiciones, respuestas, integración en NPC y modos de presentación |
+| [Sistema de NPC](SISTEMA_DE_NPC.md) ([PDF](SISTEMA_DE_NPC.pdf)) | Guía de prefabs, skin, zonas, seguimiento e interacciones de personajes |
+| [Sistema del jugador](SISTEMA_DEL_JUGADOR.md) ([PDF](SISTEMA_DEL_JUGADOR.pdf)) | Guía de controles, estado Redux, sesión, apariencia y replicación |
 | [Build y publicación Web](WEB_PREVIEW.md) | Procedimiento operativo; distingue inicio manual en menú del constructor de demo que antepone Plaza |
 | [Arquitectura de estados](Arquitectura_Estados_Cenigraf.pdf) / [fuente](main.tex) | Diseño y contratos de referencia de agosto; capítulos editables en `sections/` |
 | [Resumen de avances de agosto](Resumen_Avances_Cenigraf.pdf) / [fuente](Resumen_Avances_Cenigraf.tex) | Documento histórico; sus roles, escenas y carnet no describen todas las ampliaciones posteriores |

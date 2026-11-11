@@ -1,5 +1,6 @@
 using SocialProyectoCenigraf.Player.State;
 using SocialProyectoCenigraf.Player.Replication;
+using SocialProyectoCenigraf.Controls;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -64,6 +65,12 @@ namespace SocialProyectoCenigraf.Player.Movement
 
         private void Update()
         {
+            if (GameplayInputLock.IsLocked)
+            {
+                ClearMovementInput();
+                return;
+            }
+
             if (replicationContext != null &&
                 !replicationContext.AcceptsLocalInput)
             {
@@ -86,6 +93,12 @@ namespace SocialProyectoCenigraf.Player.Movement
         private void FixedUpdate()
         {
             ReconcilePreviousPhysicalMove();
+
+            if (GameplayInputLock.IsLocked)
+            {
+                ClearMovementInput();
+                return;
+            }
 
             if (moveInput.sqrMagnitude > Mathf.Epsilon)
             {
@@ -216,6 +229,18 @@ namespace SocialProyectoCenigraf.Player.Movement
             moveInput = Vector2.zero;
             hasPendingPhysicalMove = false;
             lastReportedMoving = false;
+        }
+
+        private void ClearMovementInput()
+        {
+            moveInput = Vector2.zero;
+            if (!lastReportedMoving)
+            {
+                return;
+            }
+
+            lastReportedMoving = false;
+            store.Dispatch(PlayerAction.SetIsMoving(false));
         }
 
         private void OnValidate()

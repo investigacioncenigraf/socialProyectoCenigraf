@@ -75,7 +75,7 @@ namespace SocialProyectoCenigraf.Rewards
         }
         private void Update()
         {
-            if(!visible || Time.frameCount==openedFrame || Keyboard.current==null) return;
+            if(SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked || !visible || Time.frameCount==openedFrame || Keyboard.current==null) return;
             var keyboard=Keyboard.current;
             if(keyboard.eKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame)ConfirmContinue();
             else if(keyboard.escapeKey.wasPressedThisFrame)Close();

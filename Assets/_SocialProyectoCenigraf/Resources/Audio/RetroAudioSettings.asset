@@ -12,7 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d9936db0f44056ab9979fea732adc9, type: 3}
   m_Name: RetroAudioSettings
   m_EditorClassIdentifier: 
-  letterVolume: 0.08
-  interactionVolume: 0.14
-  rewardVolume: 0.16
   hoverVolume: 0.07
+  letterVolume: 0.08
+  interactionVolume: 0.175
+  rewardVolume: 0.16
+  missionVolume: 0.16
+  discoveryVolume: 0.18
+  worldMusicEnabled: 1
+  worldMusicClip: {fileID: 8300000, guid: b88950b44405f42d78497680320544db, type: 3}
+  worldMusicVolume: 0.05
+  worldMusicFadeInSeconds: 1.25
+  worldMusicFadeOutSeconds: 0.6
+  worldMusicEnterDelaySeconds: 2
+  worldMusicLoopStartSeconds: 0.42
+  worldMusicLoopEndSeconds: 59.8
+  worldMusicScenes:
+  - sceneName: Sala_Lobby
+    clip: {fileID: 8300000, guid: 09fcf7451a36e47bebbd9171d50a6d2b, type: 3}
+    loopStartSeconds: 0
+    loopEndSeconds: 59.6
+  - sceneName: Templo_De_Los_4_Caminos
+    clip: {fileID: 8300000, guid: 09fcf7451a36e47bebbd9171d50a6d2b, type: 3}
+    loopStartSeconds: 0
+    loopEndSeconds: 59.6
+  loginMusicEnabled: 1
+  loginMusicClip: {fileID: 8300000, guid: 09fcf7451a36e47bebbd9171d50a6d2b, type: 3}
+  loginMusicVolume: 0.05
+  loginMusicFadeInSeconds: 1.25
+  loginMusicFadeOutSeconds: 1.35
+  loginMusicLoopStartSeconds: 0
+  loginMusicLoopEndSeconds: 59.6
+  interactionClip: {fileID: 8300000, guid: 7f1c3a9e60b24d8fa5e02c74b19d8e35, type: 3}

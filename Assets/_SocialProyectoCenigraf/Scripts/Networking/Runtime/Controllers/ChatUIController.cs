@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Text;
 using Networking.Runtime.Protocol.DTOs;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Networking.Runtime.Controllers
@@ -33,7 +35,7 @@ namespace Networking.Runtime.Controllers
         [SerializeField] private int _maxDisplayMessages = 100;
 
         private readonly StringBuilder _chatHistoryBuilder = new StringBuilder();
-        private int _currentMessageCount = 0;
+        private readonly Queue<string> _displayedLines = new Queue<string>();
 
         private void Start()
         {
@@ -44,10 +46,18 @@ namespace Networking.Runtime.Controllers
 
             if (_chatInputField != null)
             {
-                // Enviar al presionar Enter/Return
+                // Enviar al presionar Enter/Return. El proyecto tiene Active Input
+                // Handling en Input System, donde la clase Input lanza excepción.
                 _chatInputField.onEndEdit.AddListener((text) =>
                 {
-                    if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                    Keyboard keyboard = Keyboard.current;
+                    if (keyboard == null)
+                    {
+                        return;
+                    }
+
+                    if (keyboard.enterKey.wasPressedThisFrame ||
+                        keyboard.numpadEnterKey.wasPressedThisFrame)
                     {
                         OnSendButtonClicked();
                     }
@@ -97,8 +107,30 @@ namespace Networking.Runtime.Controllers
             string roleColorHex = GetRoleColorHex(role);
             string formattedLine = $"<color={roleColorHex}><b>[{username}]</b></color>: {content}\n";
 
-            _chatHistoryBuilder.Append(formattedLine);
-            _currentMessageCount++;
+            _displayedLines.Enqueue(formattedLine);
+
+            int limit = Mathf.Max(1, _maxDisplayMessages);
+            bool trimmed = false;
+            while (_displayedLines.Count > limit)
+            {
+                _displayedLines.Dequeue();
+                trimmed = true;
+            }
+
+            // Pasado el límite salen las líneas más viejas y hay que rearmar el texto.
+            // Mientras quepan, agregar evita reescribir todo el historial en cada mensaje.
+            if (trimmed)
+            {
+                _chatHistoryBuilder.Clear();
+                foreach (string line in _displayedLines)
+                {
+                    _chatHistoryBuilder.Append(line);
+                }
+            }
+            else
+            {
+                _chatHistoryBuilder.Append(formattedLine);
+            }
 
             if (_chatDisplayArea != null)
             {

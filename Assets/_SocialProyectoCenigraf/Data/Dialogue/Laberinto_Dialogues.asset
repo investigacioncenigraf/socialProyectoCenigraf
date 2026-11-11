@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d986185aff14b81b9c02b695f74e5c1, type: 3}
+  m_Name: Laberinto_Dialogues
+  m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Dialogue.DialogueCatalog
+  dialogues:
+  - id: laberinto_salida_orientacion
+    speakerCharacterId: portal_orientacion
+    startNodeId: Salida1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Salida1
+      speaker: Portal
+      text: 'Llegaste al final del laberinto. No fue la suerte: leíste cada pregunta y elegiste el camino.'
+      nextNodeId: Salida2
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Salida2
+      speaker: Portal
+      text: 'Ya sabes qué es el SENA, cómo se entra y qué sigue después de inscribirse. Eso es orientarse.'
+      nextNodeId: Salida3
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Salida3
+      speaker: Portal
+      text: 'Vuelve al Templo de los Cuatro Caminos. Allá te espera lo que ganaste.'
+      nextNodeId: *END*
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1

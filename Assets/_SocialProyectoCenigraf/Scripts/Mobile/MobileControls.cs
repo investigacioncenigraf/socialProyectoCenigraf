@@ -72,10 +72,11 @@ namespace SocialProyectoCenigraf.Mobile
             canvas.enabled = show;
             if (!show) { joystick.ResetInput(); return; }
             ApplySafeArea();
-            bool modal = DialoguePresenter.IsOpen || RewardWindow.IsOpen;
+            bool officialDialogueOpen = DialogoOfficial.IsOpen;
+            bool modal = DialoguePresenter.IsOpen || officialDialogueOpen || RewardWindow.IsOpen;
             joystick.gameObject.SetActive(!modal && player.isActiveAndEnabled);
             // Rewards already have a touchable Continue button; don't cover it.
-            bool available = !RewardWindow.IsOpen && (DialoguePresenter.IsOpen
+            bool available = !RewardWindow.IsOpen && (DialoguePresenter.IsOpen || officialDialogueOpen
                 || (player.isActiveAndEnabled && MobileInteractionTargets.Nearest(player) != null));
             interactButton.gameObject.SetActive(available);
         }
@@ -83,8 +84,11 @@ namespace SocialProyectoCenigraf.Mobile
         {
             if (TeleportTravel.IsTraveling || RewardWindow.IsOpen || player == null) return;
             joystick.ResetInput();
+            if (DialogoOfficial.IsOpen) { DialogoOfficial.AdvanceCurrent(); return; }
             if (DialoguePresenter.IsOpen) { DialoguePresenter.AdvanceCurrent(); return; }
-            if (Time.frameCount == DialoguePresenter.LastClosedFrame || Time.frameCount == RewardWindow.LastClosedFrame) return;
+            if (Time.frameCount == DialogoOfficial.LastClosedFrame ||
+                Time.frameCount == DialoguePresenter.LastClosedFrame ||
+                Time.frameCount == RewardWindow.LastClosedFrame) return;
             MobileInteractionTargets.Nearest(player)?.InteractWith(player);
         }
         private void ApplySafeArea()

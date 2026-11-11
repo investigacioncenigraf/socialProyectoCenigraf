@@ -29,6 +29,8 @@ namespace SocialProyectoCenigraf.UI
         [Header("Button styles")]
         [SerializeField] private RoleDefinition eventsVisualStyle;
         [SerializeField] private RoleDefinition gameVisualStyle;
+        [Tooltip("Optional icon for the upper-left return button.")]
+        [SerializeField] private Sprite backButtonSprite;
 
         private MenuView activeView;
         private GameObject generatedPanel;
@@ -113,6 +115,7 @@ namespace SocialProyectoCenigraf.UI
                 gameVisualStyle,
                 () => SceneNavigationService.Instance.NavigateTo("Plaza_Central"),
                 true);
+            MenuBackButton.Create(panel, backButtonSprite, ShowRoleSelection);
         }
 
         private void ShowEvents()
@@ -132,6 +135,15 @@ namespace SocialProyectoCenigraf.UI
                 selectedRole.CanCreatePublications,
                 () => ShowCreateEvent(null),
                 ShowCreateEvent);
+            MenuBackButton.Create(panel, backButtonSprite, BackFromPublications);
+        }
+
+        private void BackFromPublications()
+        {
+            if (publicationList != null && publicationList.TryHandleBack())
+                return;
+
+            ShowAdministration();
         }
 
         private void ShowCreateEvent(
@@ -169,6 +181,11 @@ namespace SocialProyectoCenigraf.UI
 
         private void HandleBack(InputAction.CallbackContext context)
         {
+            if (SocialProyectoCenigraf.Controls.GameplayInputLock.IsLocked)
+            {
+                return;
+            }
+
             GameObject selectedObject = EventSystem.current?.currentSelectedGameObject;
             if (selectedObject != null &&
                 selectedObject.GetComponentInParent<TMP_InputField>() != null)
@@ -182,12 +199,7 @@ namespace SocialProyectoCenigraf.UI
             }
             else if (activeView == MenuView.Publications)
             {
-                if (publicationList != null && publicationList.TryHandleBack())
-                {
-                    return;
-                }
-
-                ShowAdministration();
+                BackFromPublications();
             }
             else if (activeView == MenuView.Administration)
             {
@@ -310,6 +322,7 @@ namespace SocialProyectoCenigraf.UI
             Image icon = iconObject.GetComponent<Image>();
             icon.sprite = visualStyle != null ? visualStyle.Icon : null;
             icon.color = Color.white;
+            icon.enabled = icon.sprite != null;
             icon.preserveAspect = true;
             icon.raycastTarget = false;
             LayoutElement iconLayout = iconObject.GetComponent<LayoutElement>();

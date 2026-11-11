@@ -1,0 +1,824 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d986185aff14b81b9c02b695f74e5c1, type: 3}
+  m_Name: DialogueCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::SocialProyectoCenigraf.Dialogue.DialogueCatalog
+  dialogues:
+  - id: Sala_ABC_Bienvenida
+    speakerCharacterId: 
+    startNodeId: Line1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Line1
+      speaker: Recepcionista de Sala ABC
+      text: "Bienvenido a la sala ABC del SENA aqu\xED compartimos, aprendemos y
+        construimos el futuro juntos.\n\n\xBFDeseas tener m\xE1s informaci\xF3n del
+        ABC SENA?"
+      nextNodeId: 
+      options:
+      - key: Si
+        text: "S\xED"
+        nextNodeId: Line2
+      - key: No
+        text: No
+        nextNodeId: Line8
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2
+      speaker: Recepcionista de Sala ABC
+      text: "La Sala ABC es un lugar donde se entiende qu\xE9 es el SENA, c\xF3mo
+        funciona, qu\xE9 ofrece y c\xF3mo se articula con las empresas y los aprendices
+        para fortalecer el aprendizaje y el empleo en Colombia."
+      nextNodeId: 
+      options:
+      - key: Default
+        text: 
+        nextNodeId: Line3
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line3
+      speaker: Recepcionista de Sala ABC
+      text: "Ya teniendo claro qu\xE9 es la Sala ABC, conocer\xE1s informaci\xF3n
+        importante acerca de la etapa de inducci\xF3n."
+      nextNodeId: 
+      options:
+      - key: Default
+        text: 
+        nextNodeId: Line4
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line4
+      speaker: Recepcionista de Sala ABC
+      text: Dime un tema que te interese.
+      nextNodeId: 
+      options:
+      - key: MisionYVision
+        text: "Misi\xF3n y visi\xF3n"
+        nextNodeId: Line5
+      - key: QueActividadesHaceElAprendiz
+        text: "Qu\xE9 actividades hace el aprendiz"
+        nextNodeId: Line6
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line5
+      speaker: Recepcionista de Sala ABC
+      text: "Misi\xF3n del SENA\n\nLa misi\xF3n est\xE1 definida en la Ley 119 de
+        1994: El SENA cumple la funci\xF3n del Estado de invertir en el desarrollo
+        social y t\xE9cnico de los trabajadores colombianos, ofreciendo formaci\xF3n
+        profesional integral que permita a las personas incorporarse y desarrollarse
+        en actividades productivas."
+      nextNodeId: 
+      options:
+      - key: Default
+        text: 
+        nextNodeId: Line7
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line6
+      speaker: Recepcionista de Sala ABC
+      text: "[Contenido pendiente: aqu\xED puedes escribir la informaci\xF3n sobre
+        las actividades que realiza el aprendiz.]"
+      nextNodeId: 
+      options:
+      - key: Default
+        text: 
+        nextNodeId: Line7
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line7
+      speaker: Recepcionista de Sala ABC
+      text: "\xBFTienes m\xE1s inquietudes?"
+      nextNodeId: 
+      options:
+      - key: NoPorElMomento
+        text: No por el momento
+        nextNodeId: Line8
+      - key: SiTengo
+        text: "S\xED, tengo"
+        nextNodeId: Line4
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line8
+      speaker: Recepcionista de Sala ABC
+      text: "\xA1Gracias por tu inter\xE9s! Aqu\xED estar\xE9 si necesitas m\xE1s
+        informaci\xF3n."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 11400000, guid: 6378d6e395fe842a2adbfb559161e62b, type: 2}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: Sin_dialogo
+    speakerCharacterId: 
+    startNodeId: Line1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Line1
+      speaker: Recepcionista de Sala ABC
+      text: ...
+      nextNodeId: Line2
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2
+      speaker: Recepcionista de Sala ABC
+      text: "... Perd\xF3n, es que a\xFAn no tengo di\xE1logo."
+      nextNodeId: Line3
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line3
+      speaker: Recepcionista de Sala ABC
+      text: "... Dile al programador que me ponga un di\xE1logo."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: Recepcionista_ocupado_Sala_Lobby
+    speakerCharacterId: 
+    startNodeId: Line1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Line1
+      speaker: Recepcionista de Sala ABC
+      text: ... Uff, Es
+      nextNodeId: Line2
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2
+      speaker: Recepcionista de Sala ABC
+      text: "... Perd\xF3n, es que a\xFAn no tengo di\xE1logo."
+      nextNodeId: Line3
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line3
+      speaker: Recepcionista de Sala ABC
+      text: "... Dile al programador que me ponga un di\xE1logo."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: Recepcionista_entrega_de_carnet
+    speakerCharacterId: NPC_Recepcionista_Lobby
+    startNodeId: Line1
+    conditionalStartRoutes:
+    - conditionType: 0
+      conditionId: carnet_estudiantil
+      targetNodeId: AlreadyHasCarnet
+    nodes:
+    - id: Line1
+      speaker: Recepcionista del Lobby
+      text: Hola, debes ser *NAME*, te estaba esperando para poder entregarte tu
+        Carnet de Aprendiz.
+      nextNodeId: Line2
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2
+      speaker: Recepcionista del Lobby
+      text: ... toma.
+      nextNodeId: Line3
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line3
+      speaker: Recepcionista del Lobby
+      text: "Con este carnet ya puedes acceder a m\xE1s zonas y muchas ventajas que
+        a futuro descubrir\xE1s."
+      nextNodeId: Line4
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line4
+      speaker: Recepcionista del Lobby
+      text: "Que tengas un lindo d\xEDa."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: AlreadyHasCarnet
+      speaker: Recepcionista del Lobby
+      text: "Ya tienes tu carnet, *NAME*. Tienes un mundo gigante enfrente de ti;
+        ve y desc\xFAbrelo."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 11400000, guid: 6378d6e395fe842a2adbfb559161e62b, type: 2}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 11400000, guid: 4d35ae908ee044869e3a76e94db1e3ef, type: 2}
+    completionItemId: carnet_estudiantil
+    completionItemQuantity: 1
+  - id: Estudiante_Desconocido_Portal
+    speakerCharacterId: Estudiante Desconocido
+    startNodeId: Line1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Line1
+      speaker: Estudiante Desconocido
+      text: "... Dicen que, si buscas detr\xE1s de alguin edificio de la Plaza Central,
+        encontrar\xE1s algo fanrastico, pero ... A\xFAn nadie sabe qu\xE9 es... "
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes:
+      - conditionType: 0
+        conditionId: carnet_estudiantil
+        targetNodeId: Line2_ConCarnet
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2_ConCarnet
+      speaker: Estudiante Desconocido
+      text: '... si tan solo tuviera un carnet para poder descubrirlo...
+
+'
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: Estudiante_Antipatico_Carnet
+    speakerCharacterId: Estudiante_Desconocido
+    startNodeId: Line1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Line1
+      speaker: Estudiente Desconocido
+      text: 'ya viste mi carnet de Aprendiz , es muy bonito , VERDAD !!! '
+      nextNodeId: Line2_SinCarnet
+      options: []
+      conditionalRoutes:
+      - conditionType: 0
+        conditionId: carnet_estudiantil
+        targetNodeId: Line2_ConCarnet
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2_SinCarnet
+      speaker: Estudiente Desconocido
+      text: Deberias conseguir Uno , no solo es Bonito tambien te dejan acceder a
+        muchos lugares
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2_ConCarnet
+      speaker: Estudiente Desconocido
+      text: Veo que ya tienes tu Carnet , me alegra que lo hayas conseguido , pero
+        de igual forma no es tan Bonito como el mio
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: Estudiante_Angustiado_Carnet
+    speakerCharacterId: Estudiante_Desconocido
+    startNodeId: Line1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Line1
+      speaker: Estudiante Desconocido
+      text: "...Aww, no me dejan Ingresar ... Me dicen que necesito un Carnet de
+        Aprendiz, pero no s\xE9 d\xF3nde encontrarlo."
+      nextNodeId: Line2_SinCarnet
+      options: []
+      conditionalRoutes:
+      - conditionType: 0
+        conditionId: carnet_estudiantil
+        targetNodeId: Line2_ConCarnet
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2_SinCarnet
+      speaker: Estudiante Desconocido
+      text: "Si sabes algo o lo encuentras, av\xEDsame, PORFIS !!!!"
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2_ConCarnet
+      speaker: Estudiante Desconocido
+      text: "\xA1Qu\xE9 carnet tan bonito tienes! \xBFC\xF3mo conseguiste esta maravillosa
+        pieza?"
+      nextNodeId: 
+      options:
+      - key: ApostadoEnCarrera
+        text: "Lo gan\xE9 apostando en una carrera..."
+        nextNodeId: Apostado
+      - key: LoCompre
+        text: "Lo compr\xE9..."
+        nextNodeId: Comprado
+      - key: MeInscribi
+        text: "Me inscrib\xED en el SENA."
+        nextNodeId: Inscrito
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Apostado
+      speaker: Estudiante Desconocido
+      text: "\xBFEn una carrera? No sab\xEDa que los carnets se pod\xEDan conseguir
+        en apuestas... Eso no deber\xEDa estar permitido y no creo que sea verdad.
+        De todos modos, gracias por intentarlo."
+      nextNodeId: 
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Comprado
+      speaker: Estudiante Desconocido
+      text: "\xBFC\xF3mo que lo compraste? Eso s\xED que no lo creo. El SENA es una
+        instituci\xF3n del Estado y no est\xE1 permitida la compra y venta de productos
+        asociados a su nombre; estoy seguro de que no me dices la verdad."
+      nextNodeId: 
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: InscritoSatira
+      speaker: Estudiante Desconocido
+      text: "Llevo mucho tiempo buscando esta informaci\xF3n. Mucha gente empez\xF3
+        a decir disparates, como que los carnets se pod\xEDan apostar o comprar...
+        Jajaja, \xBFpuedes creerlo?"
+      nextNodeId: InscritoRecompensa
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Inscrito
+      speaker: Estudiante Desconocido
+      text: "\xA1Ah, vale! Ya entiendo !!! .... El carnet te lo entregaron durante
+        el proceso de inscripci\xF3n."
+      nextNodeId: InscritoExplicacion
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: InscritoExplicacion
+      speaker: Estudiante Desconocido
+      text: "\xA1Gracias por explic\xE1rmelo mejor*NAME*!\n\nNo sabia que  Para inscribirte
+        en los programas de formaci\xF3n del SENA, puedes ingresar al portal oficial
+        Betowa - SENA o a la plataforma tradicional Portal SOFIA Plus"
+      nextNodeId: InscritoSatira
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: InscritoRecompensa
+      speaker: Estudiante Desconocido
+      text: " *NAME*. Como muestra de agradecimiento, te regalar\xE9 esta p\xF3cima
+        de salud b\xE1sica; te sera muy \xFAtil m\xE1s adelante."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 11400000, guid: 74e9bf9dcc344819a8051371916ff85b, type: 2}
+      completionItemCatalog: {fileID: 11400000, guid: 4d35ae908ee044869e3a76e94db1e3ef, type: 2}
+      completionItemId: pocion_salud_basica
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: Buscando_Portal
+    speakerCharacterId: Estudiante_Desconocido
+    startNodeId: Line1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Line1
+      speaker: Estudiante Desconocido
+      text: Estoy Buscando Un tesoro , la verdad Olvide gran parte de lo que me dijo
+        el Chico ...
+      nextNodeId: Line2
+      options: []
+      conditionalRoutes:
+      - conditionType: 0
+        conditionId: carnet_estudiantil
+        targetNodeId: Line2_ConCarnet
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2
+      speaker: Estudiante Desconocido
+      text: ... Era detras de Un Arbol ? ... o de Un edificio ?
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes:
+      - conditionType: 0
+        conditionId: carnet_estudiantil
+        targetNodeId: Line2_ConCarnet
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2_ConCarnet
+      speaker: Estudiante Desconocido
+      text: ... Era detras de Un Arbol ? ... o de Un edificio ?
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: Sabio_de_los_cuatro_caminos_bienvenida
+    speakerCharacterId: Sabio de los cuatro Caminos
+    startNodeId: Line1
+    conditionalStartRoutes:
+    - conditionType: 5
+      conditionId: Sabio_de_los_cuatro_caminos_bienvenida|PreguntaCaminos
+      targetNodeId: PreguntaCaminos
+    nodes:
+    - id: Line1
+      speaker: Sabio de los cuatro Caminos
+      text: Bienvenido, Aprendiz *NAME*. Veo que conseguiste encontrar el portal
+        al Templo de los Cuatro Caminos.
+      nextNodeId: Line2
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line2
+      speaker: Sabio de los cuatro Caminos
+      text: "... Muy pocos aprendices logran llegar hasta aqu\xED, y eso dice mucho
+        de tu esp\xEDritu aventurero."
+      nextNodeId: Line3
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line3
+      speaker: Sabio de los cuatro Caminos
+      text: "Este templo guarda conocimientos importantes para tu formaci\xF3n. Est\xE1n
+        divididos en cuatro caminos y cada uno te propone un reto."
+      nextNodeId: Line4
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line4
+      speaker: Sabio de los cuatro Caminos
+      text: "...A tu izquierda encontrar\xE1s el <color=#E53935>Camino de la Orientaci\xF3n</color>.\n...sobre
+        ti, el <color=#43A047>Camino del Aprendizaje</color>.\n... A tu derecha,
+        el <color=#1E88E5>Camino de la Aplicaci\xF3n</color>. \n...y debajo de ti,
+        el <color=#8E44AD>Camino de la Verificaci\xF3n</color>."
+      nextNodeId: Line5
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Line5
+      speaker: Sabio de los cuatro Caminos
+      text: "Cada camino te ense\xF1ar\xE1 una etapa distinta de la formaci\xF3n.
+        Puedes recorrerlos cuantas veces quieras, por diversi\xF3n o para aprender.
+        Cada reto se desbloquear\xE1 cuando demuestres que completaste la etapa anterior."
+      nextNodeId: PreguntaCaminos
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: PreguntaCaminos
+      speaker: Sabio de los cuatro Caminos
+      text: "Si tienes alguna duda, tan solo preg\xFAntame. \xBFSobre cu\xE1l camino
+        quieres saber m\xE1s?"
+      nextNodeId: '*END*'
+      options:
+      - key: CaminoOrientacion
+        text: "H\xE1blame m\xE1s sobre el <color=#E53935>Camino de la Orientaci\xF3n</color>"
+        nextNodeId: CaminoOrientacion
+      - key: CaminoAprendizaje
+        text: "H\xE1blame m\xE1s sobre el <color=#43A047>Camino del Aprendizaje</color>"
+        nextNodeId: CaminoAprendizaje
+      - key: CaminoAplicacion
+        text: "H\xE1blame m\xE1s sobre el <color=#1E88E5>Camino de la Aplicaci\xF3n</color>"
+        nextNodeId: CaminoAplicacion
+      - key: CaminoVerificacion
+        text: "H\xE1blame m\xE1s sobre el <color=#8E44AD>Camino de la Verificaci\xF3n</color>"
+        nextNodeId: CaminoVerificacion
+      - key: SalirTemplo
+        text: "Quiero salir del templo"
+        nextNodeId: SalirTemplo
+      - key: NoMuchasGracias
+        text: ... saldre a explorar por mi cuenta.
+        nextNodeId: Despedida
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: CaminoOrientacion
+      speaker: Sabio de los cuatro Caminos
+      text: "En el Camino de la Orientaci\xF3n conocer\xE1s el SENA, sus principios,
+        tu programa de formaci\xF3n, tus derechos y deberes como aprendiz, y la ruta
+        que recorrer\xE1s durante tu experiencia formativa."
+      nextNodeId: PreguntaCaminos
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: CaminoAprendizaje
+      speaker: Sabio de los cuatro Caminos
+      text: "En el Camino del Aprendizaje descubrir\xE1s c\xF3mo adquirir conocimientos,
+        desarrollar habilidades y fortalecer competencias mediante recursos educativos,
+        actividades y experiencias de formaci\xF3n."
+      nextNodeId: PreguntaCaminos
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: CaminoAplicacion
+      speaker: Sabio de los cuatro Caminos
+      text: "En el Camino de la Aplicaci\xF3n pondr\xE1s en pr\xE1ctica lo aprendido
+        mediante retos, ejercicios y situaciones que te ayudar\xE1n a resolver problemas
+        y demostrar tus competencias."
+      nextNodeId: PreguntaCaminos
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: CaminoVerificacion
+      speaker: Sabio de los cuatro Caminos
+      text: "En el Camino de la Verificaci\xF3n comprobar\xE1s tus avances, revisar\xE1s
+        tus evidencias de aprendizaje, identificar\xE1s aspectos por mejorar y reconocer\xE1s
+        tus logros durante la formaci\xF3n."
+      nextNodeId: PreguntaCaminos
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Despedida
+      speaker: Sabio de los cuatro Caminos
+      text: Te deseo Exitos en tu pruena aprendiz *NAME*, esper verte muy pronto...
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: SalirTemplo
+      speaker: Sabio de los cuatro Caminos
+      text: "Perfecto, ¿a dónde quieres ir?"
+      nextNodeId: PreguntaCaminos
+      options:
+      - key: ViajeLobby
+        text: "A la sala del Lobby"
+        nextNodeId: ViajeLobby
+      - key: ViajePlaza
+        text: "A la Plaza Central"
+        nextNodeId: ViajePlaza
+      - key: ViajeSalaABC
+        text: "A la Sala ABC"
+        nextNodeId: ViajeSalaABC
+      - key: MejorMeQuedo
+        text: "Mejor me quedo un rato más"
+        nextNodeId: PreguntaCaminos
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+      travelSceneName: 
+      travelTeleportId: 
+    - id: ViajeLobby
+      speaker: Sabio de los cuatro Caminos
+      text: "Sostente, *NAME*. El camino te dejará en el Lobby."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+      travelSceneName: Sala_Lobby
+      travelTeleportId: 
+    - id: ViajePlaza
+      speaker: Sabio de los cuatro Caminos
+      text: "Sostente, *NAME*. El camino te dejará en la Plaza Central."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+      travelSceneName: Plaza_Central
+      travelTeleportId: 
+    - id: ViajeSalaABC
+      speaker: Sabio de los cuatro Caminos
+      text: "Sostente, *NAME*. El camino te dejará en la Sala ABC."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+      travelSceneName: Sala_ABC
+      travelTeleportId: 
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1
+  - id: laberinto_salida_orientacion
+    speakerCharacterId: portal_orientacion
+    startNodeId: Salida1
+    conditionalStartRoutes: []
+    nodes:
+    - id: Salida1
+      speaker: Portal
+      text: "Llegaste al final del laberinto. No fue la suerte: le\xEDste cada pregunta
+        y elegiste el camino."
+      nextNodeId: Salida2
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Salida2
+      speaker: Portal
+      text: "Ya sabes qu\xE9 es el SENA, c\xF3mo se entra y qu\xE9 sigue despu\xE9s
+        de inscribirse. Eso es orientarse."
+      nextNodeId: Salida3
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    - id: Salida3
+      speaker: Portal
+      text: "Vuelve al Templo de los Cuatro Caminos. All\xE1 te espera lo que ganaste."
+      nextNodeId: '*END*'
+      options: []
+      conditionalRoutes: []
+      completionReward: {fileID: 0}
+      completionItemCatalog: {fileID: 0}
+      completionItemId: 
+      completionItemQuantity: 1
+    lines: []
+    completionReward: {fileID: 0}
+    missionCatalog: {fileID: 0}
+    missionId: 
+    itemCatalog: {fileID: 0}
+    completionItemId: 
+    completionItemQuantity: 1

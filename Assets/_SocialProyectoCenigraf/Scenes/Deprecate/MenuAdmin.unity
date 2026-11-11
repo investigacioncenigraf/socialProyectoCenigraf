@@ -263,7 +263,9 @@ MonoBehaviour:
     destinationSceneName: EventsScene
   - label: Ir al juego
     visualStyle: {fileID: 11400000, guid: 9c1d4f43c1e64e32b6eb4f61a1062802, type: 2}
-    destinationSceneName: SceneDemo
+    destinationSceneName: Plaza_Central
+  showBackButton: 1
+  backFallbackSceneName: InitialDemoScene
   footer: 'Entorno de desarrollo · Fase de Implementación de Estados'
   backgroundColor: {r: 0.18, g: 0.17, b: 0.25, a: 1}
   dimOpacity: 0.34
